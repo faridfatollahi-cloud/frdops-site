@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FRD Drive Automation</title>
+  <meta name="description" content="Public application information for FRD Drive Automation.">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">FRD Infrastructure</div>
+    <h1>FRD Drive Automation</h1>
+    <p class="lead">A private automation application for user-authorized Google Drive and Google Docs operations.</p>
+  </header>
+
+  <h2>Purpose</h2>
+  <p>FRD Drive Automation is operated for the owner's own Google account and project workflows. It provides programmatic access to Google Drive and Google Docs so authorized automation can create, read, verify, and update project files without relying on desktop synchronization.</p>
+
+  <h2>Google data access</h2>
+  <p>The application is designed around the Google OAuth scope <code>https://www.googleapis.com/auth/drive.file</code>. This scope limits the application to files it creates, opens, or is explicitly granted access to through Google.</p>
+
+  <div class="card">
+    <strong>Data-minimization principle</strong>
+    <p>FRD Drive Automation does not request account-wide Drive access as its baseline. If broader access were ever required, that would require a separate review and an updated public disclosure before deployment.</p>
+  </div>
+
+  <h2>Who can use it</h2>
+  <p>This is not a public SaaS product and does not offer public registration. It is currently intended for privately authorized use by its operator.</p>
+
+  <h2>Security boundary</h2>
+  <p>OAuth credentials, refresh tokens, access tokens, and private Google Drive content are not stored in this public website or repository. Project-level automation is expected to enforce its own allowed object IDs and operational boundaries.</p>
+
+  <nav>
+    <a href="privacy/">Privacy Policy</a>
+    <a href="terms/">Terms of Service</a>
+    <a href="../">FRD Infrastructure</a>
+  </nav>
+
+  <footer>
+    <p>FRD Drive Automation · Public application information</p>
+  </footer>
+</main>
+</body>
+</html>
