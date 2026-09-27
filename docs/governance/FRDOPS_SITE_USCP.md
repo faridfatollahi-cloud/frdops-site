@@ -34,57 +34,59 @@ This repository does not own or store those projects' operational state.
 - qualification desktop OAuth client created;
 - secret-bearing credential material retained privately by the owner and excluded from this repository.
 
-### PDA-R1B — IN PROGRESS / BRANDING-READY PENDING HTTPS ENFORCEMENT CHECK
+### PDA-R1B — PASS / CLOSED
 
 Completed:
 - `frdops.ir` registered and active;
 - public site repository initialized;
 - GitHub Pages enabled from `main` / repository root;
-- temporary Pages route live at `https://faridfatollahi-cloud.github.io/frdops-site/`;
-- Cloudflare Free zone created and authoritative for `frdops.ir`;
-- assigned authoritative nameservers: `arturo.ns.cloudflare.com` and `june.ns.cloudflare.com`;
-- both nameservers submitted at IRNIC with no glue IPs;
-- Cloudflare delegation status Active;
-- GitHub personal-account Pages settings show `frdops.ir` as **Verified** after TXT challenge validation;
-- repository-level custom domain set to `frdops.ir`;
-- repository root `CNAME` exists with exact content `frdops.ir`;
-- Cloudflare DNS contains the four GitHub Pages apex `A` records, all DNS-only: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`;
+- Cloudflare Free zone authoritative for `frdops.ir`;
+- authoritative nameservers `arturo.ns.cloudflare.com` and `june.ns.cloudflare.com` delegated through IRNIC;
+- GitHub personal-account Pages domain ownership for `frdops.ir` verified by DNS TXT challenge;
+- repository-level custom domain bound to `frdops.ir`;
+- repository root `CNAME` contains exact value `frdops.ir`;
+- Cloudflare DNS contains the four GitHub Pages apex `A` records, DNS-only: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`;
 - Cloudflare DNS contains `www` CNAME → `faridfatollahi-cloud.github.io`, DNS-only;
-- GitHub verification TXT remains present;
-- GitHub Pages reports **DNS check successful**;
-- operator screenshot confirms Google Search Console Domain property ownership for `frdops.ir` is **Verified** using DNS/domain-name-provider verification;
-- operator screenshots confirm all four intended public pages render correctly: FRD Infrastructure root, FRD Drive Automation application homepage, Privacy Policy, and Terms of Service;
+- GitHub verification TXT retained;
+- Google Search Console Domain property ownership for `frdops.ir` verified by DNS/domain-name-provider verification;
+- Google Search Console verification TXT retained;
+- operator screenshots confirm all four intended public HTTPS pages render correctly: FRD Infrastructure root, FRD Drive Automation application homepage, Privacy Policy, and Terms of Service;
 - repository review confirms the application homepage describes functionality and `drive.file` scope and links to the Privacy Policy and Terms;
-- repository review confirms the Privacy Policy discloses Google user data access, use, storage/retention, sharing/disclosure, security, and revocation/user-control behavior.
+- repository review confirms the Privacy Policy discloses Google user data access, use, storage/retention, sharing/disclosure, security, and revocation/user-control behavior;
+- GitHub Pages operator screenshot shows `Enforce HTTPS` enabled;
+- Google Auth Platform Branding saved successfully with exact app-specific HTTPS URLs and authorized domain `frdops.ir`;
+- Developer contact information is populated;
+- App logo intentionally omitted;
+- Google Auth Platform Audience page now exposes an enabled `Publish app` control.
 
-Current DNS/custom-domain/HTTPS state:
-- GitHub ownership verification is complete;
-- Search Console domain ownership verification is complete; retain the Google TXT record;
-- repository-level custom-domain binding is present and DNS-valid;
-- latest explicit GitHub Pages TLS evidence before the page-render screenshots showed certificate provisioning in progress; `Enforce HTTPS` has not yet been separately evidenced as enabled in this lane;
-- DNSSEC remains intentionally off until the Pages/custom-domain/HTTPS path is stable.
-
-Branding target URLs:
+Final Branding values:
 - Application homepage: `https://frdops.ir/drive-automation/`
 - Privacy Policy: `https://frdops.ir/drive-automation/privacy/`
 - Terms of Service: `https://frdops.ir/drive-automation/terms/`
 - Authorized domain: `frdops.ir`
-- App logo: intentionally omitted for now.
 
-Planned remaining R1B sequence:
-1. confirm GitHub Pages TLS certificate issuance is complete and enable `Enforce HTTPS` if not already enabled;
-2. verify the final public HTTPS routes;
-3. populate Google Auth Platform Branding with the exact URLs above and authorized domain `frdops.ir`;
-4. save Branding and confirm the Audience page unblocks `Publish app`;
-5. complete R1B and move to PDA-R2.
+Notes:
+- GitHub Pages showed a transient `DNS Check in Progress` state in the final screenshot while the site remained live over HTTPS and `Enforce HTTPS` was enabled. Do not alter the working DNS records while GitHub re-checks.
+- DNSSEC remains intentionally deferred until after the OAuth production transition and first stable post-publication checkpoint unless separately authorized.
 
-### PDA-R2 — BLOCKED ON R1B
+### PDA-R2 — READY / CURRENT
 
-Target: Auth Platform `Publish app` / `In production` after Branding prerequisites are complete.
+Target: move Google Auth Platform publishing status from `Testing` to `In production` using the enabled `Publish app` control.
+
+Important semantics:
+- Publishing status is application/project-level and applies to the OAuth clients in this Google Auth Platform app.
+- This transition is required to remove the Testing-mode seven-day authorization/refresh-token lifetime for scopes beyond basic profile/sign-in scopes.
+- Publication does not itself create a refresh token and does not silently authorize any new Google account or project.
+- Existing secret-bearing OAuth material remains private and outside this repository.
 
 ### PDA-R3+ — NOT STARTED
 
-Fresh Production-state offline authorization, refresh-token qualification, Drive/Docs operation qualification, durability/failure tests, then DMB-specific target qualification.
+After R2 succeeds:
+1. create a fresh Production-state offline authorization for the qualification client;
+2. prove refresh-token acquisition and unattended access-token refresh without exposing token values;
+3. qualify the required Drive/Docs operation set under `drive.file` only;
+4. qualify restart/recovery/fail-closed behavior and project isolation;
+5. only then perform DMB-specific target qualification before DMB final A–E audit/promotion decisions.
 
 ## Security invariants
 
@@ -96,12 +98,8 @@ Fresh Production-state offline authorization, refresh-token qualification, Drive
 - No fabricated Google verification or production-status claims.
 - Public website and public policy text must describe the actual deployed behavior.
 
-## Domain/site target
+## Final public routes
 
-Current temporary public Pages route:
-- `https://faridfatollahi-cloud.github.io/frdops-site/`
-
-Expected final public routes:
 - `https://frdops.ir/`
 - `https://frdops.ir/drive-automation/`
 - `https://frdops.ir/drive-automation/privacy/`
@@ -109,4 +107,4 @@ Expected final public routes:
 
 ## Next logical action
 
-Check `frdops-site` → Settings → Pages and confirm `Enforce HTTPS` is enabled/available. Then complete Google Auth Platform Branding using the exact app-specific HTTPS URLs and authorized domain `frdops.ir`. Do not alter the working GitHub `A`/`CNAME` records or remove either verification TXT record.
+PDA-R2: in Google Auth Platform → Audience, use the enabled `Publish app` control and confirm the transition to `In production`. Do not generate or expose any Production refresh token until R2 is confirmed successful. Do not alter the working Cloudflare/GitHub Pages DNS records or remove either verification TXT record.
