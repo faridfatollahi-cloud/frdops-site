@@ -50,9 +50,7 @@ Completed:
 - GitHub verification TXT retained;
 - Google Search Console Domain property ownership for `frdops.ir` verified by DNS/domain-name-provider verification;
 - Google Search Console verification TXT retained;
-- operator screenshots confirm all four intended public HTTPS pages render correctly: FRD Infrastructure root, FRD Drive Automation application homepage, Privacy Policy, and Terms of Service;
-- repository review confirms the application homepage describes functionality and `drive.file` scope and links to the Privacy Policy and Terms;
-- repository review confirms the Privacy Policy discloses Google user data access, use, storage/retention, sharing/disclosure, security, and revocation/user-control behavior;
+- operator screenshots confirm all four intended public HTTPS pages render correctly;
 - GitHub Pages operator screenshot shows `Enforce HTTPS` enabled;
 - Google Auth Platform Branding saved successfully with exact app-specific HTTPS URLs and authorized domain `frdops.ir`;
 - Developer contact information is populated;
@@ -69,108 +67,98 @@ Final Branding values:
 Operator screenshot on 2026-09-27 confirms:
 - Google Auth Platform publishing status: **In production**;
 - Audience: **External**;
-- UI now offers `Back to testing`, evidencing the production transition completed.
-
-Semantics:
-- the permanent Auth Platform application is no longer in Testing status;
-- future OAuth clients created under this same application inherit the app/project Production publishing state;
-- publication itself did not mint or expose any refresh token;
-- no DMB/WIOS project state or Production task was modified by this transition.
+- UI offers `Back to testing`, evidencing the Production transition completed.
 
 ### PDA-R3 — PASS / CLOSED
 
-Goal achieved: a fresh Production-state offline authorization was created for the existing qualification desktop OAuth client, restricted to `https://www.googleapis.com/auth/drive.file`, stored in private DPAPI CurrentUser-protected local credential storage, and proven capable of unattended refresh without exposing secret values.
+A fresh Production-state offline authorization was created for the qualification desktop OAuth client, restricted to `https://www.googleapis.com/auth/drive.file`, stored in private DPAPI CurrentUser-protected local credential storage, and proven capable of unattended refresh without exposing secret values.
 
 #### PDA-R3-A0 — CONSUMED / PRECONDITION_FAILED / ZERO-PROVIDER
 
-Frozen local artifact:
-- script identity: `PDA_R3_PRODUCTION_OAUTH_BOOTSTRAP_A0.ps1`;
+- script: `PDA_R3_PRODUCTION_OAUTH_BOOTSTRAP_A0.ps1`;
 - parser gate: `PARSER_ERROR_COUNT=0`;
-- script SHA-256: `9F092CD5BC65C391C25D516CB046799F153BEF5C70DC125ED4C6DE992CB8EBA8`.
-
-Observed result:
-- A0 failed during local preflight because it assumed a normalized client-JSON basename;
-- failure occurred before provider interaction, browser launch, authorization-code exchange, token creation, credential persistence, or Drive mutation;
-- A0 remains consumed and must not be rerun.
+- SHA-256: `9F092CD5BC65C391C25D516CB046799F153BEF5C70DC125ED4C6DE992CB8EBA8`;
+- failed locally because it assumed a normalized client-JSON basename;
+- no provider interaction, token creation, credential persistence, or Drive mutation occurred.
 
 #### PDA-R3-A1 — PASS / CONSUMED
 
-Frozen local artifact:
-- script identity: `PDA_R3_PRODUCTION_OAUTH_BOOTSTRAP_A1.ps1`;
+- script: `PDA_R3_PRODUCTION_OAUTH_BOOTSTRAP_A1.ps1`;
 - parser gate: `PARSER_ERROR_COUNT=0`;
-- frozen script SHA-256: `3CFAE9EA6B10F96270824431600F125778EEAFC154B02FEC61E5497D25DE9E79`.
-
-Sanitized operator-returned evidence:
-- `PRE_PROVIDER_VALIDATION=PASS`;
-- requested scope exactly `https://www.googleapis.com/auth/drive.file`;
-- granted scope exactly `https://www.googleapis.com/auth/drive.file`;
+- frozen SHA-256: `3CFAE9EA6B10F96270824431600F125778EEAFC154B02FEC61E5497D25DE9E79`;
+- requested/granted scope exactly `https://www.googleapis.com/auth/drive.file`;
 - `REFRESH_TOKEN_PRESENT=True`;
 - `DPAPI_CURRENT_USER_ROUNDTRIP=PASS`;
 - `UNATTENDED_REFRESH=PASS`;
 - `DRIVE_MUTATION_PERFORMED=False`;
 - qualification client JSON SHA-256: `88C2C2DE34257CCECE9E944E084B81AB0E14DE76DA4D2957C781F674BC386EAF`;
-- credential ciphertext file SHA-256: `8EEE8866414807131C9E0203362CAA72D0FC8EC5F02A5BE390CB2C456625B303`;
+- credential ciphertext SHA-256: `8EEE8866414807131C9E0203362CAA72D0FC8EC5F02A5BE390CB2C456625B303`;
 - sanitized local receipt SHA-256: `FE7B95D06F3CA8322B29B362924877B62A3B9C3BCEE6C0B564845F5DBE094D1D`;
-- `ACCESS_TOKEN_EXPOSED=False`;
-- `REFRESH_TOKEN_EXPOSED=False`.
+- no access token, refresh token, client secret, authorization code, or credential plaintext was exposed.
 
-R3 acceptance:
-- authorization occurred after the confirmed R2 Production transition;
-- only `drive.file` was requested and granted;
-- refresh credential exists and survives DPAPI CurrentUser round-trip;
-- one noninteractive access-token refresh succeeded;
-- no Drive mutation occurred during R3;
-- no client secret, authorization code, access token, refresh token, or credential plaintext is recorded in this public repository.
+### PDA-R4 — CURRENT / A0 CONSUMED RUNTIME_FAILED / A1 PREPARED
 
-### PDA-R4 — CURRENT / A0 FROZEN + AUTHORIZED
-
-Purpose: qualify the permanent Production OAuth foundation against the actual Drive/Docs primitives required by downstream projects, using only a disposable qualification namespace and the already-proven `drive.file` grant.
+Purpose: qualify the permanent Production OAuth foundation against the actual Drive/Docs primitives required by downstream projects, using only disposable app-created qualification objects and the already-proven `drive.file` grant.
 
 R4 is not a DMB Production promotion and must not target existing DMB/WIOS project objects.
 
-#### PDA-R4-A0 — FROZEN / AUTHORIZED FOR ONE EXECUTION
+#### PDA-R4-A0 — CONSUMED / RUNTIME_FAILED / PARTIAL DISPOSABLE MUTATION
 
-Acceptance matrix:
-1. decrypt the existing DPAPI credential and obtain an access token by refresh only; no interactive browser authorization;
-2. create one uniquely named disposable qualification folder through Drive API and capture its exact ID;
-3. create one native Google Doc inside that exact folder using Drive API with MIME type `application/vnd.google-apps.document`;
-4. read the document using Docs API and capture its `revisionId`;
-5. perform a Docs `documents.batchUpdate` using `writeControl.requiredRevisionId` and verify the intended marker by readback;
-6. reuse the now-stale pre-write revision ID in a second guarded write and require a fail-closed HTTP 400 result with no unintended mutation;
-7. refresh the current document/revision state, perform one valid guarded update with the new revision ID, and verify final readback;
-8. verify Drive metadata for the created document, including exact parent/root binding;
-9. create, upload, and read back one small raw/blob file inside the same disposable qualification folder and require byte-for-byte SHA-256 equality;
-10. emit only sanitized IDs/hashes/status evidence and a private local receipt; never print tokens or client-secret material;
-11. retain the qualification namespace for the next R4 revision/history stage.
+Frozen artifact:
+- script: `PDA_R4_CORE_DRIVE_DOCS_CAS_A0.ps1`;
+- parser gate: `PARSER_ERROR_COUNT=0`;
+- frozen SHA-256: `A59D855C086C6E3FA71BE553F5618F3E765DEBCA06AB7ADAFC9738922772A790`.
 
-Frozen local artifact:
-- script identity: `PDA_R4_CORE_DRIVE_DOCS_CAS_A0.ps1`;
-- whole-file parser gate: `PARSER_ERROR_COUNT=0`;
-- frozen script SHA-256: `A59D855C086C6E3FA71BE553F5618F3E765DEBCA06AB7ADAFC9738922772A790`.
+Observed execution evidence:
+- `PRE_PROVIDER_VALIDATION=PASS`;
+- requested scope remained exactly `https://www.googleapis.com/auth/drive.file`;
+- accepted R3 credential hash match: PASS;
+- accepted R3 receipt hash match: PASS;
+- local A0 start marker was written, therefore A0 is consumed and must not be rerun;
+- execution then reached the first Docs API read call and failed locally under StrictMode because an expandable-string URL used `$encodedId?includeTabsContent=true`, which PowerShell interpreted as a variable named `$encodedId?includeTabsContent` rather than the intended `$encodedId` followed by a query string.
 
-Execution authority:
-- execute exactly the parser-clean, hash-frozen A0 once with PowerShell 7 `-NoProfile -File`;
-- the script is pinned to the accepted R3 credential ciphertext hash, R3 receipt hash, R3 script hash, and qualification-client-file hash;
-- it must obtain authentication by refresh only and must not open a browser or mint a new OAuth grant;
-- Drive mutations are authorized only for the newly created disposable `PDA-R4-A0` qualification namespace and its app-created children;
-- existing DMB/WIOS/project objects remain strictly out of scope;
-- when execution reaches its local attempt-start marker, `PDA-R4-A0` is consumed regardless of PASS/FAIL/BLOCKED outcome;
-- do not edit, rerun, or reuse A0 after that point; return the sanitized terminal output/error for governance reconciliation.
+Provider/mutation reconciliation from deterministic script order:
+- unattended OAuth refresh completed before the failure;
+- one fresh disposable A0 qualification folder was created through Drive API;
+- one fresh native Google Doc was created inside that A0 folder;
+- failure occurred before the first Docs document read completed;
+- no CAS write was attempted;
+- no stale-CAS test was attempted;
+- no raw/blob object was created or uploaded;
+- no final A0 receipt was written;
+- the A0 folder/doc residue is intentionally retained and must not be manually modified or deleted until a dedicated reconciliation/cleanup step records it.
 
-Rationale:
-- `drive.file` is accepted by both Drive API and Docs API for the required document methods;
-- Docs API `writeControl.requiredRevisionId` supplies the fail-closed compare-and-set primitive needed for Control-style guarded writes: a stale required revision must not be processed and returns HTTP 400;
-- revision-history/export qualification for earlier content versions remains a separate R4 substage so it can be tested deterministically without conflating it with CAS semantics.
+Root-cause audit found the same expandable-string boundary defect at four URL sites where a variable was immediately followed by `?`, plus one defensive correction where a variable was immediately followed by `::`. A1 corrects the whole defect class, not only the first observed line.
 
-#### PDA-R4-A1+ — PLANNED AFTER A0
+#### PDA-R4-A1 — PREPARED / NOT YET FROZEN
 
-Subject to A0 PASS:
+A1 is a fresh successor and must not reuse A0 identity or objects.
+
+Candidate artifact:
+- script: `PDA_R4_CORE_DRIVE_DOCS_CAS_A1.ps1`;
+- candidate SHA-256 before operator-side parser/hash confirmation: `12EEE3C68B9C80502BD48CA44B68C9618814D256E70452019188188E2D0B5C28`.
+
+A1 properties:
+- preserves the accepted R3 credential/hash bindings and `drive.file` scope;
+- requires the consumed A0 local start marker and absence of an A0 final receipt;
+- explicitly leaves A0 Drive residue untouched;
+- creates a brand-new A1 disposable qualification namespace;
+- fixes all identified PowerShell variable/query-string boundary defects using explicit subexpressions;
+- retains the same intended acceptance matrix: refresh-only auth, folder creation, native Doc creation and exact parent binding, successful Docs CAS write, stale-CAS HTTP 400 with no mutation, second valid CAS write, final readback, raw blob create/upload/download, exact parent binding, and byte-for-byte SHA-256 equality;
+- keeps private object IDs only in the local private receipt and prints only sanitized hashes/statuses.
+
+A1 must receive a whole-file PowerShell parser gate and operator-side SHA-256 match before any provider execution is authorized.
+
+#### PDA-R4-A2+ — PLANNED AFTER CORE PASS
+
+Subject to a core R4 PASS:
 - blob revision creation/list/get and deterministic earlier-revision readback;
 - Google Workspace document revision metadata/export qualification where stable and applicable;
 - restart/recovery and ambiguous-outcome reconciliation;
 - wrong-root / wrong-object / cross-project target rejection;
-- credential-revocation/fail-closed behavior using a separately governed method that does not destroy the accepted R3 evidence unexpectedly;
+- credential-revocation/fail-closed behavior using a separately governed method;
 - Drive Desktop independence checks;
+- dedicated reconciliation/cleanup of consumed qualification residue;
 - then DMB-specific target qualification before the final DMB A–E audit/promotion decision.
 
 ## Security invariants
@@ -193,4 +181,4 @@ Subject to A0 PASS:
 
 ## Next logical action
 
-Execute the exact hash-frozen `PDA_R4_CORE_DRIVE_DOCS_CAS_A0.ps1` once with PowerShell 7 `-NoProfile -File`. Do not manually create or modify Drive objects before the run. After the A0 attempt-start marker is written, do not rerun A0; return the complete sanitized terminal result or sanitized error for governance review.
+Place `PDA_R4_CORE_DRIVE_DOCS_CAS_A1.ps1` in the private FRD Drive Automation scripts directory and perform only the whole-file PowerShell parser gate plus SHA-256 check. Do not rerun A0, do not execute A1 before its hash is frozen, and do not manually touch the A0 Drive residue.
