@@ -1,0 +1,23 @@
+# Local/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Secrets / credentials
+*.env
+.env*
+!*.env.example
+Auth.json
+auth.json
+client_secret*.json
+credentials*.json
+*refresh_token*
+*access_token*
+*.pem
+*.key
+
+# Generated/local artifacts
+*.log
+*.tmp
+*.bak
