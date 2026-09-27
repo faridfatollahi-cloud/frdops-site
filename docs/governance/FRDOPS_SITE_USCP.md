@@ -77,9 +77,9 @@ Semantics:
 - publication itself did not mint or expose any refresh token;
 - no DMB/WIOS project state or Production task was modified by this transition.
 
-### PDA-R3 — CURRENT / A0 CONSUMED PRECONDITION_FAILED / A1 FROZEN + AUTHORIZED
+### PDA-R3 — PASS / CLOSED
 
-Goal: create a fresh Production-state offline authorization for the existing qualification desktop OAuth client and prove unattended token refresh without exposing secret values.
+Goal achieved: a fresh Production-state offline authorization was created for the existing qualification desktop OAuth client, restricted to `https://www.googleapis.com/auth/drive.file`, stored in private DPAPI CurrentUser-protected local credential storage, and proven capable of unattended refresh without exposing secret values.
 
 #### PDA-R3-A0 — CONSUMED / PRECONDITION_FAILED / ZERO-PROVIDER
 
@@ -89,58 +89,85 @@ Frozen local artifact:
 - script SHA-256: `9F092CD5BC65C391C25D516CB046799F153BEF5C70DC125ED4C6DE992CB8EBA8`.
 
 Observed result:
-- execution started and A0 identity is therefore consumed under the standing attempt rule;
-- A0 failed at local preflight because it expected a normalized `client/Auth.json` path while the operator retained Google's generated client JSON filename in the intended private client directory;
-- failure occurred before browser launch, authorization URL construction/use, token exchange, credential persistence, or any Drive API operation;
-- provider interaction: **NONE**;
-- OAuth authorization code consumed: **NO**;
-- refresh/access token created by A0: **NO**;
-- credential file created by A0: **NO**;
-- Drive mutation: **NO**;
-- A0 must not be rerun or repurposed.
+- A0 failed during local preflight because it assumed a normalized client-JSON basename;
+- failure occurred before provider interaction, browser launch, authorization-code exchange, token creation, credential persistence, or Drive mutation;
+- A0 remains consumed and must not be rerun.
 
-No secret-bearing client filename, client ID, client secret, token value, or local credential content is recorded in this public repository.
-
-#### PDA-R3-A1 — FROZEN / AUTHORIZED FOR ONE EXECUTION
-
-A1 is the minimal-delta successor to A0 and corrects only the private client-JSON path binding while preserving the same OAuth, PKCE, DPAPI, scope, no-Drive-mutation, and sanitized-output behavior.
+#### PDA-R3-A1 — PASS / CONSUMED
 
 Frozen local artifact:
 - script identity: `PDA_R3_PRODUCTION_OAUTH_BOOTSTRAP_A1.ps1`;
 - parser gate: `PARSER_ERROR_COUNT=0`;
 - frozen script SHA-256: `3CFAE9EA6B10F96270824431600F125778EEAFC154B02FEC61E5497D25DE9E79`.
 
-Execution authority:
-- execute exactly the parser-clean, hash-frozen A1 once with PowerShell 7 `-NoProfile -File`;
-- after execution starts, attempt identity `PDA-R3-A1` is consumed regardless of PASS/FAIL/BLOCKED outcome;
-- do not edit, rerun, or reuse A1 after provider interaction begins;
-- return only sanitized output/error text; never return authorization codes, client IDs/secrets, access tokens, refresh tokens, or client JSON contents.
+Sanitized operator-returned evidence:
+- `PRE_PROVIDER_VALIDATION=PASS`;
+- requested scope exactly `https://www.googleapis.com/auth/drive.file`;
+- granted scope exactly `https://www.googleapis.com/auth/drive.file`;
+- `REFRESH_TOKEN_PRESENT=True`;
+- `DPAPI_CURRENT_USER_ROUNDTRIP=PASS`;
+- `UNATTENDED_REFRESH=PASS`;
+- `DRIVE_MUTATION_PERFORMED=False`;
+- qualification client JSON SHA-256: `88C2C2DE34257CCECE9E944E084B81AB0E14DE76DA4D2957C781F674BC386EAF`;
+- credential ciphertext file SHA-256: `8EEE8866414807131C9E0203362CAA72D0FC8EC5F02A5BE390CB2C456625B303`;
+- sanitized local receipt SHA-256: `FE7B95D06F3CA8322B29B362924877B62A3B9C3BCEE6C0B564845F5DBE094D1D`;
+- `ACCESS_TOKEN_EXPOSED=False`;
+- `REFRESH_TOKEN_EXPOSED=False`.
 
-Required properties remain:
-1. authorization must occur after the confirmed R2 Production transition;
-2. requested Drive scope remains only `https://www.googleapis.com/auth/drive.file`;
-3. request offline access so a refresh token is returned;
-4. credential/token material remains only in private local credential storage and is never committed to this repository, placed in Drive, or pasted into chat;
-5. return only sanitized evidence such as scope, presence/absence of a refresh token, HTTP/result status, and timestamps;
-6. prove at least one access-token refresh from the stored refresh token without interactive consent;
-7. preserve the qualification client as qualification infrastructure until later governance decides whether to mint final per-project Production clients.
+R3 acceptance:
+- authorization occurred after the confirmed R2 Production transition;
+- only `drive.file` was requested and granted;
+- refresh credential exists and survives DPAPI CurrentUser round-trip;
+- one noninteractive access-token refresh succeeded;
+- no Drive mutation occurred during R3;
+- no client secret, authorization code, access token, refresh token, or credential plaintext is recorded in this public repository.
 
-### PDA-R4+ — NOT STARTED
+### PDA-R4 — CURRENT / OPERATION QUALIFICATION DESIGN
 
-After R3 passes:
-1. qualify the required Drive/Docs operation set under `drive.file` only using a disposable non-Production Drive namespace;
-2. qualify restart/recovery/fail-closed behavior and project isolation;
-3. only then perform DMB-specific target qualification before DMB final A–E audit/promotion decisions.
+Purpose: qualify the permanent Production OAuth foundation against the actual Drive/Docs primitives required by downstream projects, using only a disposable qualification namespace and the already-proven `drive.file` grant.
+
+R4 is not a DMB Production promotion and must not target existing DMB/WIOS project objects.
+
+#### PDA-R4-A0 — CORE DRIVE/DOCS + CAS QUALIFICATION
+
+Planned acceptance matrix:
+1. decrypt the existing DPAPI credential and obtain an access token by refresh only; no interactive browser authorization;
+2. create one uniquely named disposable qualification folder through Drive API and capture its exact ID;
+3. create one native Google Doc inside that exact folder using Drive API with MIME type `application/vnd.google-apps.document`;
+4. read the document using Docs API and capture its `revisionId`;
+5. perform a Docs `documents.batchUpdate` using `writeControl.requiredRevisionId` and verify the intended marker by readback;
+6. reuse the now-stale pre-write revision ID in a second guarded write and require a fail-closed HTTP 400 result with no unintended mutation;
+7. refresh the current document/revision state, perform one valid guarded update with the new revision ID, and verify final readback;
+8. verify Drive metadata for the created document, including exact parent/root binding;
+9. create and read back one small raw/blob file inside the same disposable qualification folder;
+10. emit only sanitized IDs/hashes/status evidence and a local receipt; never print tokens or client-secret material.
+
+Rationale:
+- `drive.file` is accepted by both Drive API and Docs API for the required document methods;
+- Docs API `writeControl.requiredRevisionId` supplies the fail-closed compare-and-set primitive needed for Control-style guarded writes: a stale required revision must not be processed and returns HTTP 400;
+- revision-history/export qualification for earlier content versions remains a separate R4 substage so it can be tested deterministically without conflating it with CAS semantics.
+
+#### PDA-R4-A1+ — PLANNED AFTER A0
+
+Subject to A0 PASS:
+- blob revision creation/list/get and deterministic earlier-revision readback;
+- Google Workspace document revision metadata/export qualification where stable and applicable;
+- restart/recovery and ambiguous-outcome reconciliation;
+- wrong-root / wrong-object / cross-project target rejection;
+- credential-revocation/fail-closed behavior using a separately governed method that does not destroy the accepted R3 evidence unexpectedly;
+- Drive Desktop independence checks;
+- then DMB-specific target qualification before the final DMB A–E audit/promotion decision.
 
 ## Security invariants
 
 - No OAuth/client secrets in this repository.
-- No `Auth.json`/credential JSON.
+- No credential JSON contents.
 - No access or refresh tokens.
 - No private Drive content.
 - No DMB/WIOS/private project runtime state.
 - No fabricated Google verification or production-status claims.
 - Public website and public policy text must describe the actual deployed behavior.
+- Qualification mutations must be confined to disposable app-created objects until a later project-specific promotion gate explicitly authorizes otherwise.
 
 ## Final public routes
 
@@ -151,4 +178,4 @@ After R3 passes:
 
 ## Next logical action
 
-PDA-R3-A1: execute the exact hash-frozen parser-clean A1 script once with PowerShell 7 `-NoProfile -File`. Approve only the expected `drive.file` authorization in the browser. After the run starts, do not rerun A1; return the complete sanitized terminal result or sanitized error for governance review. Do not yet perform Drive mutations or create final DMB/WIOS Production OAuth clients.
+Prepare PDA-R4-A0 as a fresh parser-gated, hash-frozen local qualification artifact. It may use the accepted R3 DPAPI credential and may mutate only newly created disposable qualification objects. It must not touch existing DMB/WIOS objects or broaden the OAuth scope beyond `drive.file`.
