@@ -77,9 +77,14 @@ Semantics:
 - publication itself did not mint or expose any refresh token;
 - no DMB/WIOS project state or Production task was modified by this transition.
 
-### PDA-R3 — CURRENT / NOT YET EXECUTED
+### PDA-R3 — CURRENT / PREPARED / NOT YET EXECUTED
 
 Goal: create a fresh Production-state offline authorization for the existing qualification desktop OAuth client and prove unattended token refresh without exposing secret values.
+
+Preparation evidence:
+- operator attests the downloaded qualification-client `Auth.json` has been moved from its download location into a dedicated private, non-Drive-synced local bootstrap subtree reserved for FRD Drive Automation;
+- the public repository records no client JSON contents, tokens, client secret, or private local credential values;
+- the permanent OAuth bootstrap will use a dedicated subtree rather than reuse historical Drive API experiment directories.
 
 Required properties:
 1. authorization must occur after the confirmed R2 Production transition;
@@ -116,4 +121,4 @@ After R3 passes:
 
 ## Next logical action
 
-PDA-R3: perform one fresh Production-state offline OAuth authorization for the existing qualification desktop client, requesting only `drive.file` and offline access. Store the resulting refresh credential privately outside Git/Drive/chat, then perform a sanitized auth-only refresh proof. Do not yet perform Drive mutations or create final DMB/WIOS Production OAuth clients.
+PDA-R3: execute a parser-gated local Production OAuth bootstrap from the dedicated private FRD Drive Automation subtree, requesting only `drive.file`, storing the resulting refresh credential in DPAPI CurrentUser-protected local storage, then perform one sanitized unattended refresh proof. Do not yet perform Drive mutations or create final DMB/WIOS Production OAuth clients.
