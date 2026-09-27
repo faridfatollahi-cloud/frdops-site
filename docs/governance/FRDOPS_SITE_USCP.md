@@ -41,15 +41,20 @@ Completed:
 - operator screenshots on 2026-09-27 confirm the domain is approved/active;
 - public site repository initialized;
 - GitHub Pages enabled from `main` / repository root;
-- operator screenshot confirms GitHub Pages reports the site live at `https://faridfatollahi-cloud.github.io/frdops-site/`.
+- operator screenshot confirms GitHub Pages reports the site live at `https://faridfatollahi-cloud.github.io/frdops-site/`;
+- Cloudflare Free zone created for `frdops.ir`;
+- assigned authoritative nameservers: `arturo.ns.cloudflare.com` and `june.ns.cloudflare.com`;
+- operator screenshot confirms both nameservers were submitted successfully at IRNIC with no glue IPs.
 
 Current DNS state:
-- registrar/IRNIC panel shows no authoritative nameservers configured yet;
+- registrar-side delegation change has been submitted;
+- Cloudflare activation is pending authoritative-delegation propagation/detection;
+- no apex/`www` GitHub Pages records have been added yet;
 - no custom-domain binding has been performed yet;
-- DNS provider setup is therefore the immediate next step.
+- DNSSEC remains intentionally off during delegation transition.
 
 Planned remaining R1B sequence:
-1. establish authoritative DNS for `frdops.ir`;
+1. wait for Cloudflare zone status to become Active;
 2. verify ownership for GitHub Pages;
 3. bind `frdops.ir` as the GitHub Pages custom domain;
 4. configure apex and `www` DNS records for GitHub Pages;
@@ -88,4 +93,4 @@ Expected final public routes:
 
 ## Next logical action
 
-Configure authoritative DNS for `frdops.ir`, then perform GitHub Pages ownership/custom-domain setup, Search Console verification, HTTPS, and Auth Platform Branding. Do not change OAuth secrets or the existing DMB/WIOS repositories during this work.
+Wait for Cloudflare to detect the IRNIC delegation and mark `frdops.ir` Active. Once Active, proceed with GitHub Pages ownership/custom-domain DNS, Search Console verification, HTTPS, and Auth Platform Branding. Do not change OAuth secrets or the existing DMB/WIOS repositories during this work.
