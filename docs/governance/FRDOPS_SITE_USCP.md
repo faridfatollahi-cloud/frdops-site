@@ -51,23 +51,23 @@ Completed:
 - Cloudflare DNS contains the four GitHub Pages apex `A` records, all DNS-only: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`;
 - Cloudflare DNS contains `www` CNAME → `faridfatollahi-cloud.github.io`, DNS-only;
 - GitHub verification TXT remains present;
-- GitHub Pages now reports **DNS check successful**.
+- GitHub Pages reports **DNS check successful**;
+- operator screenshot confirms Google Search Console Domain property ownership for `frdops.ir` is **Verified** using DNS/domain-name-provider verification.
 
 Current DNS/custom-domain/HTTPS state:
 - GitHub ownership verification is complete;
+- Search Console domain ownership verification is complete; retain the Google TXT record;
 - repository-level custom-domain binding is present and DNS-valid;
-- GitHub TLS certificate provisioning has started; operator screenshot shows stage `1 of 3` / `Certificate Requested`;
-- `Enforce HTTPS` is not yet available until certificate issuance completes;
-- Google Search Console Domain property has not yet been verified;
+- GitHub TLS certificate provisioning has started; latest operator evidence showed stage `1 of 3` / `Certificate Requested`;
+- `Enforce HTTPS` remains pending certificate issuance;
 - DNSSEC remains intentionally off until the Pages/custom-domain/HTTPS path is stable.
 
 Planned remaining R1B sequence:
-1. while GitHub provisions TLS, verify Google Search Console Domain property for `frdops.ir` using Google's DNS TXT challenge in Cloudflare;
-2. keep the Google verification TXT after successful verification;
-3. wait for GitHub Pages TLS certificate provisioning to complete;
-4. enable `Enforce HTTPS` once available and verify the custom-domain site over HTTPS;
-5. populate Google Auth Platform Branding URLs and authorized domain using the final HTTPS routes;
-6. complete Branding prerequisites and unblock PDA-R2.
+1. wait for GitHub Pages TLS certificate provisioning to complete;
+2. enable `Enforce HTTPS` once available;
+3. verify the final public HTTPS routes;
+4. populate Google Auth Platform Branding URLs and authorized domain using those HTTPS routes;
+5. complete Branding prerequisites and unblock PDA-R2.
 
 ### PDA-R2 — BLOCKED ON R1B
 
@@ -100,4 +100,4 @@ Expected final public routes:
 
 ## Next logical action
 
-Verify `frdops.ir` as a Google Search Console Domain property using Google's exact DNS TXT challenge in Cloudflare while GitHub Pages TLS provisioning continues. Do not alter the working GitHub `A`/`CNAME` records or remove either verification TXT record. After certificate issuance completes, enable `Enforce HTTPS`, validate the final routes, then complete Google Auth Platform Branding.
+Check `frdops-site` → Settings → Pages. Once GitHub reports the TLS certificate issued and `Enforce HTTPS` becomes selectable, enable it and verify the final HTTPS routes before entering them into Google Auth Platform Branding. Do not alter the working GitHub `A`/`CNAME` records or remove either verification TXT record.
