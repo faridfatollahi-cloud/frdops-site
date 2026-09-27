@@ -45,23 +45,23 @@ Completed:
 - Cloudflare Free zone created for `frdops.ir`;
 - assigned authoritative nameservers: `arturo.ns.cloudflare.com` and `june.ns.cloudflare.com`;
 - operator screenshot confirms both nameservers were submitted successfully at IRNIC with no glue IPs;
-- operator used Cloudflare's nameserver-check action after IRNIC submission.
+- Cloudflare nameserver check completed;
+- operator screenshot on 2026-09-27 confirms Cloudflare now recognizes the delegation and reports the domain protected/Active.
 
 Current DNS state:
-- Cloudflare currently reports `Waiting for your registrar to propagate your new nameservers` and is checking delegation periodically;
-- Cloudflare's UI states this typically takes 1–2 hours and may take up to 24 hours depending on the registrar;
+- Cloudflare is now authoritative for `frdops.ir`;
 - no apex/`www` GitHub Pages records have been added yet;
-- no custom-domain binding has been performed yet;
-- DNSSEC remains intentionally off during delegation transition.
+- no GitHub Pages custom-domain binding has been performed yet;
+- GitHub account-level domain ownership verification has not yet been performed;
+- DNSSEC remains intentionally off until the GitHub Pages/custom-domain/HTTPS path is stable.
 
 Planned remaining R1B sequence:
-1. wait for Cloudflare zone status to become Active;
-2. verify ownership for GitHub Pages;
-3. bind `frdops.ir` as the GitHub Pages custom domain;
-4. configure apex and `www` DNS records for GitHub Pages;
-5. verify Google Search Console Domain property;
-6. enable/verify HTTPS;
-7. populate Google Auth Platform Branding URLs and authorized domain.
+1. verify `frdops.ir` ownership in GitHub account-level Pages settings using GitHub's generated DNS TXT challenge;
+2. bind `frdops.ir` as the `frdops-site` GitHub Pages custom domain;
+3. configure apex and `www` DNS records in Cloudflare for GitHub Pages, initially DNS-only;
+4. verify Google Search Console Domain property using Google's DNS TXT challenge;
+5. verify GitHub Pages HTTPS/certificate and enable Enforce HTTPS;
+6. populate Google Auth Platform Branding URLs and authorized domain.
 
 ### PDA-R2 — BLOCKED ON R1B
 
@@ -94,4 +94,4 @@ Expected final public routes:
 
 ## Next logical action
 
-Wait for Cloudflare to detect the IRNIC delegation and mark `frdops.ir` Active. Do not change DNS records, OAuth secrets, or the existing DMB/WIOS repositories while delegation is pending. Once Active, proceed with GitHub Pages ownership/custom-domain DNS, Search Console verification, HTTPS, and Auth Platform Branding.
+Perform GitHub account-level Pages domain ownership verification for `frdops.ir`: GitHub Profile Settings → Pages → Add a domain → `frdops.ir`; copy the exact generated TXT challenge into Cloudflare DNS; retain the TXT record after successful verification. Do not invent the TXT value and do not yet add apex/`www` GitHub Pages records until ownership verification is complete.
