@@ -77,14 +77,24 @@ Semantics:
 - publication itself did not mint or expose any refresh token;
 - no DMB/WIOS project state or Production task was modified by this transition.
 
-### PDA-R3 — CURRENT / PREPARED / NOT YET EXECUTED
+### PDA-R3 — CURRENT / A0 FROZEN / AUTHORIZATION TO EXECUTE
 
 Goal: create a fresh Production-state offline authorization for the existing qualification desktop OAuth client and prove unattended token refresh without exposing secret values.
 
 Preparation evidence:
 - operator attests the downloaded qualification-client `Auth.json` has been moved from its download location into a dedicated private, non-Drive-synced local bootstrap subtree reserved for FRD Drive Automation;
 - the public repository records no client JSON contents, tokens, client secret, or private local credential values;
-- the permanent OAuth bootstrap will use a dedicated subtree rather than reuse historical Drive API experiment directories.
+- the permanent OAuth bootstrap uses a dedicated subtree rather than reusing historical Drive API experiment directories;
+- authoritative local script identity: `PDA_R3_PRODUCTION_OAUTH_BOOTSTRAP_A0.ps1`;
+- whole-file PowerShell parser gate: `PARSER_ERROR_COUNT=0`;
+- frozen script SHA-256: `9F092CD5BC65C391C25D516CB046799F153BEF5C70DC125ED4C6DE992CB8EBA8`;
+- no provider/OAuth authorization has yet been consumed for PDA-R3-A0 at this checkpoint.
+
+Execution authority:
+- execute exactly the parser-clean, hash-frozen A0 script once with PowerShell 7 `-NoProfile -File`;
+- after execution starts, attempt identity `PDA-R3-A0` is consumed regardless of PASS/FAIL/BLOCKED outcome;
+- do not edit, rerun, or reuse A0 after provider interaction begins;
+- return only sanitized output/error text; never return authorization codes, client IDs/secrets, access tokens, refresh tokens, or `Auth.json` contents.
 
 Required properties:
 1. authorization must occur after the confirmed R2 Production transition;
@@ -121,4 +131,4 @@ After R3 passes:
 
 ## Next logical action
 
-PDA-R3: execute a parser-gated local Production OAuth bootstrap from the dedicated private FRD Drive Automation subtree, requesting only `drive.file`, storing the resulting refresh credential in DPAPI CurrentUser-protected local storage, then perform one sanitized unattended refresh proof. Do not yet perform Drive mutations or create final DMB/WIOS Production OAuth clients.
+PDA-R3-A0: execute the exact hash-frozen parser-clean script once with PowerShell 7 `-NoProfile -File`. Approve only the expected `drive.file` authorization in the browser. After the run starts, do not rerun A0; return the complete sanitized terminal result or sanitized error for governance review. Do not yet perform Drive mutations or create final DMB/WIOS Production OAuth clients.
