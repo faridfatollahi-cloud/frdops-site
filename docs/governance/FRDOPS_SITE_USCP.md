@@ -1,6 +1,6 @@
 # FRD Ops Site — USCP
 
-**Status:** CURRENT / CANONICAL REPOSITORY CHECKPOINT  
+**Status:** CURRENT / SESSION CLOSED / R1B WAITING ON DOMAIN ACTIVATION  
 **Date:** 2026-09-27  
 **Repository:** `faridfatollahi-cloud/frdops-site`  
 **Domain:** `frdops.ir`
@@ -34,14 +34,14 @@ This repository does not own or store those projects' operational state.
 - qualification desktop OAuth client created;
 - secret-bearing credential material retained privately by the owner and excluded from this repository.
 
-### PDA-R1B — IN PROGRESS
+### PDA-R1B — IN PROGRESS / EXTERNAL WAIT
 
 - `frdops.ir` registered;
-- registrar/IRNIC activation pending at last operator report;
-- public site repository initialized;
+- registrar/IRNIC activation pending at session close;
+- public site repository initialized and governed;
 - GitHub Pages enabled from `main` / repository root;
 - operator screenshot confirms GitHub Pages reports the site live at `https://faridfatollahi-cloud.github.io/frdops-site/`;
-- custom domain intentionally not bound yet while `frdops.ir` activation/DNS remains pending;
+- custom domain intentionally not bound while `frdops.ir` activation/DNS remains pending;
 - next after domain activation: DNS ownership verification, GitHub Pages custom-domain binding, HTTPS, Google Search Console verification, Branding URLs.
 
 ### PDA-R2 — BLOCKED ON R1B
@@ -73,6 +73,23 @@ Expected final public routes:
 - `https://frdops.ir/drive-automation/privacy/`
 - `https://frdops.ir/drive-automation/terms/`
 
-## Next logical action
+## Session close checkpoint — 2026-09-27
 
-Wait for `frdops.ir` activation. Once active, perform DNS/domain ownership setup, GitHub Pages custom-domain binding, HTTPS validation, Google Search Console verification, and Auth Platform Branding completion without changing OAuth secrets or the existing DMB/WIOS repositories.
+- Repository write access for the ChatGPT GitHub integration was repaired by adding `frdops-site` to the installed GitHub App's selected repositories.
+- Canonical governance, security boundary, agent instructions, site skeleton, OAuth homepage, privacy policy, terms page, and static styling are committed on `main`.
+- GitHub Pages is live from `main` / root at the temporary GitHub Pages URL above.
+- `frdops.ir` remains the intended final domain and is still awaiting registrar/IRNIC activation at closeout.
+- No custom-domain DNS records, Search Console verification, Auth Platform publication, Production-state refresh token, or DMB/WIOS OAuth migration has been performed yet.
+- No DMB or WIOS repository/state was modified in this session.
+
+## Resume point
+
+When work resumes, first check whether `frdops.ir` is active and exposes DNS management. If active, continue PDA-R1B in this order:
+
+1. establish the required DNS/ownership verification records;
+2. verify domain ownership for GitHub Pages and Google Search Console as applicable;
+3. bind `frdops.ir` to GitHub Pages and validate HTTPS;
+4. complete Google Auth Platform Branding with the final public URLs;
+5. only then advance PDA-R2 to `Publish app` / `In production`.
+
+Do not broaden OAuth scopes, expose secrets, or alter DMB/WIOS production state as part of R1B.
