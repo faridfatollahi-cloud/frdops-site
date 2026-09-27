@@ -77,7 +77,7 @@ Semantics:
 - publication itself did not mint or expose any refresh token;
 - no DMB/WIOS project state or Production task was modified by this transition.
 
-### PDA-R3 — CURRENT / A0 CONSUMED PRECONDITION_FAILED / A1 NEXT
+### PDA-R3 — CURRENT / A0 CONSUMED PRECONDITION_FAILED / A1 FROZEN + AUTHORIZED
 
 Goal: create a fresh Production-state offline authorization for the existing qualification desktop OAuth client and prove unattended token refresh without exposing secret values.
 
@@ -101,9 +101,20 @@ Observed result:
 
 No secret-bearing client filename, client ID, client secret, token value, or local credential content is recorded in this public repository.
 
-#### PDA-R3-A1 — PREPARATION AUTHORIZED
+#### PDA-R3-A1 — FROZEN / AUTHORIZED FOR ONE EXECUTION
 
-A1 will preserve A0 behavior with the minimum necessary correction: resolve the exact operator-confirmed private client JSON path instead of assuming the normalized `Auth.json` basename. A1 must receive a fresh script identity, fresh attempt ID, fresh local receipt identity, parser gate, and SHA-256 freeze before execution.
+A1 is the minimal-delta successor to A0 and corrects only the private client-JSON path binding while preserving the same OAuth, PKCE, DPAPI, scope, no-Drive-mutation, and sanitized-output behavior.
+
+Frozen local artifact:
+- script identity: `PDA_R3_PRODUCTION_OAUTH_BOOTSTRAP_A1.ps1`;
+- parser gate: `PARSER_ERROR_COUNT=0`;
+- frozen script SHA-256: `3CFAE9EA6B10F96270824431600F125778EEAFC154B02FEC61E5497D25DE9E79`.
+
+Execution authority:
+- execute exactly the parser-clean, hash-frozen A1 once with PowerShell 7 `-NoProfile -File`;
+- after execution starts, attempt identity `PDA-R3-A1` is consumed regardless of PASS/FAIL/BLOCKED outcome;
+- do not edit, rerun, or reuse A1 after provider interaction begins;
+- return only sanitized output/error text; never return authorization codes, client IDs/secrets, access tokens, refresh tokens, or client JSON contents.
 
 Required properties remain:
 1. authorization must occur after the confirmed R2 Production transition;
@@ -140,4 +151,4 @@ After R3 passes:
 
 ## Next logical action
 
-Prepare `PDA-R3-A1` as a minimal-delta successor to A0 using the operator-confirmed private client JSON path. Parser-gate and SHA-256-freeze A1 before any provider interaction. Do not rerun A0. Do not yet perform Drive mutations or create final DMB/WIOS Production OAuth clients.
+PDA-R3-A1: execute the exact hash-frozen parser-clean A1 script once with PowerShell 7 `-NoProfile -File`. Approve only the expected `drive.file` authorization in the browser. After the run starts, do not rerun A1; return the complete sanitized terminal result or sanitized error for governance review. Do not yet perform Drive mutations or create final DMB/WIOS Production OAuth clients.
