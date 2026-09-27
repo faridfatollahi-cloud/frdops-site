@@ -45,24 +45,26 @@ Completed:
 - assigned authoritative nameservers: `arturo.ns.cloudflare.com` and `june.ns.cloudflare.com`;
 - both nameservers submitted at IRNIC with no glue IPs;
 - Cloudflare delegation status Active;
-- GitHub personal-account Pages settings now show `frdops.ir` as **Verified** after TXT challenge validation.
+- GitHub personal-account Pages settings show `frdops.ir` as **Verified** after TXT challenge validation;
+- repository-level custom domain has now been set to `frdops.ir`;
+- repository root `CNAME` exists with exact content `frdops.ir`.
 
 Current DNS/custom-domain state:
 - GitHub account-level ownership verification is complete;
 - verification TXT must remain in Cloudflare DNS;
-- repository-level custom-domain binding has not yet been performed;
-- no apex GitHub Pages `A` records or `www` CNAME have been added yet;
+- repository-level custom-domain binding is present;
+- GitHub currently reports DNS check unsuccessful / `NotServedByPagesError` because the apex/alternate DNS records do not yet resolve to GitHub Pages;
+- apex GitHub Pages `A` records and `www` CNAME are the immediate missing configuration;
 - Google Search Console Domain property has not yet been verified;
 - DNSSEC remains intentionally off until the Pages/custom-domain/HTTPS path is stable.
 
 Planned remaining R1B sequence:
-1. in `frdops-site` repository Settings → Pages, set Custom domain to `frdops.ir` and Save;
-2. in Cloudflare DNS add apex GitHub Pages `A` records, initially DNS-only: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`;
-3. add `www` CNAME → `faridfatollahi-cloud.github.io`, initially DNS-only;
-4. wait for GitHub DNS check/custom-domain validation;
-5. verify Google Search Console Domain property using Google's DNS TXT challenge;
-6. verify GitHub Pages HTTPS/certificate and enable Enforce HTTPS;
-7. populate Google Auth Platform Branding URLs and authorized domain.
+1. in Cloudflare DNS add apex GitHub Pages `A` records, initially DNS-only: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`;
+2. add `www` CNAME → `faridfatollahi-cloud.github.io`, initially DNS-only;
+3. wait for DNS propagation and use GitHub Pages `Check again` until the custom-domain check passes;
+4. verify Google Search Console Domain property using Google's DNS TXT challenge;
+5. verify GitHub Pages HTTPS/certificate and enable Enforce HTTPS;
+6. populate Google Auth Platform Branding URLs and authorized domain.
 
 ### PDA-R2 — BLOCKED ON R1B
 
@@ -95,4 +97,4 @@ Expected final public routes:
 
 ## Next logical action
 
-Bind `frdops.ir` to the `frdops-site` GitHub Pages site in repository Settings → Pages → Custom domain, then add the exact GitHub Pages apex `A` records and `www` CNAME in Cloudflare DNS with proxying disabled initially. Keep the GitHub verification TXT record permanently.
+Add the exact GitHub Pages apex `A` records and `www` CNAME in Cloudflare DNS with proxying disabled initially, retain the GitHub verification TXT record, then re-run the GitHub Pages DNS check after propagation.
