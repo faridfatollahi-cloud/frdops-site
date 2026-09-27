@@ -122,15 +122,15 @@ R3 acceptance:
 - no Drive mutation occurred during R3;
 - no client secret, authorization code, access token, refresh token, or credential plaintext is recorded in this public repository.
 
-### PDA-R4 — CURRENT / OPERATION QUALIFICATION DESIGN
+### PDA-R4 — CURRENT / A0 FROZEN + AUTHORIZED
 
 Purpose: qualify the permanent Production OAuth foundation against the actual Drive/Docs primitives required by downstream projects, using only a disposable qualification namespace and the already-proven `drive.file` grant.
 
 R4 is not a DMB Production promotion and must not target existing DMB/WIOS project objects.
 
-#### PDA-R4-A0 — CORE DRIVE/DOCS + CAS QUALIFICATION
+#### PDA-R4-A0 — FROZEN / AUTHORIZED FOR ONE EXECUTION
 
-Planned acceptance matrix:
+Acceptance matrix:
 1. decrypt the existing DPAPI credential and obtain an access token by refresh only; no interactive browser authorization;
 2. create one uniquely named disposable qualification folder through Drive API and capture its exact ID;
 3. create one native Google Doc inside that exact folder using Drive API with MIME type `application/vnd.google-apps.document`;
@@ -139,8 +139,23 @@ Planned acceptance matrix:
 6. reuse the now-stale pre-write revision ID in a second guarded write and require a fail-closed HTTP 400 result with no unintended mutation;
 7. refresh the current document/revision state, perform one valid guarded update with the new revision ID, and verify final readback;
 8. verify Drive metadata for the created document, including exact parent/root binding;
-9. create and read back one small raw/blob file inside the same disposable qualification folder;
-10. emit only sanitized IDs/hashes/status evidence and a local receipt; never print tokens or client-secret material.
+9. create, upload, and read back one small raw/blob file inside the same disposable qualification folder and require byte-for-byte SHA-256 equality;
+10. emit only sanitized IDs/hashes/status evidence and a private local receipt; never print tokens or client-secret material;
+11. retain the qualification namespace for the next R4 revision/history stage.
+
+Frozen local artifact:
+- script identity: `PDA_R4_CORE_DRIVE_DOCS_CAS_A0.ps1`;
+- whole-file parser gate: `PARSER_ERROR_COUNT=0`;
+- frozen script SHA-256: `A59D855C086C6E3FA71BE553F5618F3E765DEBCA06AB7ADAFC9738922772A790`.
+
+Execution authority:
+- execute exactly the parser-clean, hash-frozen A0 once with PowerShell 7 `-NoProfile -File`;
+- the script is pinned to the accepted R3 credential ciphertext hash, R3 receipt hash, R3 script hash, and qualification-client-file hash;
+- it must obtain authentication by refresh only and must not open a browser or mint a new OAuth grant;
+- Drive mutations are authorized only for the newly created disposable `PDA-R4-A0` qualification namespace and its app-created children;
+- existing DMB/WIOS/project objects remain strictly out of scope;
+- when execution reaches its local attempt-start marker, `PDA-R4-A0` is consumed regardless of PASS/FAIL/BLOCKED outcome;
+- do not edit, rerun, or reuse A0 after that point; return the sanitized terminal output/error for governance reconciliation.
 
 Rationale:
 - `drive.file` is accepted by both Drive API and Docs API for the required document methods;
@@ -178,4 +193,4 @@ Subject to A0 PASS:
 
 ## Next logical action
 
-Prepare PDA-R4-A0 as a fresh parser-gated, hash-frozen local qualification artifact. It may use the accepted R3 DPAPI credential and may mutate only newly created disposable qualification objects. It must not touch existing DMB/WIOS objects or broaden the OAuth scope beyond `drive.file`.
+Execute the exact hash-frozen `PDA_R4_CORE_DRIVE_DOCS_CAS_A0.ps1` once with PowerShell 7 `-NoProfile -File`. Do not manually create or modify Drive objects before the run. After the A0 attempt-start marker is written, do not rerun A0; return the complete sanitized terminal result or sanitized error for governance review.
