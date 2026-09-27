@@ -34,7 +34,7 @@ This repository does not own or store those projects' operational state.
 - qualification desktop OAuth client created;
 - secret-bearing credential material retained privately by the owner and excluded from this repository.
 
-### PDA-R1B — IN PROGRESS
+### PDA-R1B — IN PROGRESS / BRANDING-READY PENDING HTTPS ENFORCEMENT CHECK
 
 Completed:
 - `frdops.ir` registered and active;
@@ -52,22 +52,31 @@ Completed:
 - Cloudflare DNS contains `www` CNAME → `faridfatollahi-cloud.github.io`, DNS-only;
 - GitHub verification TXT remains present;
 - GitHub Pages reports **DNS check successful**;
-- operator screenshot confirms Google Search Console Domain property ownership for `frdops.ir` is **Verified** using DNS/domain-name-provider verification.
+- operator screenshot confirms Google Search Console Domain property ownership for `frdops.ir` is **Verified** using DNS/domain-name-provider verification;
+- operator screenshots confirm all four intended public pages render correctly: FRD Infrastructure root, FRD Drive Automation application homepage, Privacy Policy, and Terms of Service;
+- repository review confirms the application homepage describes functionality and `drive.file` scope and links to the Privacy Policy and Terms;
+- repository review confirms the Privacy Policy discloses Google user data access, use, storage/retention, sharing/disclosure, security, and revocation/user-control behavior.
 
 Current DNS/custom-domain/HTTPS state:
 - GitHub ownership verification is complete;
 - Search Console domain ownership verification is complete; retain the Google TXT record;
 - repository-level custom-domain binding is present and DNS-valid;
-- GitHub TLS certificate provisioning has started; latest operator evidence showed stage `1 of 3` / `Certificate Requested`;
-- `Enforce HTTPS` remains pending certificate issuance;
+- latest explicit GitHub Pages TLS evidence before the page-render screenshots showed certificate provisioning in progress; `Enforce HTTPS` has not yet been separately evidenced as enabled in this lane;
 - DNSSEC remains intentionally off until the Pages/custom-domain/HTTPS path is stable.
 
+Branding target URLs:
+- Application homepage: `https://frdops.ir/drive-automation/`
+- Privacy Policy: `https://frdops.ir/drive-automation/privacy/`
+- Terms of Service: `https://frdops.ir/drive-automation/terms/`
+- Authorized domain: `frdops.ir`
+- App logo: intentionally omitted for now.
+
 Planned remaining R1B sequence:
-1. wait for GitHub Pages TLS certificate provisioning to complete;
-2. enable `Enforce HTTPS` once available;
-3. verify the final public HTTPS routes;
-4. populate Google Auth Platform Branding URLs and authorized domain using those HTTPS routes;
-5. complete Branding prerequisites and unblock PDA-R2.
+1. confirm GitHub Pages TLS certificate issuance is complete and enable `Enforce HTTPS` if not already enabled;
+2. verify the final public HTTPS routes;
+3. populate Google Auth Platform Branding with the exact URLs above and authorized domain `frdops.ir`;
+4. save Branding and confirm the Audience page unblocks `Publish app`;
+5. complete R1B and move to PDA-R2.
 
 ### PDA-R2 — BLOCKED ON R1B
 
@@ -100,4 +109,4 @@ Expected final public routes:
 
 ## Next logical action
 
-Check `frdops-site` → Settings → Pages. Once GitHub reports the TLS certificate issued and `Enforce HTTPS` becomes selectable, enable it and verify the final HTTPS routes before entering them into Google Auth Platform Branding. Do not alter the working GitHub `A`/`CNAME` records or remove either verification TXT record.
+Check `frdops-site` → Settings → Pages and confirm `Enforce HTTPS` is enabled/available. Then complete Google Auth Platform Branding using the exact app-specific HTTPS URLs and authorized domain `frdops.ir`. Do not alter the working GitHub `A`/`CNAME` records or remove either verification TXT record.
