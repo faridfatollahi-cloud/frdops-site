@@ -1,6 +1,6 @@
 # FRD Ops Site — USCP
 
-**Status:** CURRENT / CANONICAL REPOSITORY CHECKPOINT  
+**Status:** CURRENT / CANONICAL REPOSITORY CHECKPOINT / SESSION CLOSED  
 **Date:** 2026-09-27  
 **Repository:** `faridfatollahi-cloud/frdops-site`  
 **Domain:** `frdops.ir`
@@ -23,7 +23,7 @@ Public, project-neutral identity/compliance site for `frdops.ir` and the permane
 - **PDA-R2 — PASS / CLOSED**: Google Auth Platform is **In production**, audience **External**.
 - **PDA-R3 — PASS / CLOSED**: fresh post-Production offline authorization under `drive.file` only; DPAPI CurrentUser round-trip and unattended refresh proven. Accepted successful attempt: `PDA-R3-A1`, script SHA-256 `3CFAE9EA6B10F96270824431600F125778EEAFC154B02FEC61E5497D25DE9E79`.
 
-## PDA-R4 — CURRENT
+## PDA-R4 — CURRENT / SESSION PAUSED
 
 Purpose: qualify required Drive/Docs primitives using only disposable app-created qualification objects. This is not DMB Production promotion and must not target existing DMB/WIOS objects.
 
@@ -54,7 +54,7 @@ Observed state:
 - one fresh disposable A1 folder and one native Google Doc were created;
 - initial Docs read succeeded;
 - first revision-guarded CAS write succeeded and was read back;
-- local PowerShell parameter binding then failed at the stale-CAS probe because `Invoke-WebRequest -StatusCodeVariable` is not a supported parameter;
+- local PowerShell parameter binding then failed at the stale-CAS probe because `Invoke-WebRequest -StatusCodeVariable` is not supported;
 - therefore the stale-CAS request was not sent, CAS write 2 was not attempted, no blob was created, and no final A1 receipt exists;
 - A1 is consumed and must not be rerun.
 
@@ -76,6 +76,26 @@ A2 requirements:
 
 A2 must receive a whole-file PowerShell parser gate and operator-side SHA-256 match before execution authority is granted.
 
+## DMB Gate A–E audit dependency
+
+The **final/acceptance DMB Gate A–E cross-gate audit should wait** until this lane finishes the permanent Drive/OAuth qualification path needed by DMB.
+
+Reason:
+- R3 has proven durable Production-state OAuth and refresh under `drive.file`, but R4 operation qualification is still incomplete;
+- core Drive/Docs/CAS behavior has not yet reached a complete PASS;
+- revision/history, recovery/fail-closed, isolation/wrong-target checks, and DMB-specific target qualification remain outstanding after core R4;
+- therefore running the final DMB A–E acceptance audit now would evaluate DMB before its intended permanent transport/credential foundation and target behavior are fully qualified.
+
+Permitted parallel work:
+- a **read-only preliminary/pre-audit** may be run in the DMB lane if useful for identifying documentary or historical inconsistencies;
+- such a pre-audit must be explicitly labeled non-final/non-acceptance and must not close Gate acceptance, authorize Production promotion, or substitute for the later final A–E audit.
+
+Final DMB audit order remains:
+1. complete FRD Drive Automation R4 qualification;
+2. complete DMB-specific target/Control/CAS/migration qualification against the accepted permanent foundation;
+3. then run the final DMB Gates A–E cross-gate audit;
+4. only after that may any separate Production-promotion decision be considered.
+
 ## Security invariants
 
 - No private authorization material or private Drive content in this repository.
@@ -89,6 +109,14 @@ A2 must receive a whole-file PowerShell parser gate and operator-side SHA-256 ma
 - `https://frdops.ir/drive-automation/privacy/`
 - `https://frdops.ir/drive-automation/terms/`
 
-## Next logical action
+## Resume point
 
-Place `PDA_R4_CORE_DRIVE_DOCS_CAS_A2.ps1` in the private FRD Drive Automation scripts directory and perform only the whole-file PowerShell parser gate plus SHA-256 check. Do not rerun A0/A1, do not execute A2 before its hash is frozen, and do not manually touch A0/A1 Drive residue.
+Session closed on 2026-09-27 with **PDA-R4-A2 prepared but not parser/hash-frozen or executed**.
+
+When resuming:
+1. place/use `PDA_R4_CORE_DRIVE_DOCS_CAS_A2.ps1` from the prepared artifact;
+2. perform only the whole-file PowerShell parser gate and SHA-256 check;
+3. expected candidate SHA-256 is `A7283E4C775989D7F1AAD1FE90B1733796A78CE3D81335D84FAC038FF7D0B26C`;
+4. do not rerun A0/A1;
+5. do not manually touch A0/A1 Drive residue;
+6. do not execute A2 until its parser-clean exact hash is frozen and explicitly authorized.
