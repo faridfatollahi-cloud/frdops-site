@@ -39,6 +39,9 @@ This repository does not own or store those projects' operational state.
 - `frdops.ir` registered;
 - registrar/IRNIC activation pending at last operator report;
 - public site repository initialized;
+- GitHub Pages enabled from `main` / repository root;
+- operator screenshot confirms GitHub Pages reports the site live at `https://faridfatollahi-cloud.github.io/frdops-site/`;
+- custom domain intentionally not bound yet while `frdops.ir` activation/DNS remains pending;
 - next after domain activation: DNS ownership verification, GitHub Pages custom-domain binding, HTTPS, Google Search Console verification, Branding URLs.
 
 ### PDA-R2 — BLOCKED ON R1B
@@ -61,14 +64,15 @@ Fresh Production-state offline authorization, refresh-token qualification, Drive
 
 ## Domain/site target
 
-Expected public routes:
+Current temporary public Pages route:
+- `https://faridfatollahi-cloud.github.io/frdops-site/`
+
+Expected final public routes:
 - `https://frdops.ir/`
 - `https://frdops.ir/drive-automation/`
 - `https://frdops.ir/drive-automation/privacy/`
 - `https://frdops.ir/drive-automation/terms/`
 
-Until custom-domain activation, GitHub Pages may expose the equivalent repository Pages URL.
-
 ## Next logical action
 
-Wait for `frdops.ir` activation, then perform DNS/domain ownership setup and GitHub Pages custom-domain binding without changing OAuth secrets or the existing DMB/WIOS repositories.
+Wait for `frdops.ir` activation. Once active, perform DNS/domain ownership setup, GitHub Pages custom-domain binding, HTTPS validation, Google Search Console verification, and Auth Platform Branding completion without changing OAuth secrets or the existing DMB/WIOS repositories.
