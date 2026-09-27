@@ -37,31 +37,32 @@ This repository does not own or store those projects' operational state.
 ### PDA-R1B — IN PROGRESS
 
 Completed:
-- `frdops.ir` registered;
-- operator screenshots on 2026-09-27 confirm the domain is approved/active;
+- `frdops.ir` registered and active;
 - public site repository initialized;
 - GitHub Pages enabled from `main` / repository root;
-- operator screenshot confirms GitHub Pages reports the site live at `https://faridfatollahi-cloud.github.io/frdops-site/`;
-- Cloudflare Free zone created for `frdops.ir`;
+- temporary Pages route live at `https://faridfatollahi-cloud.github.io/frdops-site/`;
+- Cloudflare Free zone created and authoritative for `frdops.ir`;
 - assigned authoritative nameservers: `arturo.ns.cloudflare.com` and `june.ns.cloudflare.com`;
-- operator screenshot confirms both nameservers were submitted successfully at IRNIC with no glue IPs;
-- Cloudflare nameserver check completed;
-- operator screenshot on 2026-09-27 confirms Cloudflare now recognizes the delegation and reports the domain protected/Active.
+- both nameservers submitted at IRNIC with no glue IPs;
+- Cloudflare delegation status Active;
+- GitHub personal-account Pages settings now show `frdops.ir` as **Verified** after TXT challenge validation.
 
-Current DNS state:
-- Cloudflare is now authoritative for `frdops.ir`;
-- no apex/`www` GitHub Pages records have been added yet;
-- no GitHub Pages custom-domain binding has been performed yet;
-- GitHub account-level domain ownership verification has not yet been performed;
-- DNSSEC remains intentionally off until the GitHub Pages/custom-domain/HTTPS path is stable.
+Current DNS/custom-domain state:
+- GitHub account-level ownership verification is complete;
+- verification TXT must remain in Cloudflare DNS;
+- repository-level custom-domain binding has not yet been performed;
+- no apex GitHub Pages `A` records or `www` CNAME have been added yet;
+- Google Search Console Domain property has not yet been verified;
+- DNSSEC remains intentionally off until the Pages/custom-domain/HTTPS path is stable.
 
 Planned remaining R1B sequence:
-1. verify `frdops.ir` ownership in GitHub account-level Pages settings using GitHub's generated DNS TXT challenge;
-2. bind `frdops.ir` as the `frdops-site` GitHub Pages custom domain;
-3. configure apex and `www` DNS records in Cloudflare for GitHub Pages, initially DNS-only;
-4. verify Google Search Console Domain property using Google's DNS TXT challenge;
-5. verify GitHub Pages HTTPS/certificate and enable Enforce HTTPS;
-6. populate Google Auth Platform Branding URLs and authorized domain.
+1. in `frdops-site` repository Settings → Pages, set Custom domain to `frdops.ir` and Save;
+2. in Cloudflare DNS add apex GitHub Pages `A` records, initially DNS-only: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`;
+3. add `www` CNAME → `faridfatollahi-cloud.github.io`, initially DNS-only;
+4. wait for GitHub DNS check/custom-domain validation;
+5. verify Google Search Console Domain property using Google's DNS TXT challenge;
+6. verify GitHub Pages HTTPS/certificate and enable Enforce HTTPS;
+7. populate Google Auth Platform Branding URLs and authorized domain.
 
 ### PDA-R2 — BLOCKED ON R1B
 
@@ -94,4 +95,4 @@ Expected final public routes:
 
 ## Next logical action
 
-Perform GitHub account-level Pages domain ownership verification for `frdops.ir`: GitHub Profile Settings → Pages → Add a domain → `frdops.ir`; copy the exact generated TXT challenge into Cloudflare DNS; retain the TXT record after successful verification. Do not invent the TXT value and do not yet add apex/`www` GitHub Pages records until ownership verification is complete.
+Bind `frdops.ir` to the `frdops-site` GitHub Pages site in repository Settings → Pages → Custom domain, then add the exact GitHub Pages apex `A` records and `www` CNAME in Cloudflare DNS with proxying disabled initially. Keep the GitHub verification TXT record permanently.
