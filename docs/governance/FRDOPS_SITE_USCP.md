@@ -77,26 +77,35 @@ Semantics:
 - publication itself did not mint or expose any refresh token;
 - no DMB/WIOS project state or Production task was modified by this transition.
 
-### PDA-R3 — CURRENT / A0 FROZEN / AUTHORIZATION TO EXECUTE
+### PDA-R3 — CURRENT / A0 CONSUMED PRECONDITION_FAILED / A1 NEXT
 
 Goal: create a fresh Production-state offline authorization for the existing qualification desktop OAuth client and prove unattended token refresh without exposing secret values.
 
-Preparation evidence:
-- operator attests the downloaded qualification-client `Auth.json` has been moved from its download location into a dedicated private, non-Drive-synced local bootstrap subtree reserved for FRD Drive Automation;
-- the public repository records no client JSON contents, tokens, client secret, or private local credential values;
-- the permanent OAuth bootstrap uses a dedicated subtree rather than reusing historical Drive API experiment directories;
-- authoritative local script identity: `PDA_R3_PRODUCTION_OAUTH_BOOTSTRAP_A0.ps1`;
-- whole-file PowerShell parser gate: `PARSER_ERROR_COUNT=0`;
-- frozen script SHA-256: `9F092CD5BC65C391C25D516CB046799F153BEF5C70DC125ED4C6DE992CB8EBA8`;
-- no provider/OAuth authorization has yet been consumed for PDA-R3-A0 at this checkpoint.
+#### PDA-R3-A0 — CONSUMED / PRECONDITION_FAILED / ZERO-PROVIDER
 
-Execution authority:
-- execute exactly the parser-clean, hash-frozen A0 script once with PowerShell 7 `-NoProfile -File`;
-- after execution starts, attempt identity `PDA-R3-A0` is consumed regardless of PASS/FAIL/BLOCKED outcome;
-- do not edit, rerun, or reuse A0 after provider interaction begins;
-- return only sanitized output/error text; never return authorization codes, client IDs/secrets, access tokens, refresh tokens, or `Auth.json` contents.
+Frozen local artifact:
+- script identity: `PDA_R3_PRODUCTION_OAUTH_BOOTSTRAP_A0.ps1`;
+- parser gate: `PARSER_ERROR_COUNT=0`;
+- script SHA-256: `9F092CD5BC65C391C25D516CB046799F153BEF5C70DC125ED4C6DE992CB8EBA8`.
 
-Required properties:
+Observed result:
+- execution started and A0 identity is therefore consumed under the standing attempt rule;
+- A0 failed at local preflight because it expected a normalized `client/Auth.json` path while the operator retained Google's generated client JSON filename in the intended private client directory;
+- failure occurred before browser launch, authorization URL construction/use, token exchange, credential persistence, or any Drive API operation;
+- provider interaction: **NONE**;
+- OAuth authorization code consumed: **NO**;
+- refresh/access token created by A0: **NO**;
+- credential file created by A0: **NO**;
+- Drive mutation: **NO**;
+- A0 must not be rerun or repurposed.
+
+No secret-bearing client filename, client ID, client secret, token value, or local credential content is recorded in this public repository.
+
+#### PDA-R3-A1 — PREPARATION AUTHORIZED
+
+A1 will preserve A0 behavior with the minimum necessary correction: resolve the exact operator-confirmed private client JSON path instead of assuming the normalized `Auth.json` basename. A1 must receive a fresh script identity, fresh attempt ID, fresh local receipt identity, parser gate, and SHA-256 freeze before execution.
+
+Required properties remain:
 1. authorization must occur after the confirmed R2 Production transition;
 2. requested Drive scope remains only `https://www.googleapis.com/auth/drive.file`;
 3. request offline access so a refresh token is returned;
@@ -131,4 +140,4 @@ After R3 passes:
 
 ## Next logical action
 
-PDA-R3-A0: execute the exact hash-frozen parser-clean script once with PowerShell 7 `-NoProfile -File`. Approve only the expected `drive.file` authorization in the browser. After the run starts, do not rerun A0; return the complete sanitized terminal result or sanitized error for governance review. Do not yet perform Drive mutations or create final DMB/WIOS Production OAuth clients.
+Prepare `PDA-R3-A1` as a minimal-delta successor to A0 using the operator-confirmed private client JSON path. Parser-gate and SHA-256-freeze A1 before any provider interaction. Do not rerun A0. Do not yet perform Drive mutations or create final DMB/WIOS Production OAuth clients.
