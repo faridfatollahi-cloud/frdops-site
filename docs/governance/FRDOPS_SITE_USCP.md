@@ -56,8 +56,7 @@ Completed:
 - GitHub Pages operator screenshot shows `Enforce HTTPS` enabled;
 - Google Auth Platform Branding saved successfully with exact app-specific HTTPS URLs and authorized domain `frdops.ir`;
 - Developer contact information is populated;
-- App logo intentionally omitted;
-- Google Auth Platform Audience page now exposes an enabled `Publish app` control.
+- App logo intentionally omitted.
 
 Final Branding values:
 - Application homepage: `https://frdops.ir/drive-automation/`
@@ -65,28 +64,38 @@ Final Branding values:
 - Terms of Service: `https://frdops.ir/drive-automation/terms/`
 - Authorized domain: `frdops.ir`
 
-Notes:
-- GitHub Pages showed a transient `DNS Check in Progress` state in the final screenshot while the site remained live over HTTPS and `Enforce HTTPS` was enabled. Do not alter the working DNS records while GitHub re-checks.
-- DNSSEC remains intentionally deferred until after the OAuth production transition and first stable post-publication checkpoint unless separately authorized.
+### PDA-R2 — PASS / CLOSED
 
-### PDA-R2 — READY / CURRENT
+Operator screenshot on 2026-09-27 confirms:
+- Google Auth Platform publishing status: **In production**;
+- Audience: **External**;
+- UI now offers `Back to testing`, evidencing the production transition completed.
 
-Target: move Google Auth Platform publishing status from `Testing` to `In production` using the enabled `Publish app` control.
+Semantics:
+- the permanent Auth Platform application is no longer in Testing status;
+- future OAuth clients created under this same application inherit the app/project Production publishing state;
+- publication itself did not mint or expose any refresh token;
+- no DMB/WIOS project state or Production task was modified by this transition.
 
-Important semantics:
-- Publishing status is application/project-level and applies to the OAuth clients in this Google Auth Platform app.
-- This transition is required to remove the Testing-mode seven-day authorization/refresh-token lifetime for scopes beyond basic profile/sign-in scopes.
-- Publication does not itself create a refresh token and does not silently authorize any new Google account or project.
-- Existing secret-bearing OAuth material remains private and outside this repository.
+### PDA-R3 — CURRENT / NOT YET EXECUTED
 
-### PDA-R3+ — NOT STARTED
+Goal: create a fresh Production-state offline authorization for the existing qualification desktop OAuth client and prove unattended token refresh without exposing secret values.
 
-After R2 succeeds:
-1. create a fresh Production-state offline authorization for the qualification client;
-2. prove refresh-token acquisition and unattended access-token refresh without exposing token values;
-3. qualify the required Drive/Docs operation set under `drive.file` only;
-4. qualify restart/recovery/fail-closed behavior and project isolation;
-5. only then perform DMB-specific target qualification before DMB final A–E audit/promotion decisions.
+Required properties:
+1. authorization must occur after the confirmed R2 Production transition;
+2. requested Drive scope remains only `https://www.googleapis.com/auth/drive.file`;
+3. request offline access so a refresh token is returned;
+4. credential/token material remains only in private local credential storage and is never committed to this repository, placed in Drive, or pasted into chat;
+5. return only sanitized evidence such as scope, presence/absence of a refresh token, HTTP/result status, and timestamps;
+6. prove at least one access-token refresh from the stored refresh token without interactive consent;
+7. preserve the qualification client as qualification infrastructure until later governance decides whether to mint final per-project Production clients.
+
+### PDA-R4+ — NOT STARTED
+
+After R3 passes:
+1. qualify the required Drive/Docs operation set under `drive.file` only using a disposable non-Production Drive namespace;
+2. qualify restart/recovery/fail-closed behavior and project isolation;
+3. only then perform DMB-specific target qualification before DMB final A–E audit/promotion decisions.
 
 ## Security invariants
 
@@ -107,4 +116,4 @@ After R2 succeeds:
 
 ## Next logical action
 
-PDA-R2: in Google Auth Platform → Audience, use the enabled `Publish app` control and confirm the transition to `In production`. Do not generate or expose any Production refresh token until R2 is confirmed successful. Do not alter the working Cloudflare/GitHub Pages DNS records or remove either verification TXT record.
+PDA-R3: perform one fresh Production-state offline OAuth authorization for the existing qualification desktop client, requesting only `drive.file` and offline access. Store the resulting refresh credential privately outside Git/Drive/chat, then perform a sanitized auth-only refresh proof. Do not yet perform Drive mutations or create final DMB/WIOS Production OAuth clients.
