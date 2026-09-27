@@ -44,11 +44,12 @@ Completed:
 - operator screenshot confirms GitHub Pages reports the site live at `https://faridfatollahi-cloud.github.io/frdops-site/`;
 - Cloudflare Free zone created for `frdops.ir`;
 - assigned authoritative nameservers: `arturo.ns.cloudflare.com` and `june.ns.cloudflare.com`;
-- operator screenshot confirms both nameservers were submitted successfully at IRNIC with no glue IPs.
+- operator screenshot confirms both nameservers were submitted successfully at IRNIC with no glue IPs;
+- operator used Cloudflare's nameserver-check action after IRNIC submission.
 
 Current DNS state:
-- registrar-side delegation change has been submitted;
-- Cloudflare activation is pending authoritative-delegation propagation/detection;
+- Cloudflare currently reports `Waiting for your registrar to propagate your new nameservers` and is checking delegation periodically;
+- Cloudflare's UI states this typically takes 1–2 hours and may take up to 24 hours depending on the registrar;
 - no apex/`www` GitHub Pages records have been added yet;
 - no custom-domain binding has been performed yet;
 - DNSSEC remains intentionally off during delegation transition.
@@ -93,4 +94,4 @@ Expected final public routes:
 
 ## Next logical action
 
-Wait for Cloudflare to detect the IRNIC delegation and mark `frdops.ir` Active. Once Active, proceed with GitHub Pages ownership/custom-domain DNS, Search Console verification, HTTPS, and Auth Platform Branding. Do not change OAuth secrets or the existing DMB/WIOS repositories during this work.
+Wait for Cloudflare to detect the IRNIC delegation and mark `frdops.ir` Active. Do not change DNS records, OAuth secrets, or the existing DMB/WIOS repositories while delegation is pending. Once Active, proceed with GitHub Pages ownership/custom-domain DNS, Search Console verification, HTTPS, and Auth Platform Branding.
