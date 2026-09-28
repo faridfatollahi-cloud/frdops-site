@@ -1,6 +1,6 @@
 # FRD Ops Site — USCP
 
-**Status:** CURRENT / CANONICAL REPOSITORY CHECKPOINT / ATRIA DELEGATION PREPARATION  
+**Status:** CURRENT / CANONICAL REPOSITORY CHECKPOINT / ATRIA CREDENTIAL RE-IMPORT  
 **Date:** 2026-09-28  
 **Repository:** `faridfatollahi-cloud/frdops-site`  
 **Domain:** `frdops.ir`
@@ -83,16 +83,56 @@ The remaining permanent-foundation qualification will use the **WIOS runtime pat
 - campaign/attempt identities remain separate from the credential identity;
 - provider route remains exact Atria route unless governance explicitly changes it after evidence review.
 
+### Credential location correction — authoritative
+
+The earlier proposed `%LOCALAPPDATA%\WIOS\private\credentials\...` location is **superseded and forbidden for this lane**.
+
+Authoritative private root:
+- `C:\AI-Orchestrator\Private\WIOS\FRD-Drive-Qualification\credentials\FRD-DRIVE-QUAL-ATRIA-EXEC-01\`
+
+Non-secret governance evidence root (Drive-shared):
+- `C:\AI-Orchestrator\Governance Files\FRD-Drive-Automation\Atria-Qualification\`
+
+Non-secret campaign workspace root (Drive-shared):
+- `C:\AI-Orchestrator\workspaces\FRD-Drive-Automation\Atria-Qualification\`
+
+Secret material, DPAPI ciphertext, decrypted values, or temporary plaintext must never be written under either Drive-shared root.
+
+### Credential import A0 reconciliation
+
+Attempt `FRD-DRIVE-QUAL-ATRIA-CRED-IMPORT-A0` used the superseded `%LOCALAPPDATA%` root. The sanitized terminal completion was not captured, so A0 is not accepted as the canonical retained credential import.
+
+Subsequent exact-path reconciliation established:
+- wrong-root final credential directory existed before cleanup;
+- wrong-root staging directory did not exist;
+- wrong-root failed-import directory did not exist;
+- the exact final credential directory was deleted successfully;
+- all three exact A0 wrong-root targets were absent after cleanup;
+- `WRONG_ROOT_RECONCILIATION_RESULT=PASS`;
+- `WRONG_ROOT_CREDENTIAL_RETAINED=False`;
+- provider calls `False` and Drive mutations `False` during cleanup.
+
+A0 is therefore **CONSUMED / SUPERSEDED / WRONG-ROOT RETAINMENT REMOVED**. It must not be reused. A fresh import uses attempt identity `FRD-DRIVE-QUAL-ATRIA-CRED-IMPORT-A1` at the authoritative private root.
+
 ### Credential security contract
 
 - API key is entered only through a local secure prompt; it is never pasted into chat, Git, logs, task packets, receipts, command-line arguments, or synced storage;
-- retained form is Windows **DPAPI CurrentUser** ciphertext under the private WIOS credential plane;
+- retained form is Windows **DPAPI CurrentUser** ciphertext under the authoritative private WIOS root above;
 - private credential directory is ACL-restricted to the current user SID and SYSTEM;
 - import uses staging, validation, atomic promotion, and sanitized receipt/evidence;
 - plaintext credential file persistence is forbidden;
 - ordinary provider/runtime artifacts contain only credential identity/reference, never the key;
 - runtime decryption is transient and only for the authorized provider dispatch boundary;
+- only sanitized import/campaign evidence may be copied to `Governance Files` / `workspaces`;
 - sanitized evidence must affirm no plaintext-file, command-line, Git/Drive, or ordinary-log exposure.
+
+### Operator-window identity
+
+PowerShell 7 operator windows used for this lane must set an explicit title beginning with:
+
+`FRD Ops Site — Governance | FRD Drive Automation`
+
+so the operator can visually distinguish this lane from WIOS/DMB and other concurrent shells.
 
 ### Atria authority boundary
 
@@ -131,7 +171,7 @@ It does **not** mean `DMB Gates A–E PASS`, does not adjudicate DMB, and does n
 - No private authorization material or private Drive content in this repository.
 - No DMB/WIOS private runtime state in this repository.
 - Qualification mutations remain confined to disposable app-created objects unless a later project-specific authority explicitly authorizes otherwise.
-- A0/A1 residue remains untouched until a dedicated cleanup/reconciliation action is separately authorized.
+- A0/A1 Drive qualification residue remains untouched until a dedicated cleanup/reconciliation action is separately authorized.
 
 ## Public routes
 
@@ -143,10 +183,12 @@ It does **not** mean `DMB Gates A–E PASS`, does not adjudicate DMB, and does n
 ## Resume point
 
 Current state on 2026-09-28:
-1. Atria execution credential has been created by the operator but has **not yet been recorded here as successfully DPAPI-imported**;
-2. next action is one-time secure local import of `FRD-DRIVE-QUAL-ATRIA-EXEC-01` into the WIOS private credential plane with DPAPI CurrentUser + ACL + sanitized receipt;
-3. then freeze the Atria Permanent Drive Qualification Campaign contract and runtime binding;
-4. run zero-provider/local preflight before any semantic/provider call;
-5. only after preflight PASS may the first campaign attempt be authorized;
-6. A0/A1 must not be rerun and A2 remains preserved/unexecuted unless explicitly reactivated;
-7. after campaign completion, this lane adjudicates only `PERMANENT_DRIVE_FOUNDATION_FITNESS` and hands the evidence boundary to DMB Governance 3.
+1. wrong-root Atria credential retainment has been reconciled and removed;
+2. `FRD-DRIVE-QUAL-ATRIA-CRED-IMPORT-A0` is consumed/superseded and must not be reused;
+3. next action is fresh secure import `FRD-DRIVE-QUAL-ATRIA-CRED-IMPORT-A1` into `C:\AI-Orchestrator\Private\WIOS\FRD-Drive-Qualification\credentials\FRD-DRIVE-QUAL-ATRIA-EXEC-01\` using DPAPI CurrentUser + exact-directory ACL + atomic promotion;
+4. sanitized import evidence may be written under `C:\AI-Orchestrator\Governance Files\FRD-Drive-Automation\Atria-Qualification\`; secrets may not;
+5. after accepted A1 import, freeze the Atria Permanent Drive Qualification Campaign contract and runtime binding under the non-secret workspace root;
+6. run zero-provider/local preflight before any semantic/provider call;
+7. only after preflight PASS may the first campaign attempt be authorized;
+8. PDA-R4 A0/A1 must not be rerun and A2 remains preserved/unexecuted unless explicitly reactivated;
+9. after campaign completion, this lane adjudicates only `PERMANENT_DRIVE_FOUNDATION_FITNESS` and hands the evidence boundary to DMB Governance 3.
