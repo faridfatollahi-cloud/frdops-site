@@ -8,6 +8,8 @@ $ExpectedSourceSha = '12EEE3C68B9C80502BD48CA44B68C9618814D256E70452019188188E2D
 $ExpectedA2ReferenceSha = 'A7283E4C775989D7F1AAD1FE90B1733796A78CE3D81335D84FAC038FF7D0B26C'
 $PrivateSourceRoot = 'C:\AI-Orchestrator\Private\WIOS\FRD-Drive-Qualification\runtime-source\FRD-DRIVE-AFQW-R4-T3'
 $WorkerPath = Join-Path $PrivateSourceRoot 'FRD_AFQW_R4_T3_A0_Worker.ps1'
+$StageWorkerPath = $WorkerPath + '.__STAGING'
+$FailedWorkerPath = $WorkerPath + '.__FAILED'
 
 function Replace-ExactOnce {
     param([string]$Text,[string]$Old,[string]$New,[string]$Label)
@@ -20,8 +22,9 @@ if (-not (Test-Path -LiteralPath $SourcePath -PathType Leaf)) { throw 'A1_SOURCE
 $SourceSha = (Get-FileHash -LiteralPath $SourcePath -Algorithm SHA256).Hash
 if ($SourceSha -ne $ExpectedSourceSha) { throw "A1_SOURCE_HASH_MISMATCH=$SourceSha" }
 $text = [IO.File]::ReadAllText($SourcePath)
+$text = $text.Replace("`r`n","`n")
 
-# Fresh task identity. Prior-A1 continuity is inserted later and is not rewritten.
+# Fresh task identity. Prior-A1 continuity is inserted after this replacement.
 $text = $text.Replace('PDA-R4-A1','FRD-DRIVE-AFQW-R4-T3-A0')
 
 $oldPaths = @'
@@ -58,7 +61,7 @@ $T2FinalFile = 'C:\AI-Orchestrator\workspaces\FRD-Drive-Automation\Atria-Qualifi
 '@
 $text = Replace-ExactOnce $text $oldPaths $newPaths 'PATHS'
 
-$oldHashes = "$ExpectedAuthJsonSha256    = '88C2C2DE34257CCECE9E944E084B81AB0E14DE76DA4D2957C781F674BC386EAF'"
+$oldHashes = '$ExpectedAuthJsonSha256    = ''88C2C2DE34257CCECE9E944E084B81AB0E14DE76DA4D2957C781F674BC386EAF'''
 $newHashes = @'
 $ExpectedAuthJsonSha256    = '88C2C2DE34257CCECE9E944E084B81AB0E14DE76DA4D2957C781F674BC386EAF'
 $ExpectedT2BindingSha256   = '8F7F948D33B6E62FB8DB81E9D74878ECAB023BA1540876103ED99FDF40DD8314'
@@ -216,7 +219,7 @@ function Write-AFQWAmbiguity {
 
 function Register-AFQWCall {
     param([string]$Method,[string]$Uri,[object]$Body)
-    $isDrive = $Uri -match '^https://(www\.googleapis\.com/(upload/)?drive/|www\.googleapis\.com/drive/)'
+    $isDrive = $Uri -match '^https://www\.googleapis\.com/(upload/)?drive/'
     $isDocs = $Uri -match '^https://docs\.googleapis\.com/'
     $isOAuth = $Uri -eq 'https://oauth2.googleapis.com/token'
     if ($isDrive) {
@@ -384,17 +387,31 @@ $BlobV1RevisionDownloadSha256 = (Get-FileHash -LiteralPath $BlobV1RevisionTemp -
 if ($BlobV1RevisionDownloadSha256 -ne $BlobUploadSha256) { throw 'Historical Blob V1 revision byte SHA-256 mismatch.' }
 Remove-Item -LiteralPath $BlobV1RevisionTemp -Force
 '@
-$text = Replace-ExactOnce $text '# ============================================================================`r`n# PRIVATE LOCAL RECEIPT — OBJECT IDs RETAINED FOR FRD-DRIVE-AFQW-R4-T3-A0' ($extension + "`r`n# ============================================================================`r`n# PRIVATE LOCAL RECEIPT — OBJECT IDs RETAINED FOR FRD-DRIVE-AFQW-R4-T3-A0") 'T3_EXTENSION'
+$receiptAnchor = "# ============================================================================`n# PRIVATE LOCAL RECEIPT — OBJECT IDs RETAINED FOR FRD-DRIVE-AFQW-R4-T3-A0"
+$text = Replace-ExactOnce $text $receiptAnchor ($extension + "`n# ============================================================================`n# PRIVATE LOCAL RECEIPT — OBJECT IDs RETAINED FOR FRD-DRIVE-AFQW-R4-T3-A0") 'T3_EXTENSION'
 
-$text = Replace-ExactOnce $text "    prior_a0_consumed_marker          = 'PASS'`r`n    prior_a0_objects_touched          = `$false" "    prior_a0_consumed_marker          = 'PASS'`r`n    prior_a1_consumed_marker          = 'PASS'`r`n    prior_a0_objects_touched          = `$false`r`n    prior_a1_objects_touched          = `$false" 'RECEIPT_PRIOR_A1'
-$text = Replace-ExactOnce $text "    stale_marker                     = `$StaleMarker" "    stale_marker                     = `$StaleMarker`r`n    doc_export_sha256                 = `$DocExportSha256`r`n    doc_drive_revision_count          = `$DocRevisionItems.Count`r`n    doc_drive_revision_ids_sha256     = `$DocRevisionIdsSha256" 'RECEIPT_DOC_EXT'
-$text = Replace-ExactOnce $text "    blob_byte_length                 = `$BlobPayloadBytes.Length" "    blob_byte_length                 = `$BlobPayloadBytes.Length`r`n    blob_v1_revision_id               = `$BlobV1RevisionId`r`n    blob_v1_revision_id_sha256        = `$BlobV1RevisionIdSha256`r`n    blob_v2_upload_sha256             = `$BlobV2UploadSha256`r`n    blob_v2_download_sha256           = `$BlobV2DownloadSha256`r`n    blob_head_revision_id             = `$BlobHeadRevisionId`r`n    blob_head_revision_id_sha256      = `$BlobHeadRevisionIdSha256`r`n    blob_v1_revision_download_sha256  = `$BlobV1RevisionDownloadSha256`r`n    blob_revision_count_after_v2      = `$BlobRevisionItemsV2.Count" 'RECEIPT_BLOB_EXT'
-$text = Replace-ExactOnce $text "    token_refresh                    = 'PASS'" "    token_refresh                    = 'PASS'`r`n    oauth_refresh_call_count          = `$OAuthRefreshCallCount`r`n    drive_api_call_count              = `$DriveApiCallCount`r`n    docs_api_call_count               = `$DocsApiCallCount`r`n    mutation_intent_count             = `$MutationIntentCount`r`n    engineering_source_a1_sha256      = `$EngineeringSourceA1Sha256`r`n    engineering_reference_a2_sha256  = `$EngineeringReferenceA2Sha256" 'RECEIPT_COUNTS'
+$text = Replace-ExactOnce $text "    prior_a0_consumed_marker          = 'PASS'`n    prior_a0_objects_touched          = `$false" "    prior_a0_consumed_marker          = 'PASS'`n    prior_a1_consumed_marker          = 'PASS'`n    prior_a0_objects_touched          = `$false`n    prior_a1_objects_touched          = `$false" 'RECEIPT_PRIOR_A1'
+$text = Replace-ExactOnce $text "    stale_marker                     = `$StaleMarker" "    stale_marker                     = `$StaleMarker`n    doc_export_sha256                 = `$DocExportSha256`n    doc_drive_revision_count          = `$DocRevisionItems.Count`n    doc_drive_revision_ids_sha256     = `$DocRevisionIdsSha256" 'RECEIPT_DOC_EXT'
+$text = Replace-ExactOnce $text "    blob_byte_length                 = `$BlobPayloadBytes.Length" "    blob_byte_length                 = `$BlobPayloadBytes.Length`n    blob_v1_revision_id               = `$BlobV1RevisionId`n    blob_v1_revision_id_sha256        = `$BlobV1RevisionIdSha256`n    blob_v2_upload_sha256             = `$BlobV2UploadSha256`n    blob_v2_download_sha256           = `$BlobV2DownloadSha256`n    blob_head_revision_id             = `$BlobHeadRevisionId`n    blob_head_revision_id_sha256      = `$BlobHeadRevisionIdSha256`n    blob_v1_revision_download_sha256  = `$BlobV1RevisionDownloadSha256`n    blob_revision_count_after_v2      = `$BlobRevisionItemsV2.Count" 'RECEIPT_BLOB_EXT'
+$text = Replace-ExactOnce $text "    token_refresh                    = 'PASS'" "    token_refresh                    = 'PASS'`n    oauth_refresh_call_count          = `$OAuthRefreshCallCount`n    drive_api_call_count              = `$DriveApiCallCount`n    docs_api_call_count               = `$DocsApiCallCount`n    mutation_intent_count             = `$MutationIntentCount`n    engineering_source_a1_sha256      = `$EngineeringSourceA1Sha256`n    engineering_reference_a2_sha256  = `$EngineeringReferenceA2Sha256" 'RECEIPT_COUNTS'
 
-$text = $text.Replace("if (`$BlobPayloadBytes) {`r`n    [Array]::Clear(`r`n        `$BlobPayloadBytes,`r`n        0,`r`n        `$BlobPayloadBytes.Length`r`n    )`r`n}","if (`$BlobPayloadBytes) { [Array]::Clear(`$BlobPayloadBytes,0,`$BlobPayloadBytes.Length) }`r`nif (`$BlobPayloadV2Bytes) { [Array]::Clear(`$BlobPayloadV2Bytes,0,`$BlobPayloadV2Bytes.Length) }")
+$oldClear = @'
+if ($BlobPayloadBytes) {
+    [Array]::Clear(
+        $BlobPayloadBytes,
+        0,
+        $BlobPayloadBytes.Length
+    )
+}
+'@
+$newClear = @'
+if ($BlobPayloadBytes) { [Array]::Clear($BlobPayloadBytes,0,$BlobPayloadBytes.Length) }
+if ($BlobPayloadV2Bytes) { [Array]::Clear($BlobPayloadV2Bytes,0,$BlobPayloadV2Bytes.Length) }
+'@
+$text = Replace-ExactOnce $text $oldClear $newClear 'MEMORY_CLEAR'
 
-$tailMarker = '# ============================================================================`r`n# SANITIZED OUTPUT ONLY`r`n# ============================================================================'
-$tailIndex = $text.IndexOf($tailMarker)
+$tailMarker = "# ============================================================================`n# SANITIZED OUTPUT ONLY`n# ============================================================================"
+$tailIndex = $text.IndexOf($tailMarker,[StringComparison]::Ordinal)
 if ($tailIndex -lt 0) { throw 'TRANSFORM_ANCHOR_OUTPUT_TAIL_NOT_FOUND' }
 $text = $text.Substring(0,$tailIndex) + @'
 # ============================================================================
@@ -444,7 +461,8 @@ $SanitizedReceipt = [ordered]@{
 }
 [IO.File]::WriteAllText($SanitizedReceiptFile,($SanitizedReceipt | ConvertTo-Json -Depth 10),[Text.UTF8Encoding]::new($false))
 $SanitizedReceiptSha256 = (Get-FileHash -LiteralPath $SanitizedReceiptFile -Algorithm SHA256).Hash
-$FinalState = $SanitizedReceipt.Clone()
+$FinalState = [ordered]@{}
+foreach ($Key in $SanitizedReceipt.Keys) { $FinalState[$Key] = $SanitizedReceipt[$Key] }
 $FinalState['sanitized_receipt_sha256'] = $SanitizedReceiptSha256
 [IO.File]::WriteAllText($FinalStateFile,($FinalState | ConvertTo-Json -Depth 10),[Text.UTF8Encoding]::new($false))
 $FinalStateSha256 = (Get-FileHash -LiteralPath $FinalStateFile -Algorithm SHA256).Hash
@@ -491,14 +509,16 @@ Write-Host '====================================================================
 '@
 
 New-Item -ItemType Directory -Force -Path $PrivateSourceRoot | Out-Null
-if (Test-Path -LiteralPath $WorkerPath) { throw 'T3_PRIVATE_WORKER_ALREADY_EXISTS_RECONCILE_BEFORE_REBUILD' }
-[IO.File]::WriteAllText($WorkerPath,$text,[Text.UTF8Encoding]::new($false))
+foreach ($p in @($WorkerPath,$StageWorkerPath,$FailedWorkerPath)) {
+    if (Test-Path -LiteralPath $p) { throw "T3_PRIVATE_WORKER_ARTIFACT_ALREADY_EXISTS=$p" }
+}
+[IO.File]::WriteAllText($StageWorkerPath,$text,[Text.UTF8Encoding]::new($false))
 
 $Tokens = $null
 $Errors = $null
-[Management.Automation.Language.Parser]::ParseFile($WorkerPath,[ref]$Tokens,[ref]$Errors) | Out-Null
-$WorkerSha = (Get-FileHash -LiteralPath $WorkerPath -Algorithm SHA256).Hash
-$WorkerText = [IO.File]::ReadAllText($WorkerPath)
+[Management.Automation.Language.Parser]::ParseFile($StageWorkerPath,[ref]$Tokens,[ref]$Errors) | Out-Null
+$WorkerSha = (Get-FileHash -LiteralPath $StageWorkerPath -Algorithm SHA256).Hash
+$WorkerText = [IO.File]::ReadAllText($StageWorkerPath)
 
 $Checks = [ordered]@{
     A1_SOURCE_SHA_MATCH = ($SourceSha -eq $ExpectedSourceSha)
@@ -520,15 +540,23 @@ $Checks = [ordered]@{
 }
 $FreezePass = (($Checks.Values | Where-Object { -not $_ }).Count -eq 0)
 
+if ($FreezePass) {
+    [IO.File]::Move($StageWorkerPath,$WorkerPath)
+} else {
+    [IO.File]::Move($StageWorkerPath,$FailedWorkerPath)
+}
+
+$BuilderSha = (Get-FileHash -LiteralPath $PSCommandPath -Algorithm SHA256).Hash
 Write-Host '======================================================================'
 Write-Host 'AFQW RESULT | FRD-DRIVE-AFQW-R4-T3 | PRIVATE WORKER BUILD + FREEZE'
 Write-Host '======================================================================'
 Write-Host 'TASK_ID=FRD-DRIVE-AFQW-R4-T3'
 Write-Host 'ATTEMPT_ID=FRD-DRIVE-AFQW-R4-T3-A0'
 Write-Host "BUILD_FREEZE_RESULT=$(if($FreezePass){'PASS'}else{'FAIL'})"
+Write-Host "BUILDER_SHA256=$BuilderSha"
 Write-Host "ENGINEERING_SOURCE_A1_SHA256=$SourceSha"
 Write-Host "ENGINEERING_REFERENCE_A2_SHA256=$ExpectedA2ReferenceSha"
-Write-Host "PRIVATE_WORKER_PATH=$WorkerPath"
+Write-Host "PRIVATE_WORKER_PATH=$(if($FreezePass){$WorkerPath}else{$FailedWorkerPath})"
 Write-Host "PRIVATE_WORKER_SHA256=$WorkerSha"
 Write-Host "PARSER_ERROR_COUNT=$($Errors.Count)"
 foreach ($Entry in $Checks.GetEnumerator()) { Write-Host "$($Entry.Key)=$($Entry.Value)" }
