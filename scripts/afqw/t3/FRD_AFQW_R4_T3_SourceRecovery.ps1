@@ -5,10 +5,13 @@ $Host.UI.RawUI.WindowTitle = 'FRD Ops Site — Governance | FRD Drive Automation
 
 $Targets = [ordered]@{
     'PDA-R4-A2' = 'A7283E4C775989D7F1AAD1FE90B1733796A78CE3D81335D84FAC038FF7D0B26C'
-    'PDA-R4-A1' = '12EEE3C68B9C80502BD48CA44B68C9618814D256E70452019188188E2D0B5C28'
+    'PDA-R4-A1' = '12EEE3C68B9C80502BD48CA44B68C96188188E2D0B5C28'
     'PDA-R4-A0' = 'A59D855C086C6E3FA71BE553F5618F3E765DEBCA06AB7ADAFC9738922772A790'
     'PDA-R3-A1' = '3CFAE9EA6B10F96270824431600F125778EEAFC154B02FEC61E5497D25DE9E79'
 }
+
+# Correct the A1 target in one place so an accidental typo cannot broaden matching.
+$Targets['PDA-R4-A1'] = '12EEE3C68B9C80502BD48CA44B68C9618814D256E70452019188188E2D0B5C28'
 
 $Roots = @(
     'C:\AI-Orchestrator\scripts',
@@ -51,6 +54,7 @@ foreach ($Root in $Roots) {
 Write-Host '======================================================================'
 Write-Host 'AFQW RESULT | FRD-DRIVE-AFQW-R4-T3 | SOURCE RECOVERY'
 Write-Host '======================================================================'
+Write-Host "SOURCE_RECOVERY_SCRIPT_SHA256=$((Get-FileHash -LiteralPath $PSCommandPath -Algorithm SHA256).Hash)"
 Write-Host "PS1_FILES_SCANNED=$Scanned"
 foreach ($Entry in $Targets.GetEnumerator()) {
     $Found = @($Matches | Where-Object Identity -eq $Entry.Key)
