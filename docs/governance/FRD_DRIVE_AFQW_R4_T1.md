@@ -49,6 +49,7 @@ Files:
 - `scripts/afqw/t1/FRD_AFQW_R4_T1_Freeze.ps1`.
 
 Stage/freeze wrapper creation point: `b7090219703dc85bf659d060b4424e3024d5e62b`.
+Stage/freeze wrapper SHA-256: `B23C001D6601537579D75629C36322EA53766456107F7A48C65896459ABF4BC8`.
 
 No main execution is authorized until the local freeze returns `AFQW_T1_FREEZE_RESULT=PASS`, parser error count `0` for every executable candidate, and surface scan `PASS`.
 
