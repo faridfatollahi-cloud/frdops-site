@@ -1,6 +1,6 @@
 # FRD Ops Site — USCP
 
-**Status:** CURRENT / CANONICAL REPOSITORY CHECKPOINT / AFQW v1.1 / R4-T0 PASS-CLOSED  
+**Status:** CURRENT / CANONICAL REPOSITORY CHECKPOINT / AFQW v1.1 / R4-T1 PASS-CLOSED / CORE QUALIFICATION NEXT  
 **Date:** 2026-09-28  
 **Repository:** `faridfatollahi-cloud/frdops-site`  
 **Domain:** `frdops.ir`
@@ -25,7 +25,7 @@ Public, project-neutral identity/compliance site for `frdops.ir` and the permane
 - **PDA-R2 — PASS / CLOSED**: Google Auth Platform is **In production**, audience **External**.
 - **PDA-R3 — PASS / CLOSED**: fresh post-Production offline authorization under `drive.file` only; DPAPI CurrentUser round-trip and unattended refresh proven. Accepted successful attempt: `PDA-R3-A1`, script SHA-256 `3CFAE9EA6B10F96270824431600F125778EEAFC154B02FEC61E5497D25DE9E79`.
 
-## PDA-R4 — CURRENT / AFQW PROVIDER-BEARING SUCCESSOR PREPARATION
+## PDA-R4 — CURRENT / AFQW CORE DRIVE-DOCS-CAS QUALIFICATION NEXT
 
 Purpose: qualify the permanent FRD Drive Automation foundation against the Drive/Docs/OAuth behavior required by DMB's already-passed Gates, using disposable app-created qualification objects and without entering DMB governance.
 
@@ -96,7 +96,7 @@ Non-secret governance evidence root (Drive-shared):
 Non-secret campaign workspace root (Drive-shared):
 - `C:\AI-Orchestrator\workspaces\FRD-Drive-Automation\Atria-Qualification\`
 
-Secret material, DPAPI ciphertext, decrypted values, or temporary plaintext must never be written under either Drive-shared root.
+Secret material, DPAPI ciphertext, decrypted values, raw private provider responses, or temporary plaintext must never be written under either Drive-shared root.
 
 ### Credential import A0 reconciliation
 
@@ -135,19 +135,16 @@ Follow-up transient-memory remediation:
 - `DRIVE_API_CALL_PERFORMED=False`;
 - `CREDENTIAL_FILE_CHANGED=False`.
 
-This closes the credential-import bootstrap prerequisite for AFQW.
+This closes the Atria credential-import bootstrap prerequisite for AFQW.
 
 ### Credential security contract
 
-- API key is entered only through a local secure prompt; it is never pasted into chat, Git, logs, task packets, receipts, command-line arguments, or synced storage;
-- retained form is Windows **DPAPI CurrentUser** ciphertext under the authoritative private WIOS root above;
-- private credential directory is ACL-restricted to the current user SID and SYSTEM;
-- import uses staging, validation, atomic promotion, and sanitized receipt/evidence;
-- plaintext credential file persistence is forbidden;
-- ordinary provider/runtime artifacts contain only credential identity/reference, never the key;
-- runtime decryption is transient and only for the authorized provider dispatch boundary;
-- only sanitized import/campaign evidence may be copied to `Governance Files` / `workspaces`;
-- sanitized evidence must affirm no plaintext-file, command-line, Git/Drive, or ordinary-log exposure.
+- API keys and OAuth secret/token values are never pasted into chat, Git, logs, task packets, receipts, command-line arguments, or synced storage;
+- retained secret form is Windows DPAPI CurrentUser ciphertext in its authorized private plane;
+- plaintext credential-file persistence is forbidden;
+- ordinary worker/task packets contain credential identities/references, never secret values;
+- runtime decryption is transient and only for the authorized dispatch boundary;
+- only sanitized campaign evidence may be copied to `Governance Files` / `workspaces`.
 
 ## Atria ForgeLoop Qualification Workflow — ADOPTED
 
@@ -205,7 +202,7 @@ Atria may not:
 - touch PDA-R4 A0/A1 residue without a dedicated cleanup/reconciliation task;
 - make a DMB governance decision;
 - authorize DMB Production promotion;
-- silently replay an uncertain semantic/provider attempt identity;
+- silently replay an uncertain semantic/provider identity;
 - declare the final permanent-foundation fitness result on behalf of Governance.
 
 Any acceptance-standard change, scope broadening, cross-project target need, unresolved ambiguity, exhausted frozen budget, evidence-integrity failure, or governance-sensitive decision must stop and return here.
@@ -227,20 +224,16 @@ Frozen script hashes:
 - Freeze `6D42E6649A4E2CE7F745CAB32F3E60D85AB570AD9CA39A9A6CE74DACA955996C`.
 
 Accepted execution evidence:
-- `LAUNCH_RESULT=PASS`, launch exit code `0`;
-- durable `STARTED.json`, `FINAL.json`, `EVENTS.jsonl`, and `EVIDENCE_MANIFEST.json` all present;
+- launch exit code `0`;
+- durable STARTED, FINAL, EVENTS and evidence manifest present;
 - final task state `PASS`;
 - TASK ACTIVE `532 ms`;
 - WORKER ACTIVE `0 ms`;
-- provider intent/call count `0`;
-- Drive API count `0`;
-- Docs API count `0`;
-- browser/OAuth count `0`;
+- provider/Drive/Docs/browser counts `0`;
 - credential decryption `False`;
 - credential file changed `False`;
 - A0/A1 residue touched `False`;
-- all T0 self-tests PASS;
-- terminal error `null`.
+- all T0 self-tests PASS.
 
 Durable hashes:
 - STARTED `12E952418FAE7B54663B8ADAF7BEA03100BA4334CABEDB8EA664D149812E6E00`;
@@ -248,9 +241,47 @@ Durable hashes:
 - EVENTS `E0031366696A0598A5D716E179D729F936F9A3F8CB6BD2E20EA54CC01E1BEA8D`;
 - EVIDENCE_MANIFEST `A13912DD25E227D8C3C960959C353B07CC43D2477ECD51FB89A93F983003F5C9`.
 
-The immediate post-spawn `START_MARKER_PRESENT_AFTER_LAUNCH=False` observation is classified as a benign child-process scheduling race because the bounded durable collection later observed both STARTED and terminal receipt surfaces. A0 is consumed and SHALL NOT be relaunched.
+A0 is consumed and SHALL NOT be relaunched.
 
-The frozen TaskTimer is accepted as observational: authoritative timing is stored in durable worker state, so watcher refresh/restart cannot reset task elapsed state; it only rehydrates from STARTED/FINAL.
+## AFQW R4-T1 — PASS / CLOSED / A0 CONSUMED
+
+Task:
+- task ID `FRD-DRIVE-AFQW-R4-T1`;
+- name **Atria Dispatch Seal**;
+- task file `docs/governance/FRD_DRIVE_AFQW_R4_T1.md`;
+- task-attempt `FRD-DRIVE-AFQW-R4-T1-A0`;
+- provider work-unit `FRD-DRIVE-AFQW-R4-T1-A0-ATRIA-W01`;
+- PASS-close commit `3d6634495f733e810dc5b444aead60fc61dc96ef`.
+
+Frozen delivered identities:
+- Worker `8AB8E345940214FFF5E6E88B592C40442A0AC3D6CB78CCF42F7C0C3178B964D5`;
+- TaskTimer `F66EBE3BF7B4C102F72A431D745834BA3243502538D2E56E9FA40A19EBDBFDBD`;
+- Launcher `589EDBCAE4D7CCF4121AAFF28699B9F82E60CF251E6594DCD090CF2D2D832974`;
+- Run wrapper `529DF8561D7E2B2A81036364882575CCAB164DDB2BAB885614C154FA5F529F56`.
+
+Accepted execution evidence:
+- `RESULT=PASS` with launch exit code `0`;
+- START and FINAL durable receipts present;
+- exact requested/observed model `Atria-Dawn-Preview`;
+- HTTP `200`;
+- TASK ACTIVE `8211 ms` / `00:00:08`;
+- WORKER ACTIVE `7934 ms` / `00:00:07`;
+- exactly `1` provider intent and `1` provider call;
+- Drive/Docs/browser-OAuth counts `0`;
+- Atria credential decryption occurred only at the authorized private dispatch boundary;
+- credential file unchanged;
+- PDA-R4 A0/A1 residue untouched;
+- raw provider response shared `False` and private persistence `True`;
+- terminal error empty.
+
+Durable evidence hashes:
+- response `D6F069C37567FF696953078F5BF0AB76066BEA2C56DCAB65DA9CDE323AD8CF36`;
+- output text `45ECF1F4A5737FCC7D98C2AF61EA764E7AFF1A394826122C933B2B023A7FED91`;
+- FINAL receipt `B8F8BBC0FACC1661EC1C135ED4BD8CDF06899BC0E49F3F8D8AF3C58617BC5AE6`;
+- shared provider intent `29A9AB086004FF26109FA08712FCB8FE6278418974E380410DB2AAE74B0AD169`;
+- shared provider result `539B961AD7B89E551ED0002877D7BD109622451A8C5A1C354A2A90A323BEA828`.
+
+Adjudication: the exact Atria dispatch boundary is qualified for subsequent AFQW work under frozen authority. T1 does not itself establish Google Drive foundation fitness. A0 and its provider work-unit are consumed/no-replay.
 
 ## Permanent-foundation acceptance target
 
@@ -279,13 +310,13 @@ It does **not** mean `DMB Gates A–E PASS`, does not adjudicate DMB, and does n
 ## Resume point
 
 Current state on 2026-09-28:
-1. wrong-root Atria credential retainment was reconciled and removed; `FRD-DRIVE-QUAL-ATRIA-CRED-IMPORT-A0` remains consumed/superseded;
-2. `FRD-DRIVE-QUAL-ATRIA-CRED-IMPORT-A1` is **PASS / ACCEPTED** at the authoritative private root;
-3. transient-memory remediation `FRD-DRIVE-QUAL-ATRIA-CRED-A1-MEMCLEAR-R0` is **PASS**, with zero provider calls, zero Drive API calls, and no credential-file change;
-4. **Atria ForgeLoop Qualification Workflow (AFQW) v1.1** is the formal worker workflow;
-5. `FRD-DRIVE-AFQW-R4-T0` is **PASS / CLOSED**, and `FRD-DRIVE-AFQW-R4-T0-A0` is consumed/no-replay;
-6. future AFQW operator interactions must use file-based wrapper/collector scripts for substantial operations so PS7 shows one invocation followed by a clean result envelope;
-7. next action is preparation of the first provider-bearing AFQW successor for PDA-R4 core Drive/Docs/CAS qualification, with a fresh task/attempt identity;
-8. that successor may use Atria and the permanent Google API only after its own parser/hash/freeze and explicit Governance authorization;
-9. PDA-R4 A0/A1 must not be rerun, their residue remains untouched, and preserved human-run A2 remains unexecuted unless explicitly reactivated;
-10. after later AFQW provider-bearing campaign completion, this lane adjudicates only `PERMANENT_DRIVE_FOUNDATION_FITNESS` and hands the evidence boundary to DMB Governance 3.
+1. Atria credential import A1 and transient-memory remediation are PASS/accepted at the authoritative private root;
+2. **Atria ForgeLoop Qualification Workflow (AFQW) v1.1** is the formal worker workflow;
+3. `FRD-DRIVE-AFQW-R4-T0` is PASS/CLOSED and A0 consumed/no-replay;
+4. `FRD-DRIVE-AFQW-R4-T1` **Atria Dispatch Seal** is PASS/CLOSED; exact `Atria-Dawn-Preview` dispatch, provider-intent fencing, private response persistence and timing contract are qualified; T1-A0/W01 are consumed/no-replay;
+5. future AFQW operator interactions continue to use file-based wrappers so PS7 presents a clean result envelope;
+6. next action is the actual PDA-R4 core Drive/Docs/CAS AFQW campaign using a fresh task/attempt identity and disposable qualification objects;
+7. before that campaign's Google mutations are authorized, the controller must bind the exact existing R3 Google DPAPI credential/decryption/refresh contract without exposing secret/token material; no browser/new OAuth grant is permitted;
+8. PDA-R4 A0/A1 must not be rerun, their residue remains untouched, and preserved human-run A2 remains unexecuted unless explicitly reactivated;
+9. after later AFQW provider-bearing campaign completion, this lane adjudicates only `PERMANENT_DRIVE_FOUNDATION_FITNESS` and hands the evidence boundary to DMB Governance 3;
+10. DMB-specific qualification, final DMB Gates A–E audit, and DMB Production decisions remain with DMB Governance 3.
