@@ -1,7 +1,7 @@
 # FRD Ops Site — USCP
 
-**Status:** CURRENT / CANONICAL REPOSITORY CHECKPOINT / SESSION CLOSED  
-**Date:** 2026-09-27  
+**Status:** CURRENT / CANONICAL REPOSITORY CHECKPOINT / ATRIA DELEGATION PREPARATION  
+**Date:** 2026-09-28  
 **Repository:** `faridfatollahi-cloud/frdops-site`  
 **Domain:** `frdops.ir`
 
@@ -9,8 +9,10 @@
 
 - Sole canonical governance lane: **`FRD Ops Site — Governance`**, designated by the repository owner.
 - Repository owner retains ultimate ownership authority.
-- DMB, WIOS, PMW, TPD, Codex, Work-mode, scheduled tasks, and other lanes have no independent governance authority over this repository.
-- External lanes may read/propose, or execute explicitly authorized bounded work only.
+- DMB, WIOS, PMW, TPD, Codex, Work-mode, scheduled tasks, Atria, and other lanes/workers have no independent governance authority over this repository or the FRD Drive Automation acceptance decision.
+- External lanes/workers may read/propose, or execute explicitly authorized bounded work only.
+- **This lane does not govern DMB.** DMB governance, DMB gate adjudication, DMB target/Control/migration decisions, final DMB cross-gate audit, and any DMB Production decision belong to **DMB Governance 3**.
+- DMB's already-passed Gates may be used here only as the acceptance specification for the Drive/Docs/OAuth capabilities the permanent foundation must demonstrate.
 
 ## Repository purpose
 
@@ -23,9 +25,9 @@ Public, project-neutral identity/compliance site for `frdops.ir` and the permane
 - **PDA-R2 — PASS / CLOSED**: Google Auth Platform is **In production**, audience **External**.
 - **PDA-R3 — PASS / CLOSED**: fresh post-Production offline authorization under `drive.file` only; DPAPI CurrentUser round-trip and unattended refresh proven. Accepted successful attempt: `PDA-R3-A1`, script SHA-256 `3CFAE9EA6B10F96270824431600F125778EEAFC154B02FEC61E5497D25DE9E79`.
 
-## PDA-R4 — CURRENT / SESSION PAUSED
+## PDA-R4 — CURRENT / ATRIA DELEGATION PREPARATION
 
-Purpose: qualify required Drive/Docs primitives using only disposable app-created qualification objects. This is not DMB Production promotion and must not target existing DMB/WIOS objects.
+Purpose: qualify the permanent FRD Drive Automation foundation against the Drive/Docs/OAuth behavior required by DMB's already-passed Gates, using disposable app-created qualification objects and without entering DMB governance.
 
 ### PDA-R4-A0 — CONSUMED / RUNTIME_FAILED / PARTIAL DISPOSABLE MUTATION
 
@@ -60,47 +62,76 @@ Observed state:
 
 A0/A1 residue is intentionally retained for later dedicated reconciliation/cleanup.
 
-### PDA-R4-A2 — PREPARED / NOT YET FROZEN
+### PDA-R4-A2 — PRESERVED / NOT EXECUTED / HUMAN-RUN PATH SUPERSEDED
 
-Candidate artifact:
+Prepared candidate artifact:
 - script `PDA_R4_CORE_DRIVE_DOCS_CAS_A2.ps1`;
 - candidate SHA-256 `A7283E4C775989D7F1AAD1FE90B1733796A78CE3D81335D84FAC038FF7D0B26C`.
 
-A2 requirements:
-- preserve the accepted R3 bindings and `drive.file` scope;
-- require consumed A0 and A1 start markers and absence of their final receipts;
-- leave all A0/A1 Drive residue untouched;
-- create a brand-new disposable A2 qualification namespace;
-- capture the stale-CAS HTTP status from the returned `Invoke-WebRequest` response object's `.StatusCode` while using `-SkipHttpErrorCheck`;
-- retain the full core acceptance matrix: folder create, native Doc create and exact parent binding, valid CAS write, stale-CAS HTTP 400 with no mutation, second valid CAS write, final readback, blob create/upload/download, exact parent binding, and byte-for-byte SHA-256 equality.
+The candidate remains preserved as engineering evidence but is no longer the preferred operator path. It must not be executed unless this governance lane explicitly reactivates it.
 
-A2 must receive a whole-file PowerShell parser gate and operator-side SHA-256 match before execution authority is granted.
+Reason: repetitive execution, evidence capture, deterministic continuation, and bounded engineering remediation are now delegated to Atria through the WIOS runtime pattern. Governance retains acceptance/adjudication.
 
-## DMB Gate A–E audit dependency
+## Atria delegated execution decision
 
-The **final/acceptance DMB Gate A–E cross-gate audit should wait** until this lane finishes the permanent Drive/OAuth qualification path needed by DMB.
+The remaining permanent-foundation qualification will use the **WIOS runtime pattern demonstrated in the WIOS multi-provider/Gemini qualification work**, with a dedicated Atria execution credential and a bounded qualification campaign.
 
-Reason:
-- R3 has proven durable Production-state OAuth and refresh under `drive.file`, but R4 operation qualification is still incomplete;
-- core Drive/Docs/CAS behavior has not yet reached a complete PASS;
-- revision/history, recovery/fail-closed, isolation/wrong-target checks, and DMB-specific target qualification remain outstanding after core R4;
-- therefore running the final DMB A–E acceptance audit now would evaluate DMB before its intended permanent transport/credential foundation and target behavior are fully qualified.
+### Credential identity
 
-Permitted parallel work:
-- a **read-only preliminary/pre-audit** may be run in the DMB lane if useful for identifying documentary or historical inconsistencies;
-- such a pre-audit must be explicitly labeled non-final/non-acceptance and must not close Gate acceptance, authorize Production promotion, or substitute for the later final A–E audit.
+- display/semantic identity: `FRD Drive Qualification — Atria Exec 01`;
+- machine credential identity: `FRD-DRIVE-QUAL-ATRIA-EXEC-01`;
+- campaign/attempt identities remain separate from the credential identity;
+- provider route remains exact Atria route unless governance explicitly changes it after evidence review.
 
-Final DMB audit order remains:
-1. complete FRD Drive Automation R4 qualification;
-2. complete DMB-specific target/Control/CAS/migration qualification against the accepted permanent foundation;
-3. then run the final DMB Gates A–E cross-gate audit;
-4. only after that may any separate Production-promotion decision be considered.
+### Credential security contract
+
+- API key is entered only through a local secure prompt; it is never pasted into chat, Git, logs, task packets, receipts, command-line arguments, or synced storage;
+- retained form is Windows **DPAPI CurrentUser** ciphertext under the private WIOS credential plane;
+- private credential directory is ACL-restricted to the current user SID and SYSTEM;
+- import uses staging, validation, atomic promotion, and sanitized receipt/evidence;
+- plaintext credential file persistence is forbidden;
+- ordinary provider/runtime artifacts contain only credential identity/reference, never the key;
+- runtime decryption is transient and only for the authorized provider dispatch boundary;
+- sanitized evidence must affirm no plaintext-file, command-line, Git/Drive, or ordinary-log exposure.
+
+### Atria authority boundary
+
+Atria may:
+- execute the frozen qualification campaign;
+- perform zero-provider/local preflight;
+- create/use only dedicated disposable qualification objects;
+- gather receipts/hashes/readbacks;
+- continue deterministic next steps;
+- perform bounded engineering remediation to the harness/test implementation when the acceptance contract itself is unchanged;
+- stop and return a complete evidence package to this governance lane.
+
+Atria may not:
+- change OAuth scope or Google Auth Platform configuration;
+- change acceptance semantics derived from the already-passed DMB Gates;
+- waive/override a failed requirement;
+- touch existing DMB/WIOS production or governance objects;
+- make a DMB governance decision;
+- authorize DMB Production promotion;
+- silently replay an uncertain semantic/provider attempt identity.
+
+Any acceptance-standard change, scope broadening, cross-project target need, unresolved ambiguity, or governance-sensitive decision must stop and return here.
+
+## Permanent-foundation acceptance target
+
+This lane's terminal decision is narrowly:
+
+`PERMANENT_DRIVE_FOUNDATION_FITNESS = PASS | FAIL | BLOCKED`
+
+PASS means the permanent Production OAuth/Drive/Docs foundation has demonstrated the operations and failure properties required by the already-passed DMB Gates using authorized qualification objects.
+
+It does **not** mean `DMB Gates A–E PASS`, does not adjudicate DMB, and does not authorize DMB Production. Those decisions belong exclusively to **DMB Governance 3**.
 
 ## Security invariants
 
 - No private authorization material or private Drive content in this repository.
 - No DMB/WIOS private runtime state in this repository.
-- Qualification mutations remain confined to disposable app-created objects until a later project-specific gate explicitly authorizes otherwise.
+- Qualification mutations remain confined to disposable app-created objects unless a later project-specific authority explicitly authorizes otherwise.
+- A0/A1 residue remains untouched until a dedicated cleanup/reconciliation action is separately authorized.
 
 ## Public routes
 
@@ -111,12 +142,11 @@ Final DMB audit order remains:
 
 ## Resume point
 
-Session closed on 2026-09-27 with **PDA-R4-A2 prepared but not parser/hash-frozen or executed**.
-
-When resuming:
-1. place/use `PDA_R4_CORE_DRIVE_DOCS_CAS_A2.ps1` from the prepared artifact;
-2. perform only the whole-file PowerShell parser gate and SHA-256 check;
-3. expected candidate SHA-256 is `A7283E4C775989D7F1AAD1FE90B1733796A78CE3D81335D84FAC038FF7D0B26C`;
-4. do not rerun A0/A1;
-5. do not manually touch A0/A1 Drive residue;
-6. do not execute A2 until its parser-clean exact hash is frozen and explicitly authorized.
+Current state on 2026-09-28:
+1. Atria execution credential has been created by the operator but has **not yet been recorded here as successfully DPAPI-imported**;
+2. next action is one-time secure local import of `FRD-DRIVE-QUAL-ATRIA-EXEC-01` into the WIOS private credential plane with DPAPI CurrentUser + ACL + sanitized receipt;
+3. then freeze the Atria Permanent Drive Qualification Campaign contract and runtime binding;
+4. run zero-provider/local preflight before any semantic/provider call;
+5. only after preflight PASS may the first campaign attempt be authorized;
+6. A0/A1 must not be rerun and A2 remains preserved/unexecuted unless explicitly reactivated;
+7. after campaign completion, this lane adjudicates only `PERMANENT_DRIVE_FOUNDATION_FITNESS` and hands the evidence boundary to DMB Governance 3.
