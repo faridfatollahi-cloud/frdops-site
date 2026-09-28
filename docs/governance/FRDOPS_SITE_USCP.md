@@ -1,6 +1,6 @@
 # FRD Ops Site — USCP
 
-**Status:** CURRENT / CANONICAL REPOSITORY CHECKPOINT / ATRIA CREDENTIAL RE-IMPORT  
+**Status:** CURRENT / CANONICAL REPOSITORY CHECKPOINT / AFQW ADOPTED / R4-T0 PREPARED  
 **Date:** 2026-09-28  
 **Repository:** `faridfatollahi-cloud/frdops-site`  
 **Domain:** `frdops.ir`
@@ -25,7 +25,7 @@ Public, project-neutral identity/compliance site for `frdops.ir` and the permane
 - **PDA-R2 — PASS / CLOSED**: Google Auth Platform is **In production**, audience **External**.
 - **PDA-R3 — PASS / CLOSED**: fresh post-Production offline authorization under `drive.file` only; DPAPI CurrentUser round-trip and unattended refresh proven. Accepted successful attempt: `PDA-R3-A1`, script SHA-256 `3CFAE9EA6B10F96270824431600F125778EEAFC154B02FEC61E5497D25DE9E79`.
 
-## PDA-R4 — CURRENT / ATRIA DELEGATION PREPARATION
+## PDA-R4 — CURRENT / AFQW HARNESS BOOTSTRAP
 
 Purpose: qualify the permanent FRD Drive Automation foundation against the Drive/Docs/OAuth behavior required by DMB's already-passed Gates, using disposable app-created qualification objects and without entering DMB governance.
 
@@ -70,18 +70,18 @@ Prepared candidate artifact:
 
 The candidate remains preserved as engineering evidence but is no longer the preferred operator path. It must not be executed unless this governance lane explicitly reactivates it.
 
-Reason: repetitive execution, evidence capture, deterministic continuation, and bounded engineering remediation are now delegated to Atria through the WIOS runtime pattern. Governance retains acceptance/adjudication.
+Reason: repetitive execution, evidence capture, deterministic continuation, and bounded engineering remediation are now delegated to Atria through the formal AFQW worker pattern. Governance retains acceptance/adjudication.
 
 ## Atria delegated execution decision
 
-The remaining permanent-foundation qualification will use the **WIOS runtime pattern demonstrated in the WIOS multi-provider/Gemini qualification work**, with a dedicated Atria execution credential and a bounded qualification campaign.
+The remaining permanent-foundation qualification uses the WIOS runtime pattern demonstrated in the WIOS Gemini/Antigravity qualification work, adapted locally as the formal **Atria ForgeLoop Qualification Workflow (AFQW)**.
 
 ### Credential identity
 
 - display/semantic identity: `FRD Drive Qualification — Atria Exec 01`;
 - machine credential identity: `FRD-DRIVE-QUAL-ATRIA-EXEC-01`;
 - campaign/attempt identities remain separate from the credential identity;
-- provider route remains exact Atria route unless governance explicitly changes it after evidence review.
+- provider/model route is exact `Atria-Dawn-Preview` unless governance explicitly changes it after evidence review.
 
 ### Credential location correction — authoritative
 
@@ -112,7 +112,30 @@ Subsequent exact-path reconciliation established:
 - `WRONG_ROOT_CREDENTIAL_RETAINED=False`;
 - provider calls `False` and Drive mutations `False` during cleanup.
 
-A0 is therefore **CONSUMED / SUPERSEDED / WRONG-ROOT RETAINMENT REMOVED**. It must not be reused. A fresh import uses attempt identity `FRD-DRIVE-QUAL-ATRIA-CRED-IMPORT-A1` at the authoritative private root.
+A0 is therefore **CONSUMED / SUPERSEDED / WRONG-ROOT RETAINMENT REMOVED**. It must not be reused.
+
+### Credential import A1 — PASS / ACCEPTED
+
+Fresh import attempt `FRD-DRIVE-QUAL-ATRIA-CRED-IMPORT-A1` at the authoritative private root is accepted as the retained Atria execution credential import.
+
+Accepted sanitized credential evidence includes:
+- DPAPI CurrentUser round-trip: `PASS`;
+- credential directory ACL: current user SID + SYSTEM only: `PASS`;
+- credential ciphertext SHA-256: `01C5306E6B1CCE4D2AEBA3E122E4EE3FA34D0B2CF2182EF6DCF4F9EA981B30F9`;
+- private receipt SHA-256: `A0984A38393A99EBC8758480A227C47B01C9AE6F5D30129ADB1C5074BD58E114`;
+- sanitized governance receipt SHA-256: `9547EF29F398AD300D0FFEC8958FD9BA6F65FAF4584F41856BDAF8562B91F645`.
+
+Follow-up transient-memory remediation:
+- attempt `FRD-DRIVE-QUAL-ATRIA-CRED-A1-MEMCLEAR-R0`;
+- `ATRIA_IMPORT_A1_TRANSIENT_MEMORY_REMEDIATION=PASS`;
+- `BSTR_ZERO_FREED=True`;
+- `TRANSIENT_ARRAYS_CLEARED=6`;
+- `SECURESTRING_REFERENCE_CLEARED=True`;
+- `PROVIDER_CALL_PERFORMED=False`;
+- `DRIVE_API_CALL_PERFORMED=False`;
+- `CREDENTIAL_FILE_CHANGED=False`.
+
+This closes the credential-import bootstrap prerequisite for the AFQW harness. Provider dispatch remains unauthorized until a later provider-bearing AFQW task is separately frozen and authorized.
 
 ### Credential security contract
 
@@ -126,23 +149,49 @@ A0 is therefore **CONSUMED / SUPERSEDED / WRONG-ROOT RETAINMENT REMOVED**. It mu
 - only sanitized import/campaign evidence may be copied to `Governance Files` / `workspaces`;
 - sanitized evidence must affirm no plaintext-file, command-line, Git/Drive, or ordinary-log exposure.
 
-### Operator-window identity
+## Atria ForgeLoop Qualification Workflow — ADOPTED
 
-PowerShell 7 operator windows used for this lane must set an explicit title beginning with:
+Canonical local workflow:
+- file: `docs/governance/ATRIA_FORGELOOP_QUALIFICATION_WORKFLOW.md`;
+- workflow ID: `AFQW`;
+- version: `1.0`;
+- creation commit: `9ff1ede783828710b30992943148843fa6dda27e`.
 
-`FRD Ops Site — Governance | FRD Drive Automation`
+WIOS provenance reviewed read-only before adoption:
+- authoritative Gemini/Antigravity USCP on `governance/runtime-fabric-live-qualification-draft`;
+- non-authoritative Gemini workspace commit `c421d38ac143a00f065422d8b60908c035a27aaf`;
+- operator interaction workflow and A2 context/findings contract from that workspace.
 
-so the operator can visually distinguish this lane from WIOS/DMB and other concurrent shells.
+AFQW formally adopts for this repository:
+- exact worker/provider/model/credential-reference binding;
+- deterministic local controller authority over execution, replay fencing, evidence, budgets and terminal state;
+- fresh/stateless Atria work units rehydrated from durable state;
+- no-replay / `UNKNOWN` handling after provider intent uncertainty;
+- bounded engineering remediation only inside an unchanged acceptance contract;
+- dedicated PowerShell 7 worker and task-timer windows with explicit titles;
+- whole-file parser gate + SHA-256 freeze + exact `pwsh -NoProfile -File` execution for consequential PowerShell;
+- contiguous `RUN IN / ACTION / PURPOSE / EFFECT-RISK / ATTEMPT STATUS / RETURN` operator block;
+- separate `TASK ACTIVE` and `WORKER ACTIVE` timing semantics;
+- durable findings/evidence before `COMPLETE`;
+- no silent context/evidence truncation;
+- Governance-only final acceptance adjudication.
 
-### Atria authority boundary
+Default Atria context guard inherited from the validated Gemini A2 pattern is recorded in AFQW: context ceiling `262144` tokens, input target `145000`, output reserve `50000`, request packet ceiling `120000` UTF-8 bytes, with STOP/repacketization rather than silent truncation.
 
-Atria may:
-- execute the frozen qualification campaign;
+### AFQW operator-window identity
+
+Default titles:
+- worker: `FRD Ops Site — Governance | FRD Drive Automation | Atria ForgeLoop Worker`;
+- timer: `FRD Ops Site — Governance | FRD Drive Automation | Atria ForgeLoop Task Timer`.
+
+### AFQW authority boundary
+
+Atria may, only inside a frozen task envelope:
 - perform zero-provider/local preflight;
-- create/use only dedicated disposable qualification objects;
+- create/use only dedicated disposable qualification objects when the task explicitly authorizes mutations;
 - gather receipts/hashes/readbacks;
 - continue deterministic next steps;
-- perform bounded engineering remediation to the harness/test implementation when the acceptance contract itself is unchanged;
+- perform bounded engineering remediation to its own harness/test implementation when the acceptance contract is unchanged;
 - stop and return a complete evidence package to this governance lane.
 
 Atria may not:
@@ -150,11 +199,25 @@ Atria may not:
 - change acceptance semantics derived from the already-passed DMB Gates;
 - waive/override a failed requirement;
 - touch existing DMB/WIOS production or governance objects;
+- touch PDA-R4 A0/A1 residue without a dedicated cleanup/reconciliation task;
 - make a DMB governance decision;
 - authorize DMB Production promotion;
-- silently replay an uncertain semantic/provider attempt identity.
+- silently replay an uncertain semantic/provider attempt identity;
+- declare the final permanent-foundation fitness result on behalf of Governance.
 
-Any acceptance-standard change, scope broadening, cross-project target need, unresolved ambiguity, or governance-sensitive decision must stop and return here.
+Any acceptance-standard change, scope broadening, cross-project target need, unresolved ambiguity, exhausted frozen budget, evidence-integrity failure, or governance-sensitive decision must stop and return here.
+
+## AFQW R4-T0 — PREPARED / NOT YET FROZEN / NOT AUTHORIZED
+
+Initial task packet:
+- task ID: `FRD-DRIVE-AFQW-R4-T0`;
+- file: `docs/governance/FRD_DRIVE_AFQW_R4_T0.md`;
+- creation commit: `d38f173a48dea821dde2f110066c6c74fb73d92b`;
+- purpose: build and validate the deterministic local AFQW controller/worker/timer harness before any provider-bearing qualification task.
+
+T0 has hard zero budgets for Atria/provider calls, Drive API calls, Docs API calls, browser/OAuth interactions, Drive mutations, credential-file changes, and A0/A1 residue changes. It must prove the task/timer/evidence/replay-fence machinery locally, with `WORKER_ACTIVE_ELAPSED_MS=0`.
+
+T0 existence does not authorize execution. Consequential T0 scripts must first be built, parser-gated, hash-frozen and reconciled into an explicit T0 execution authorization.
 
 ## Permanent-foundation acceptance target
 
@@ -183,12 +246,12 @@ It does **not** mean `DMB Gates A–E PASS`, does not adjudicate DMB, and does n
 ## Resume point
 
 Current state on 2026-09-28:
-1. wrong-root Atria credential retainment has been reconciled and removed;
-2. `FRD-DRIVE-QUAL-ATRIA-CRED-IMPORT-A0` is consumed/superseded and must not be reused;
-3. next action is fresh secure import `FRD-DRIVE-QUAL-ATRIA-CRED-IMPORT-A1` into `C:\AI-Orchestrator\Private\WIOS\FRD-Drive-Qualification\credentials\FRD-DRIVE-QUAL-ATRIA-EXEC-01\` using DPAPI CurrentUser + exact-directory ACL + atomic promotion;
-4. sanitized import evidence may be written under `C:\AI-Orchestrator\Governance Files\FRD-Drive-Automation\Atria-Qualification\`; secrets may not;
-5. after accepted A1 import, freeze the Atria Permanent Drive Qualification Campaign contract and runtime binding under the non-secret workspace root;
-6. run zero-provider/local preflight before any semantic/provider call;
-7. only after preflight PASS may the first campaign attempt be authorized;
-8. PDA-R4 A0/A1 must not be rerun and A2 remains preserved/unexecuted unless explicitly reactivated;
-9. after campaign completion, this lane adjudicates only `PERMANENT_DRIVE_FOUNDATION_FITNESS` and hands the evidence boundary to DMB Governance 3.
+1. wrong-root Atria credential retainment was reconciled and removed; `FRD-DRIVE-QUAL-ATRIA-CRED-IMPORT-A0` remains consumed/superseded;
+2. `FRD-DRIVE-QUAL-ATRIA-CRED-IMPORT-A1` is **PASS / ACCEPTED** at the authoritative private root;
+3. transient-memory remediation `FRD-DRIVE-QUAL-ATRIA-CRED-A1-MEMCLEAR-R0` is **PASS**, with zero provider calls, zero Drive API calls, and no credential-file change;
+4. **Atria ForgeLoop Qualification Workflow (AFQW) v1.0** is the formal worker workflow for the remaining delegated qualification engineering;
+5. task `FRD-DRIVE-AFQW-R4-T0` is **PREPARED / NOT YET FROZEN / NOT AUTHORIZED** and is the next execution path;
+6. next action is to build the T0 deterministic controller/worker/task-timer harness, run zero-provider static/self-test validation, and freeze exact script hashes before issuing the T0 launch block;
+7. no Atria provider call or Google Drive/Docs API call is authorized by T0 preparation;
+8. PDA-R4 A0/A1 must not be rerun, their residue remains untouched, and preserved human-run A2 remains unexecuted unless explicitly reactivated;
+9. after later AFQW provider-bearing campaign completion, this lane adjudicates only `PERMANENT_DRIVE_FOUNDATION_FITNESS` and hands the evidence boundary to DMB Governance 3.
