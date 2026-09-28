@@ -1,6 +1,6 @@
 # FRD Ops Site — USCP
 
-**Status:** CURRENT / CANONICAL REPOSITORY CHECKPOINT / AFQW ADOPTED / R4-T0 CANDIDATE PERSISTED  
+**Status:** CURRENT / CANONICAL REPOSITORY CHECKPOINT / AFQW ADOPTED / R4-T0 FROZEN-AUTHORIZED  
 **Date:** 2026-09-28  
 **Repository:** `faridfatollahi-cloud/frdops-site`  
 **Domain:** `frdops.ir`
@@ -207,26 +207,34 @@ Atria may not:
 
 Any acceptance-standard change, scope broadening, cross-project target need, unresolved ambiguity, exhausted frozen budget, evidence-integrity failure, or governance-sensitive decision must stop and return here.
 
-## AFQW R4-T0 — CANDIDATE IMPLEMENTATION PERSISTED / NOT YET FROZEN / NOT AUTHORIZED
+## AFQW R4-T0 — FROZEN / AUTHORIZED / MAIN NOT YET EXECUTED
 
-Initial task packet:
+Task packet:
 - task ID: `FRD-DRIVE-AFQW-R4-T0`;
-- main attempt candidate: `FRD-DRIVE-AFQW-R4-T0-A0`;
+- main attempt: `FRD-DRIVE-AFQW-R4-T0-A0`;
 - file: `docs/governance/FRD_DRIVE_AFQW_R4_T0.md`;
-- task candidate-binding commit: `78b83baa3502a3ea17168d1fc04ddd88b9c59a9d`;
+- task authorization commit: `6aaa4bffbb0badce74fe9318fabf9c2aa5100d69`;
 - purpose: build and validate the deterministic local AFQW controller/worker/timer harness before any provider-bearing qualification task.
 
 T0 has hard zero budgets for Atria/provider calls, Drive API calls, Docs API calls, browser/OAuth interactions, Drive mutations, credential-file changes, and A0/A1 residue changes. It must prove the task/timer/evidence/replay-fence machinery locally, with `WORKER_ACTIVE_ELAPSED_MS=0`.
 
-Candidate script source point: commit `d75a6803861aa1561682cf292e10fbd0a1304570`.
+Frozen script source point: commit `d75a6803861aa1561682cf292e10fbd0a1304570`.
 
-Candidate UTF-8/LF SHA-256 identities:
+Frozen UTF-8/LF SHA-256 identities:
 - Worker: `BD7C6B55A1C3B6C629D154D7AAD25D4A171CB905A6D0682EA5809B85ABFD2C16`;
 - TaskTimer: `3F2F8193A1FBCB8ABA5590A40F8C7ECCBE6C84DB65C740107A945303034D45EC`;
 - Launch: `9A70505AEFCB038F13FC1E3FC21524127E0D1A159D7DB354972783C7AC65C17C`;
 - Freeze: `6D42E6649A4E2CE7F745CAB32F3E60D85AB570AD9CA39A9A6CE74DACA955996C`.
 
-These hashes are candidate source identities only until the operator machine stages the exact commit-pinned bytes and returns local PowerShell parser/hash evidence. T0 main execution remains unauthorized. The Freeze script may be executed only after its own local parser/hash matches; if Freeze passes, return the result to Governance before running Launch.
+Accepted freeze result:
+- `AFQW_T0_FREEZE_RESULT=PASS`;
+- Worker/TaskTimer/Launch parser error counts `0`, exact hashes matched and network-surface scans `PASS`;
+- Freeze parser error count `0`;
+- provider/Drive/Docs calls `False`;
+- credential decryption `False`;
+- main execution `False`.
+
+The returned freeze section came from the previously issued conditional staging sequence, which executes Freeze only after the local delivered-file gate matches all four exact commit-pinned identities. Governance therefore freezes and authorizes one launch of `FRD-DRIVE-AFQW-R4-T0-A0` through the exact Launch script. Once the Worker writes its durable start marker, A0 is consumed and must not be replayed.
 
 ## Permanent-foundation acceptance target
 
@@ -259,9 +267,9 @@ Current state on 2026-09-28:
 2. `FRD-DRIVE-QUAL-ATRIA-CRED-IMPORT-A1` is **PASS / ACCEPTED** at the authoritative private root;
 3. transient-memory remediation `FRD-DRIVE-QUAL-ATRIA-CRED-A1-MEMCLEAR-R0` is **PASS**, with zero provider calls, zero Drive API calls, and no credential-file change;
 4. **Atria ForgeLoop Qualification Workflow (AFQW) v1.0** is the formal worker workflow for the remaining delegated qualification engineering;
-5. task `FRD-DRIVE-AFQW-R4-T0` has a GitHub-persisted candidate Worker/TaskTimer/Launch/Freeze implementation but is **NOT YET FROZEN / NOT AUTHORIZED**;
-6. next action is commit-pinned local staging of the four T0 scripts, local PowerShell 7 parser/hash verification, then conditional execution of the zero-provider T0 Freeze gate only if all delivered identities match;
-7. **do not run the T0 Launch/main attempt yet**; return the local gate/freeze result to this Governance lane for final `FRD-DRIVE-AFQW-R4-T0-A0` authorization;
-8. no Atria provider call or Google Drive/Docs API call is authorized by T0 staging/freeze;
+5. task `FRD-DRIVE-AFQW-R4-T0` and main attempt `FRD-DRIVE-AFQW-R4-T0-A0` are **FROZEN / AUTHORIZED / NOT YET EXECUTED** under task authorization commit `6aaa4bffbb0badce74fe9318fabf9c2aa5100d69`;
+6. next action is exactly one launch of the frozen T0 Launch script under PowerShell 7 `-NoProfile -File`, followed by read-only collection of the durable T0 final receipt/evidence;
+7. once `STARTED.json` exists, A0 is consumed regardless of terminal result and must not be relaunched;
+8. T0 still authorizes no Atria provider call, Google Drive/Docs API call, browser/OAuth interaction, credential decryption, credential-file change, or PDA-R4 A0/A1 residue change;
 9. PDA-R4 A0/A1 must not be rerun, their residue remains untouched, and preserved human-run A2 remains unexecuted unless explicitly reactivated;
 10. after later AFQW provider-bearing campaign completion, this lane adjudicates only `PERMANENT_DRIVE_FOUNDATION_FITNESS` and hands the evidence boundary to DMB Governance 3.
