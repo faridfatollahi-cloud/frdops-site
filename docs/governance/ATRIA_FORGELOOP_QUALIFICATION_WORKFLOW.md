@@ -1,7 +1,7 @@
 # Atria ForgeLoop Qualification Workflow (AFQW)
 
 **Workflow ID:** `AFQW`  
-**Version:** `1.0`  
+**Version:** `1.1`  
 **Status:** `ACTIVE / GOVERNANCE-ADOPTED`  
 **Repository:** `faridfatollahi-cloud/frdops-site`  
 **Canonical governance lane:** `FRD Ops Site — Governance`  
@@ -84,11 +84,13 @@ Every consequential AFQW PowerShell operation follows these rules:
 2. Set an explicit title where practical.
 3. Keep the canonical operator block contiguous with no blank lines: `RUN IN / ACTION / PURPOSE / EFFECT-RISK / ATTEMPT STATUS / RETURN`.
 4. Substantial or consequential PowerShell is saved as a `.ps1` file, whole-file parser-gated, SHA-256 frozen, then run through exact `pwsh -NoProfile -File` execution. Do not execute a consequential script before its freeze gate passes.
-5. Short bounded read-only diagnostics may be pasted directly when the task contract permits it.
-6. Input and result output are visibly separated inside the actual PowerShell window.
-7. Consequential scripts print a conspicuous terminal result envelope such as `AFQW RESULT | <task> | <phase>`.
-8. When a freeze gate and a conditionally authorized main command naturally belong together, Governance should provide both in one operator response; the main command remains conditional on explicit freeze PASS.
-9. After results are returned, Governance proceeds directly to the next determinable step unless a human decision, authorization, safety/governance gate, or genuinely blocking ambiguity remains.
+5. **Do not paste a substantial multi-line execution/collector block interactively into PS7.** If the operator would otherwise see many command prompts interleaved with result lines, persist the operation as a wrapper/collector `.ps1` and have the operator execute one command. This applies to read-only result collectors too when their interactive form would materially reduce result readability.
+6. Short bounded read-only diagnostics may be pasted directly only when they are genuinely short and their prompt echo will not obscure the requested result.
+7. Input and result output are visibly separated inside the actual PowerShell window. For consequential scripts, the operator should normally see one invocation line followed by the script's own output, not a transcript of dozens of pasted commands.
+8. Consequential scripts print a conspicuous terminal result envelope such as `AFQW RESULT | <task> | <phase>`. When practical, the final result envelope is emitted after all ordinary progress text so the return surface is visually contiguous.
+9. Result envelopes should be concise enough to copy as one block. Detailed evidence remains in durable receipts/manifests; the terminal result should surface identities, terminal state, timing, counters, important hashes, and the next-action/replay rule without dumping implementation chatter.
+10. When a freeze gate and a conditionally authorized main command naturally belong together, Governance should provide both in one operator response; the main command remains conditional on explicit freeze PASS.
+11. After results are returned, Governance proceeds directly to the next determinable step unless a human decision, authorization, safety/governance gate, or genuinely blocking ambiguity remains.
 
 Default titles for this application:
 
