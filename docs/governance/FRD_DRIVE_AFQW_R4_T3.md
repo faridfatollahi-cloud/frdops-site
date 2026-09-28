@@ -3,7 +3,7 @@
 **Task ID:** `FRD-DRIVE-AFQW-R4-T3`  
 **Task name:** `Core Drive/Docs/CAS Crucible`  
 **Workflow:** `AFQW v1.1`  
-**Status:** `DESIGN FROZEN / EXECUTABLE NOT YET FROZEN / EXTERNAL MUTATION AUTHORIZATION REQUIRED`  
+**Status:** `DESIGN FROZEN / OWNER DESIGN-GATE AUTHORIZATION RECEIVED / EXECUTABLE FREEZE NEXT`  
 **Canonical governance lane:** `FRD Ops Site — Governance`  
 **Recorded:** 2026-09-28
 
@@ -159,5 +159,13 @@ R4-T3 is the **core capability** stage only. PASS does not yet by itself establi
 
 A later AFQW resilience stage must still cover the remaining frozen matrix such as restart/recovery, ambiguous-outcome reconciliation, bounded idempotency, wrong-root/wrong-object rejection, credential-revocation/fail-closed behavior using a safe governed method, and Drive Desktop independence where applicable.
 
-## Human authorization gate
-R4-T3 is the first upcoming stage that will intentionally create and mutate new Google Drive/Docs objects. Therefore executable-script freeze may be prepared without external mutation, but **main R4-T3 execution requires explicit owner authorization after the exact executable hashes and mutation/API budgets are frozen**.
+## Owner authorization state
+The repository owner explicitly authorized the R4-T3 disposable Google Drive/Docs mutation campaign in the canonical governance lane on 2026-09-28.
+
+That authorization covers only the frozen design envelope above: one fresh disposable namespace, no pre-existing-object mutation, no cleanup, no scope broadening, no browser OAuth, and no DMB/WIOS/PDA-R4 A0/A1 object access.
+
+The frozen gate remains two-stage by design:
+1. **design-level owner authorization — RECEIVED**;
+2. **exact executable/hash/API-budget authorization — still required after the executable freeze result is known**.
+
+Therefore the next permitted action is executable preparation plus zero-provider/local parser/hash/budget freeze. Main R4-T3 execution remains forbidden until the exact delivered executable identities and finite budgets are frozen and the owner explicitly authorizes that exact package.
