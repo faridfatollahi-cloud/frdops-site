@@ -1,6 +1,6 @@
 # FRD Ops Site — USCP
 
-**Status:** CURRENT / CANONICAL REPOSITORY CHECKPOINT / AFQW ADOPTED / R4-T0 FROZEN-AUTHORIZED  
+**Status:** CURRENT / CANONICAL REPOSITORY CHECKPOINT / AFQW v1.1 / R4-T0 PASS-CLOSED  
 **Date:** 2026-09-28  
 **Repository:** `faridfatollahi-cloud/frdops-site`  
 **Domain:** `frdops.ir`
@@ -25,7 +25,7 @@ Public, project-neutral identity/compliance site for `frdops.ir` and the permane
 - **PDA-R2 — PASS / CLOSED**: Google Auth Platform is **In production**, audience **External**.
 - **PDA-R3 — PASS / CLOSED**: fresh post-Production offline authorization under `drive.file` only; DPAPI CurrentUser round-trip and unattended refresh proven. Accepted successful attempt: `PDA-R3-A1`, script SHA-256 `3CFAE9EA6B10F96270824431600F125778EEAFC154B02FEC61E5497D25DE9E79`.
 
-## PDA-R4 — CURRENT / AFQW HARNESS BOOTSTRAP
+## PDA-R4 — CURRENT / AFQW PROVIDER-BEARING SUCCESSOR PREPARATION
 
 Purpose: qualify the permanent FRD Drive Automation foundation against the Drive/Docs/OAuth behavior required by DMB's already-passed Gates, using disposable app-created qualification objects and without entering DMB governance.
 
@@ -70,7 +70,7 @@ Prepared candidate artifact:
 
 The candidate remains preserved as engineering evidence but is no longer the preferred operator path. It must not be executed unless this governance lane explicitly reactivates it.
 
-Reason: repetitive execution, evidence capture, deterministic continuation, and bounded engineering remediation are now delegated to Atria through the formal AFQW worker pattern. Governance retains acceptance/adjudication.
+Reason: repetitive execution, evidence capture, deterministic continuation, and bounded engineering remediation are delegated to Atria through the formal AFQW worker pattern. Governance retains acceptance/adjudication.
 
 ## Atria delegated execution decision
 
@@ -135,7 +135,7 @@ Follow-up transient-memory remediation:
 - `DRIVE_API_CALL_PERFORMED=False`;
 - `CREDENTIAL_FILE_CHANGED=False`.
 
-This closes the credential-import bootstrap prerequisite for the AFQW harness. Provider dispatch remains unauthorized until a later provider-bearing AFQW task is separately frozen and authorized.
+This closes the credential-import bootstrap prerequisite for AFQW.
 
 ### Credential security contract
 
@@ -154,8 +154,9 @@ This closes the credential-import bootstrap prerequisite for the AFQW harness. P
 Canonical local workflow:
 - file: `docs/governance/ATRIA_FORGELOOP_QUALIFICATION_WORKFLOW.md`;
 - workflow ID: `AFQW`;
-- version: `1.0`;
-- creation commit: `9ff1ede783828710b30992943148843fa6dda27e`.
+- current version: `1.1`;
+- original creation commit: `9ff1ede783828710b30992943148843fa6dda27e`;
+- v1.1 operator-UX tightening commit: `54490322f0083fcd2fc17dd5e504adc088989681`.
 
 WIOS provenance reviewed read-only before adoption:
 - authoritative Gemini/Antigravity USCP on `governance/runtime-fabric-live-qualification-draft`;
@@ -176,7 +177,9 @@ AFQW formally adopts for this repository:
 - no silent context/evidence truncation;
 - Governance-only final acceptance adjudication.
 
-Default Atria context guard inherited from the validated Gemini A2 pattern is recorded in AFQW: context ceiling `262144` tokens, input target `145000`, output reserve `50000`, request packet ceiling `120000` UTF-8 bytes, with STOP/repacketization rather than silent truncation.
+AFQW v1.1 additionally requires substantial execution/result-collector logic to be persisted as a `.ps1` wrapper and invoked with one command when interactive prompt echo would obscure the result. Future phases must return a compact contiguous result envelope instead of a long command/result transcript.
+
+Default Atria context guard inherited from the validated Gemini A2 pattern remains: context ceiling `262144` tokens, input target `145000`, output reserve `50000`, request packet ceiling `120000` UTF-8 bytes, with STOP/repacketization rather than silent truncation.
 
 ### AFQW operator-window identity
 
@@ -207,34 +210,47 @@ Atria may not:
 
 Any acceptance-standard change, scope broadening, cross-project target need, unresolved ambiguity, exhausted frozen budget, evidence-integrity failure, or governance-sensitive decision must stop and return here.
 
-## AFQW R4-T0 — FROZEN / AUTHORIZED / MAIN NOT YET EXECUTED
+## AFQW R4-T0 — PASS / CLOSED / A0 CONSUMED
 
 Task packet:
 - task ID: `FRD-DRIVE-AFQW-R4-T0`;
 - main attempt: `FRD-DRIVE-AFQW-R4-T0-A0`;
-- file: `docs/governance/FRD_DRIVE_AFQW_R4_T0.md`;
-- task authorization commit: `6aaa4bffbb0badce74fe9318fabf9c2aa5100d69`;
-- purpose: build and validate the deterministic local AFQW controller/worker/timer harness before any provider-bearing qualification task.
+- task file: `docs/governance/FRD_DRIVE_AFQW_R4_T0.md`;
+- frozen script source point: `d75a6803861aa1561682cf292e10fbd0a1304570`;
+- authorization commit: `6aaa4bffbb0badce74fe9318fabf9c2aa5100d69`;
+- PASS-close task commit: `38b6890406311bd3490bcfe99e70c8ada91c0c2d`.
 
-T0 has hard zero budgets for Atria/provider calls, Drive API calls, Docs API calls, browser/OAuth interactions, Drive mutations, credential-file changes, and A0/A1 residue changes. It must prove the task/timer/evidence/replay-fence machinery locally, with `WORKER_ACTIVE_ELAPSED_MS=0`.
+Frozen script hashes:
+- Worker `BD7C6B55A1C3B6C629D154D7AAD25D4A171CB905A6D0682EA5809B85ABFD2C16`;
+- TaskTimer `3F2F8193A1FBCB8ABA5590A40F8C7ECCBE6C84DB65C740107A945303034D45EC`;
+- Launch `9A70505AEFCB038F13FC1E3FC21524127E0D1A159D7DB354972783C7AC65C17C`;
+- Freeze `6D42E6649A4E2CE7F745CAB32F3E60D85AB570AD9CA39A9A6CE74DACA955996C`.
 
-Frozen script source point: commit `d75a6803861aa1561682cf292e10fbd0a1304570`.
-
-Frozen UTF-8/LF SHA-256 identities:
-- Worker: `BD7C6B55A1C3B6C629D154D7AAD25D4A171CB905A6D0682EA5809B85ABFD2C16`;
-- TaskTimer: `3F2F8193A1FBCB8ABA5590A40F8C7ECCBE6C84DB65C740107A945303034D45EC`;
-- Launch: `9A70505AEFCB038F13FC1E3FC21524127E0D1A159D7DB354972783C7AC65C17C`;
-- Freeze: `6D42E6649A4E2CE7F745CAB32F3E60D85AB570AD9CA39A9A6CE74DACA955996C`.
-
-Accepted freeze result:
-- `AFQW_T0_FREEZE_RESULT=PASS`;
-- Worker/TaskTimer/Launch parser error counts `0`, exact hashes matched and network-surface scans `PASS`;
-- Freeze parser error count `0`;
-- provider/Drive/Docs calls `False`;
+Accepted execution evidence:
+- `LAUNCH_RESULT=PASS`, launch exit code `0`;
+- durable `STARTED.json`, `FINAL.json`, `EVENTS.jsonl`, and `EVIDENCE_MANIFEST.json` all present;
+- final task state `PASS`;
+- TASK ACTIVE `532 ms`;
+- WORKER ACTIVE `0 ms`;
+- provider intent/call count `0`;
+- Drive API count `0`;
+- Docs API count `0`;
+- browser/OAuth count `0`;
 - credential decryption `False`;
-- main execution `False`.
+- credential file changed `False`;
+- A0/A1 residue touched `False`;
+- all T0 self-tests PASS;
+- terminal error `null`.
 
-The returned freeze section came from the previously issued conditional staging sequence, which executes Freeze only after the local delivered-file gate matches all four exact commit-pinned identities. Governance therefore freezes and authorizes one launch of `FRD-DRIVE-AFQW-R4-T0-A0` through the exact Launch script. Once the Worker writes its durable start marker, A0 is consumed and must not be replayed.
+Durable hashes:
+- STARTED `12E952418FAE7B54663B8ADAF7BEA03100BA4334CABEDB8EA664D149812E6E00`;
+- FINAL `F510E3E07DB9897FE483F1F094C9E429D65264F58E8E9EB26415B89145EC4433`;
+- EVENTS `E0031366696A0598A5D716E179D729F936F9A3F8CB6BD2E20EA54CC01E1BEA8D`;
+- EVIDENCE_MANIFEST `A13912DD25E227D8C3C960959C353B07CC43D2477ECD51FB89A93F983003F5C9`.
+
+The immediate post-spawn `START_MARKER_PRESENT_AFTER_LAUNCH=False` observation is classified as a benign child-process scheduling race because the bounded durable collection later observed both STARTED and terminal receipt surfaces. A0 is consumed and SHALL NOT be relaunched.
+
+The frozen TaskTimer is accepted as observational: authoritative timing is stored in durable worker state, so watcher refresh/restart cannot reset task elapsed state; it only rehydrates from STARTED/FINAL.
 
 ## Permanent-foundation acceptance target
 
@@ -266,10 +282,10 @@ Current state on 2026-09-28:
 1. wrong-root Atria credential retainment was reconciled and removed; `FRD-DRIVE-QUAL-ATRIA-CRED-IMPORT-A0` remains consumed/superseded;
 2. `FRD-DRIVE-QUAL-ATRIA-CRED-IMPORT-A1` is **PASS / ACCEPTED** at the authoritative private root;
 3. transient-memory remediation `FRD-DRIVE-QUAL-ATRIA-CRED-A1-MEMCLEAR-R0` is **PASS**, with zero provider calls, zero Drive API calls, and no credential-file change;
-4. **Atria ForgeLoop Qualification Workflow (AFQW) v1.0** is the formal worker workflow for the remaining delegated qualification engineering;
-5. task `FRD-DRIVE-AFQW-R4-T0` and main attempt `FRD-DRIVE-AFQW-R4-T0-A0` are **FROZEN / AUTHORIZED / NOT YET EXECUTED** under task authorization commit `6aaa4bffbb0badce74fe9318fabf9c2aa5100d69`;
-6. next action is exactly one launch of the frozen T0 Launch script under PowerShell 7 `-NoProfile -File`, followed by read-only collection of the durable T0 final receipt/evidence;
-7. once `STARTED.json` exists, A0 is consumed regardless of terminal result and must not be relaunched;
-8. T0 still authorizes no Atria provider call, Google Drive/Docs API call, browser/OAuth interaction, credential decryption, credential-file change, or PDA-R4 A0/A1 residue change;
+4. **Atria ForgeLoop Qualification Workflow (AFQW) v1.1** is the formal worker workflow;
+5. `FRD-DRIVE-AFQW-R4-T0` is **PASS / CLOSED**, and `FRD-DRIVE-AFQW-R4-T0-A0` is consumed/no-replay;
+6. future AFQW operator interactions must use file-based wrapper/collector scripts for substantial operations so PS7 shows one invocation followed by a clean result envelope;
+7. next action is preparation of the first provider-bearing AFQW successor for PDA-R4 core Drive/Docs/CAS qualification, with a fresh task/attempt identity;
+8. that successor may use Atria and the permanent Google API only after its own parser/hash/freeze and explicit Governance authorization;
 9. PDA-R4 A0/A1 must not be rerun, their residue remains untouched, and preserved human-run A2 remains unexecuted unless explicitly reactivated;
 10. after later AFQW provider-bearing campaign completion, this lane adjudicates only `PERMANENT_DRIVE_FOUNDATION_FITNESS` and hands the evidence boundary to DMB Governance 3.
