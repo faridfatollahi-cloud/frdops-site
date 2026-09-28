@@ -1,8 +1,8 @@
 # FRD Drive AFQW R4-T0 — Harness Bootstrap & Zero-Provider Qualification
 
 **Task ID:** `FRD-DRIVE-AFQW-R4-T0`  
-**Workflow:** `Atria ForgeLoop Qualification Workflow (AFQW) v1.0`  
-**State:** `FROZEN / AUTHORIZED / MAIN NOT YET EXECUTED`  
+**Workflow:** `Atria ForgeLoop Qualification Workflow (AFQW) v1.1`  
+**State:** `PASS / CLOSED / A0 CONSUMED`  
 **Recorded:** 2026-09-28  
 **Canonical governance lane:** `FRD Ops Site — Governance`
 
@@ -18,7 +18,7 @@ The workflow controls whenever this task packet is silent. Any conflict returns 
 
 ## Frozen execution identities
 
-The following identities are frozen for the authorized T0 execution:
+The following identities were frozen for T0:
 
 - task: `FRD-DRIVE-AFQW-R4-T0`;
 - main attempt: `FRD-DRIVE-AFQW-R4-T0-A0`;
@@ -28,7 +28,7 @@ The following identities are frozen for the authorized T0 execution:
 - worker PowerShell title: `FRD Ops Site — Governance | FRD Drive Automation | Atria ForgeLoop Worker`;
 - timer PowerShell title: `FRD Ops Site — Governance | FRD Drive Automation | Atria ForgeLoop Task Timer`.
 
-The provider/model and credential identities are metadata bindings only in T0. T0 has no provider-dispatch or credential-decryption authority.
+The provider/model and credential identities were metadata bindings only in T0. T0 had no provider-dispatch or credential-decryption authority.
 
 ## Credential precondition already established
 
@@ -43,7 +43,7 @@ The accepted Atria credential import is followed by a dedicated transient-memory
 - `DRIVE_API_CALL_PERFORMED=False`;
 - `CREDENTIAL_FILE_CHANGED=False`.
 
-T0 must validate only the credential **reference/path contract and non-secret metadata needed for dispatch**. It must not decrypt the provider key and must not perform a provider call.
+T0 validated only the credential reference/path contract and did not decrypt the provider key.
 
 ## Authoritative roots
 
@@ -59,9 +59,9 @@ Sanitized campaign workspace/runtime plane:
 
 `C:\AI-Orchestrator\workspaces\FRD-Drive-Automation\Atria-Qualification\`
 
-T0 may create only non-secret AFQW task state/evidence under the approved shared roots. It may read only the minimum non-secret private metadata required to prove that the frozen credential identity is addressable without decrypting it.
-
 ## T0 provider and mutation budgets
+
+The following frozen budgets were all respected:
 
 - Atria/provider semantic calls: **0**;
 - Google Drive API calls: **0**;
@@ -70,21 +70,6 @@ T0 may create only non-secret AFQW task state/evidence under the approved shared
 - Drive object mutations: **0**;
 - changes to PDA-R4 A0/A1 residue: **0**;
 - changes to the credential file: **0**.
-
-Any such event is an immediate T0 failure and STOP.
-
-## Required local harness surfaces
-
-The implementation must produce a bounded local harness containing, at minimum:
-
-1. **controller/worker launcher** — creates/validates task runtime state, opens the dedicated worker PS7 window, enforces exact identity, and refuses provider dispatch in T0;
-2. **worker shell** — loads the frozen task packet/runtime binding, validates allowed roots, emits deterministic phase/state evidence, and never decrypts the credential in T0;
-3. **task timer/watcher** — separate PS7 process/window that reads durable task state, presents TASK ACTIVE and WORKER ACTIVE separately, and has no authority to mutate qualification objects or provider state;
-4. **state/replay fence** — immutable task/attempt identity handling with terminal/UNKNOWN protection;
-5. **timing ledger** — TASK ACTIVE full task duration plus WORKER ACTIVE intervals; T0 must prove WORKER ACTIVE stays exactly zero because no provider lifecycle begins;
-6. **sanitized evidence writer** — atomic/durable task receipt and evidence manifest under the approved shared root;
-7. **terminal result envelope** — conspicuous `AFQW RESULT | FRD-DRIVE-AFQW-R4-T0 | <phase>` output;
-8. **zero-provider self-tests** — deterministic tests for success, blocked/invalid-root rejection, duplicate/consumed task rejection, timer parsing, terminal receipt integrity, and no-secret output scanning.
 
 ## Frozen implementation and accepted freeze evidence
 
@@ -99,100 +84,107 @@ Frozen UTF-8/LF SHA-256 identities:
 - `scripts/afqw/t0/FRD_AFQW_R4_T0_Launch.ps1` — `9A70505AEFCB038F13FC1E3FC21524127E0D1A159D7DB354972783C7AC65C17C`;
 - `scripts/afqw/t0/FRD_AFQW_R4_T0_Freeze.ps1` — `6D42E6649A4E2CE7F745CAB32F3E60D85AB570AD9CA39A9A6CE74DACA955996C`.
 
-Operator-returned freeze evidence on 2026-09-28:
+Accepted freeze evidence:
+
+- `AFQW_T0_FREEZE_RESULT=PASS`;
+- Worker/TaskTimer/Launch parser error counts `0`;
+- exact frozen hashes matched;
+- network-surface scans `PASS`;
+- Freeze parser error count `0`;
+- provider/Drive/Docs calls `False`;
+- credential decryption `False`;
+- main execution `False` at freeze time.
+
+## Main execution result — PASS
+
+The frozen launcher was executed once. Launcher evidence:
 
 - `ATTEMPT_ID=FRD-DRIVE-AFQW-R4-T0-A0`;
-- `AFQW_T0_FREEZE_RESULT=PASS`;
-- Worker parser errors `0`, exact frozen SHA matched, network-surface scan `PASS`;
-- TaskTimer parser errors `0`, exact frozen SHA matched, network-surface scan `PASS`;
-- Launch parser errors `0`, exact frozen SHA matched, network-surface scan `PASS`;
-- Freeze script parser errors `0`;
-- `PROVIDER_CALL_PERFORMED=False`;
-- `DRIVE_API_CALL_PERFORMED=False`;
-- `DOCS_API_CALL_PERFORMED=False`;
-- `CREDENTIAL_DECRYPTION_PERFORMED=False`;
-- `MAIN_EXECUTION_PERFORMED=False`.
+- `LAUNCH_RESULT=PASS`;
+- launcher exit code `0`;
+- timer process ID `1528`;
+- worker process ID `23448`;
+- provider/Drive/Docs calls all `False` at launcher stage.
 
-The freeze result was returned from the previously issued conditional staging sequence, which invokes the Freeze script only after the local parser/hash gate has matched all four commit-pinned files, including the Freeze script itself. Governance therefore accepts the four delivered-file identities above as the frozen local execution set.
+The immediate post-spawn check observed `START_MARKER_PRESENT_AFTER_LAUNCH=False`; this was a child-process scheduling race, not a terminal ambiguity. The bounded durable-result collection subsequently observed `STARTED.json`, `FINAL.json`, `EVENTS.jsonl`, and `EVIDENCE_MANIFEST.json` all present. A0 is therefore consumed and must not be relaunched.
 
-## Execution authorization — `FRD-DRIVE-AFQW-R4-T0-A0`
+Accepted durable terminal evidence:
 
-Governance authorizes exactly one launch of the frozen T0 main attempt using:
+- task ID `FRD-DRIVE-AFQW-R4-T0`;
+- attempt ID `FRD-DRIVE-AFQW-R4-T0-A0`;
+- result `PASS`;
+- worker ID `FRD-DRIVE-QUAL-ATRIA-WORKER`;
+- provider-model metadata `Atria-Dawn-Preview`;
+- credential reference `FRD-DRIVE-QUAL-ATRIA-EXEC-01`;
+- TASK ACTIVE start `2026-09-28T18:12:39Z` as returned by the operator's local parsed receipt presentation;
+- TASK ACTIVE end `2026-09-28T18:12:39Z` as returned by the operator's local parsed receipt presentation;
+- TASK ACTIVE elapsed `532 ms` / displayed `00:00:00` under whole-second display formatting;
+- WORKER ACTIVE elapsed `0 ms` / `00:00:00`;
+- provider intent count `0`;
+- provider call count `0`;
+- Drive API call count `0`;
+- Docs API call count `0`;
+- browser/OAuth interaction count `0`;
+- credential decryption `False`;
+- credential file changed `False`;
+- PDA-R4 A0/A1 residue touched `False`;
+- terminal error `null`.
 
-`C:\AI-Orchestrator\scripts\FRD-Drive-Automation\AFQW\T0\FRD_AFQW_R4_T0_Launch.ps1`
+Self-tests all returned PASS:
 
-under PowerShell 7 with `-NoProfile -File`.
+- root escape rejection;
+- replay fence;
+- timer arithmetic;
+- atomic JSON write/readback;
+- credential-reference-only boundary;
+- zero-provider budget;
+- zero Drive/Docs budget;
+- worker-active-zero invariant.
 
-Authorization constraints:
+Durable evidence identities:
 
-- launch only the exact frozen Launch identity above;
-- Worker and TaskTimer must remain the exact frozen sibling files above;
-- no script modification is authorized between freeze and launch;
-- no provider, Drive API, Docs API, OAuth/browser, credential-decryption, credential-file mutation, or A0/A1-residue operation is authorized;
-- once the Worker durably writes `STARTED.json`, attempt `FRD-DRIVE-AFQW-R4-T0-A0` is consumed regardless of terminal result;
-- do not relaunch A0 after a start marker or final receipt exists;
-- terminal console output is informative; the durable `STARTED.json`, `FINAL.json`, `EVENTS.jsonl`, and `EVIDENCE_MANIFEST.json` surfaces control adjudication;
-- any failure or ambiguity after the durable start marker requires reconciliation and a fresh successor identity rather than replay.
+- `STARTED.json` SHA-256 `12E952418FAE7B54663B8ADAF7BEA03100BA4334CABEDB8EA664D149812E6E00`;
+- `FINAL.json` SHA-256 `F510E3E07DB9897FE483F1F094C9E429D65264F58E8E9EB26415B89145EC4433`;
+- `EVENTS.jsonl` SHA-256 `E0031366696A0598A5D716E179D729F936F9A3F8CB6BD2E20EA54CC01E1BEA8D`;
+- `EVIDENCE_MANIFEST.json` SHA-256 `A13912DD25E227D8C3C960959C353B07CC43D2477ECD51FB89A93F983003F5C9`.
 
-## PowerShell freeze requirements
+## Timer/watch acceptance
 
-Before any T0 main execution:
+T0's timer criterion is accepted from the frozen implementation plus durable task evidence:
 
-- all consequential `.ps1` files must pass the PowerShell parser with zero errors;
-- exact SHA-256 identities must be recorded;
-- the dedicated T0 freeze/preflight script must verify the expected files and hashes;
-- freeze/preflight must itself be parser-gated and SHA-256 frozen;
-- execution must use PowerShell 7 `-NoProfile -File`;
-- no T0 artifact may contain an API key, OAuth refresh/access token, DPAPI plaintext, or raw private provider response.
+- authoritative elapsed state lives in the Worker-owned durable `STARTED.json`/`FINAL.json`, not in timer process memory;
+- the frozen TaskTimer is observational, reads those durable surfaces, performs no task/controller/provider mutation, and exits after observing terminal state;
+- a timer refresh/restart therefore cannot reset authoritative task elapsed state; it rehydrates from the same durable start/final surfaces;
+- `WORKER_ACTIVE_ELAPSED_MS=0` is durably recorded for T0 and no provider-intent event exists.
 
-These requirements are now satisfied for the frozen A0 set above. The canonical six-field operator block remains mandatory for launch.
+Terminal presentation is non-authoritative; durable receipts and hashes above control.
 
-## T0 timer acceptance
+## Operator UX finding incorporated into AFQW v1.1
 
-T0 must demonstrate, from durable receipts rather than terminal appearance alone:
+The operator reported that the interactive result collection was visually messy because a substantial multi-line block was pasted directly into PS7, causing command prompts and result lines to interleave.
 
-- `TASK_ACTIVE_START_UTC` and `TASK_ACTIVE_END_UTC` exist and are ordered;
-- monotonic task elapsed milliseconds are non-negative and agree with the displayed `HH:MM:SS` representation within the implementation's declared rounding rule;
-- `WORKER_ACTIVE_ELAPSED_MS=0`;
-- no provider-intent event exists;
-- timer/watcher restart or refresh does not reset authoritative elapsed state;
-- timer presentation cannot mutate task/controller state.
+This does not affect T0 evidence integrity, but it exposed an operator-ergonomics defect in how Governance delivered the collection step. AFQW v1.1 now requires substantial execution/collector logic to be persisted as a `.ps1` wrapper and invoked with one command whenever interactive prompt echo would obscure the result. Future AFQW phases must return a compact contiguous result envelope rather than a long command/result transcript.
 
-A visible HUD is optional presentation. Receipt correctness is mandatory.
+## Governance adjudication
 
-## T0 replay and terminal rules
+`FRD-DRIVE-AFQW-R4-T0 = PASS / CLOSED`
 
-T0 itself is a governed consequential execution identity. Once its main local start marker is durably written, that exact main-attempt identity is consumed regardless of PASS/FAIL/BLOCKED. A corrected successor must use a fresh identity.
+Rationale:
 
-No local defect may be hidden by overwriting an earlier terminal receipt. Additive successor evidence is required.
-
-## T0 PASS criteria
-
-T0 may be adjudicated PASS only when all of the following are proven:
-
-- all parser/hash/freeze gates pass;
-- exact task/worker/model/credential-reference bindings are present in durable state;
-- provider/Drive/Docs/browser call counts are zero;
-- no credential decryption occurs;
-- WORKER ACTIVE is zero and TASK ACTIVE is valid;
-- shared artifacts contain no secret material;
-- replay fencing rejects reuse of a consumed/terminal identity;
-- timer/watcher is observational only;
-- sanitized final receipt + evidence manifest are durably written and hashable;
-- no PDA-R4 A0/A1 residue or unrelated project object is touched.
-
-## T0 terminal states
-
-`PASS | FAIL | BLOCKED | UNKNOWN`
-
-`UNKNOWN` is reserved for an ambiguity in a consequential external/local state transition that cannot be safely reconstructed; it is not a generic substitute for ordinary test failure.
+- exact delivered identities were parser/hash frozen;
+- zero-provider/zero-Google/zero-decryption budgets were preserved;
+- replay fencing and root guards passed;
+- task and worker timing semantics were separated correctly;
+- durable terminal state/evidence was produced and hashable;
+- the timer remained observational;
+- no retained R4 residue or unrelated object was touched.
 
 ## What T0 does not authorize
 
-Even after T0 PASS, this packet does not itself authorize an Atria provider call or Google API mutation. Governance must freeze/authorize the first provider-bearing AFQW task separately using a fresh task identity.
+T0 PASS does not itself authorize an Atria provider call or Google API mutation. The first provider-bearing AFQW task must be separately prepared, frozen and authorized under a fresh task/attempt identity.
 
-Expected successor after T0 PASS: a provider-bearing PDA-R4 core Drive/Docs/CAS task that imports the existing R4 acceptance envelope while preserving the A0/A1 residue non-touch rule.
+Expected successor: a provider-bearing PDA-R4 core Drive/Docs/CAS ForgeLoop task importing the existing R4 acceptance envelope while preserving the A0/A1 residue non-touch rule.
 
 ## Next governance action
 
-Execute `FRD-DRIVE-AFQW-R4-T0-A0` exactly once through the frozen Launch script. Then return the Launcher result plus the durable T0 Worker/final-receipt evidence to Governance. Do not relaunch A0 if a start marker or terminal receipt exists.
+Prepare the provider-bearing successor task under AFQW v1.1. Its operator-facing staging/freeze/launch surface must be file-based and one-command-per-phase; do not return to interactive multi-line PowerShell execution blocks.
