@@ -2,7 +2,7 @@
 
 **Task ID:** `FRD-DRIVE-AFQW-R4-T0`  
 **Workflow:** `Atria ForgeLoop Qualification Workflow (AFQW) v1.0`  
-**State:** `PREPARED / NOT YET FROZEN / NOT AUTHORIZED`  
+**State:** `CANDIDATE IMPLEMENTATION PERSISTED / NOT YET FROZEN / NOT AUTHORIZED`  
 **Recorded:** 2026-09-28  
 **Canonical governance lane:** `FRD Ops Site — Governance`
 
@@ -21,6 +21,7 @@ The workflow controls whenever this task packet is silent. Any conflict returns 
 These identities are prepared for the T0 implementation and become executable only after an exact script freeze:
 
 - task: `FRD-DRIVE-AFQW-R4-T0`;
+- main attempt candidate: `FRD-DRIVE-AFQW-R4-T0-A0`;
 - worker: `FRD-DRIVE-QUAL-ATRIA-WORKER`;
 - exact provider/model: `Atria-Dawn-Preview`;
 - credential reference: `FRD-DRIVE-QUAL-ATRIA-EXEC-01`;
@@ -83,13 +84,30 @@ The implementation must produce a bounded local harness containing, at minimum:
 7. **terminal result envelope** — conspicuous `AFQW RESULT | FRD-DRIVE-AFQW-R4-T0 | <phase>` output;
 8. **zero-provider self-tests** — deterministic tests for success, blocked/invalid-root rejection, duplicate/consumed task rejection, timer parsing, terminal receipt integrity, and no-secret output scanning.
 
+## Candidate implementation persisted in GitHub
+
+Immutable candidate source point containing the full T0 script set:
+
+- commit `d75a6803861aa1561682cf292e10fbd0a1304570`.
+
+Candidate files and expected UTF-8/LF SHA-256 identities:
+
+- `scripts/afqw/t0/FRD_AFQW_R4_T0_Worker.ps1` — `BD7C6B55A1C3B6C629D154D7AAD25D4A171CB905A6D0682EA5809B85ABFD2C16`;
+- `scripts/afqw/t0/FRD_AFQW_R4_T0_TaskTimer.ps1` — `3F2F8193A1FBCB8ABA5590A40F8C7ECCBE6C84DB65C740107A945303034D45EC`;
+- `scripts/afqw/t0/FRD_AFQW_R4_T0_Launch.ps1` — `9A70505AEFCB038F13FC1E3FC21524127E0D1A159D7DB354972783C7AC65C17C`;
+- `scripts/afqw/t0/FRD_AFQW_R4_T0_Freeze.ps1` — `6D42E6649A4E2CE7F745CAB32F3E60D85AB570AD9CA39A9A6CE74DACA955996C`.
+
+These are **candidate identities**, not yet accepted local delivered-file identities. The operator machine must stage the exact commit-pinned bytes, run the PowerShell 7 parser/hash gate locally, and return the result before Governance freezes/authorizes `FRD-DRIVE-AFQW-R4-T0-A0`.
+
+The freeze candidate verifies the Worker/TaskTimer/Launch parser gates, exact hashes, and absence of a forbidden network surface. The freeze script itself must also be independently parser-gated and SHA-256 matched before it is run.
+
 ## PowerShell freeze requirements
 
 Before any T0 main execution:
 
 - all consequential `.ps1` files must pass the PowerShell parser with zero errors;
 - exact SHA-256 identities must be recorded;
-- a dedicated T0 freeze/preflight script must verify the expected files and hashes;
+- the dedicated T0 freeze/preflight script must verify the expected files and hashes;
 - freeze/preflight must itself be parser-gated and SHA-256 frozen;
 - execution must use PowerShell 7 `-NoProfile -File`;
 - no T0 artifact may contain an API key, OAuth refresh/access token, DPAPI plaintext, or raw private provider response.
@@ -144,4 +162,4 @@ Expected successor after T0 PASS: a provider-bearing PDA-R4 core Drive/Docs/CAS 
 
 ## Next governance action
 
-Build the T0 controller/worker/timer scripts, run zero-provider static/self-test validation, freeze their exact hashes in this task's execution authorization, and only then issue the operator launch block.
+Stage the exact commit-pinned T0 script set on the operator machine, run the local parser/hash gate on all four files, then run the T0 freeze gate only if those delivered-file identities match the candidate values above. Do **not** run the T0 launcher/main attempt yet. Return the local gate/freeze result to Governance for final A0 authorization.
