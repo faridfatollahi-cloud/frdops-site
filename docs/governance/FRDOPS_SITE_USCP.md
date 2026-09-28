@@ -1,7 +1,7 @@
 # FRD Ops Site — USCP
 
-**Status:** CURRENT / CANONICAL REPOSITORY CHECKPOINT / AFQW v1.1 / R4-T2 PASS-CLOSED / R4-T3 DESIGN-FROZEN HUMAN GATE  
-**Date:** 2026-09-28  
+**Status:** CURRENT / CANONICAL REPOSITORY CHECKPOINT / SESSION CLOSED / AFQW v1.1 / R4-T3 SOURCE RECOVERY COMPLETE / A1 FEATURE MAP NEXT  
+**Date:** 2026-09-29  
 **Repository:** `faridfatollahi-cloud/frdops-site`  
 **Domain:** `frdops.ir`
 
@@ -13,6 +13,7 @@
 - External lanes/workers may read/propose, or execute explicitly authorized bounded work only.
 - **This lane does not govern DMB.** DMB governance, DMB gate adjudication, DMB target/Control/migration decisions, final DMB cross-gate audit, and any DMB Production decision belong to **DMB Governance 3**.
 - DMB's already-passed Gates may be used here only as the acceptance specification for the Drive/Docs/OAuth capabilities the permanent foundation must demonstrate.
+- Standing interaction rule for this lane: when the owner asks a question or returns execution/test results, Governance answers/reviews that material and continues immediately to the next determinable step in the same response. Stop only for a genuine human authorization/permission gate, blocking ambiguity, or required owner-only action/information.
 
 ## Repository purpose
 
@@ -64,13 +65,15 @@ A0/A1 residue is intentionally retained for later dedicated reconciliation/clean
 
 ### PDA-R4-A2 — PRESERVED / NOT EXECUTED / HUMAN-RUN PATH SUPERSEDED
 
-Prepared candidate artifact:
+Prepared candidate identity:
 - script `PDA_R4_CORE_DRIVE_DOCS_CAS_A2.ps1`;
 - candidate SHA-256 `A7283E4C775989D7F1AAD1FE90B1733796A78CE3D81335D84FAC038FF7D0B26C`.
 
 The candidate remains preserved as engineering evidence but is no longer the preferred operator path. It must not be executed unless this governance lane explicitly reactivates it.
 
-Reason: repetitive execution, evidence capture, deterministic continuation, and bounded engineering remediation are delegated through the formal AFQW worker pattern. Governance retains acceptance/adjudication.
+R4-T3 source recovery on 2026-09-29 found **zero** local files matching the A2 SHA-256 in the scanned authoritative roots. Governance therefore SHALL NOT reconstruct A2 by guesswork or claim that its source is locally retained. The A2 identity remains preserved/not executed.
+
+Reason the human-run A2 path remains superseded: repetitive execution, evidence capture, deterministic continuation, and bounded engineering remediation are delegated through the formal AFQW worker pattern. Governance retains acceptance/adjudication.
 
 ## Atria delegated execution decision
 
@@ -323,15 +326,18 @@ Sealed R3 bridge contract:
 
 The decrypted bundle provides `client_id`, `client_secret`, `refresh_token`, exact `drive.file` scope and exact Google OAuth token URI. No future AFQW stage may broaden scope, request a browser grant, persist plaintext credential material or substitute a different credential source without a new Governance decision.
 
-## AFQW R4-T3 — DESIGN FROZEN / HUMAN MUTATION GATE
+## AFQW R4-T3 — DESIGN FROZEN / OWNER DESIGN AUTHORIZATION RECEIVED / SOURCE RECOVERY COMPLETE
 
 Task:
 - task ID `FRD-DRIVE-AFQW-R4-T3`;
 - name **Core Drive/Docs/CAS Crucible**;
 - task file `docs/governance/FRD_DRIVE_AFQW_R4_T3.md`;
-- design-freeze commit `4d818970619041dcbe1e8bd1d7d6a7bd9d8fd14c`.
+- design-freeze commit `4d818970619041dcbe1e8bd1d7d6a7bd9d8fd14c`;
+- owner design-level authorization recording commit `2d25f139820fcf7f8782946589234fc9d96e72a3`.
 
-R4-T3 is the first upcoming stage intentionally permitted, after executable freeze and owner authorization, to create and mutate a **fresh disposable** Google Drive qualification namespace.
+The repository owner explicitly authorized the R4-T3 disposable Drive/Docs mutation campaign at the design level. That authorization is limited to the frozen design envelope: one fresh disposable namespace, no pre-existing-object mutation, no cleanup, no scope broadening, no browser OAuth, and no DMB/WIOS/PDA-R4 A0/A1 object access.
+
+The two-stage mutation gate remains in force: exact executable identities and finite API/mutation budgets must still be frozen before the owner authorizes that exact package for main execution.
 
 Frozen design acceptance includes:
 - unattended refresh through the sealed R3 bridge with no browser and exact `drive.file`;
@@ -353,7 +359,44 @@ Frozen design acceptance includes:
 
 R4-T3 is core-capability qualification only. Later resilience qualification still must cover restart/recovery, ambiguous-outcome reconciliation, bounded idempotency, wrong-root/wrong-object rejection, safe revoked-credential fail-closed behavior, and Drive Desktop independence where applicable.
 
-**Human gate:** executable candidates may be prepared/frozen without external mutation, but main R4-T3 execution requires explicit owner authorization after exact executable hashes and API/mutation budgets are frozen.
+### R4-T3 source recovery — COMPLETE
+
+Read-only scanner result:
+- scanner execution SHA-256 `46DBF6FF5BE6CB682C91C6E7E10757E6F4F0B7880DD149F4A7FF229AD9F582E7`;
+- `263` PowerShell files scanned;
+- provider calls `0`;
+- Google API calls `0`;
+- credential decryption `False`;
+- main T3 execution `False`;
+- recovered-script execution `False`.
+
+Exact matches:
+- PDA-R4-A2 `A7283E4C775989D7F1AAD1FE90B1733796A78CE3D81335D84FAC038FF7D0B26C`: match count `0`;
+- PDA-R4-A1 `12EEE3C68B9C80502BD48CA44B68C9618814D256E70452019188188E2D0B5C28`: exactly one match at `C:\AI-Orchestrator\bootstrap\FRD-Drive-Automation\scripts\PDA_R4_CORE_DRIVE_DOCS_CAS_A1.ps1`, parser errors `0`;
+- PDA-R4-A0 `A59D855C086C6E3FA71BE553F5618F3E765DEBCA06AB7ADAFC9738922772A790`: exactly one match at `C:\AI-Orchestrator\bootstrap\FRD-Drive-Automation\scripts\PDA_R4_CORE_DRIVE_DOCS_CAS_A0.ps1`, parser errors `0`;
+- PDA-R3-A1 `3CFAE9EA6B10F96270824431600F125778EEAFC154B02FEC61E5497D25DE9E79`: exactly one match at `C:\AI-Orchestrator\bootstrap\FRD-Drive-Automation\scripts\PDA_R3_PRODUCTION_OAUTH_BOOTSTRAP_A1.ps1`, parser errors `0`.
+
+Governance decision:
+- the missing A2 source will not be reconstructed from memory;
+- exact recovered A1 is the selected T3 engineering base;
+- A1 remains consumed and SHALL NOT be executed again;
+- A1 source may only be analyzed/derived under fresh T3 identities;
+- A0 remains historical engineering evidence only;
+- R3-A1 remains the authoritative source for the sealed OAuth credential/refresh binding.
+
+Persisted source-recovery record:
+- `docs/governance/FRD_DRIVE_AFQW_R4_T3_SOURCE_RECOVERY.md`;
+- record commit `a8902fb7673f1903eddde4f079c01df9c6e110a7`.
+
+### R4-T3 A1 Feature Map — PREPARED / NOT RUN
+
+Purpose: inspect the exact recovered A1 source and determine which T3 capabilities are already implemented so the T3 executable can be produced by the smallest bounded transformation rather than a wholesale rewrite.
+
+Feature-map scanner:
+- `scripts/afqw/t3/FRD_AFQW_R4_T3_A1FeatureMap.ps1`;
+- source commit `3ef935fe7bb85c97fa91f23652d92179892fee7d`.
+
+The Feature Map is read-only. It has no authority to execute A1, decrypt credentials, call Atria/Google, modify the source, or start/consume `FRD-DRIVE-AFQW-R4-T3-A0`.
 
 ## Permanent-foundation acceptance target
 
@@ -379,16 +422,22 @@ It does **not** mean `DMB Gates A–E PASS`, does not adjudicate DMB, and does n
 - `https://frdops.ir/drive-automation/privacy/`
 - `https://frdops.ir/drive-automation/terms/`
 
-## Resume point
+## Session-close checkpoint / resume point
 
-Current state on 2026-09-28:
-1. Atria credential import A1 and transient-memory remediation are PASS/accepted at the authoritative private root;
-2. **AFQW v1.1** is the formal worker workflow;
-3. R4-T0 is PASS/CLOSED and A0 consumed/no-replay;
-4. R4-T1 **Atria Dispatch Seal** is PASS/CLOSED; exact Atria route/model, provider-intent fencing, private response persistence and timing contract are qualified;
-5. R4-T2 **R3 Credential Bridge Seal** is PASS/CLOSED; A0 is consumed failed/no-replay and A1 is consumed PASS/no-replay; the exact Google credential envelope/Base64/DPAPI/refresh binding is sealed;
-6. R4-T3 **Core Drive/Docs/CAS Crucible** design is frozen in `docs/governance/FRD_DRIVE_AFQW_R4_T3.md`;
-7. next action is executable preparation/freeze for R4-T3 with finite exact API/mutation budgets and clean AFQW v1.1 operator surfaces;
-8. after executable hashes are frozen, explicit owner authorization is required before R4-T3 creates/mutates fresh disposable Google objects;
-9. PDA-R4 A0/A1 must not be rerun, their residue remains untouched, and preserved human-run A2 remains unexecuted unless explicitly reactivated;
-10. after core and resilience AFQW qualification complete, this lane adjudicates only `PERMANENT_DRIVE_FOUNDATION_FITNESS` and hands evidence to DMB Governance 3; DMB-specific qualification, final DMB Gates A–E audit and DMB Production decisions remain exclusively there.
+Session closed on 2026-09-29 because the current chat context is full. Continue in a new successor chat using this USCP as the canonical handoff.
+
+Authoritative resume state:
+1. Atria credential import A1 and transient-memory remediation are PASS/accepted at the authoritative private root.
+2. **AFQW v1.1** is the formal worker workflow; use clean file-based wrappers, explicit PS7 lane titles, separate TASK ACTIVE / WORKER ACTIVE timing, durable intent/no-replay boundaries, and sanitized evidence.
+3. R4-T0 is PASS/CLOSED; T0-A0 consumed/no-replay.
+4. R4-T1 **Atria Dispatch Seal** is PASS/CLOSED; the exact `Atria-Dawn-Preview` dispatch boundary is qualified; T1-A0/W01 consumed/no-replay.
+5. R4-T2 **R3 Credential Bridge Seal** is PASS/CLOSED; A0 is consumed failed/no-replay, A1 is consumed PASS/no-replay; the exact Google envelope/Base64/DPAPI CurrentUser/null-entropy/refresh binding is sealed.
+6. R4-T3 **Core Drive/Docs/CAS Crucible** design is frozen. Owner design-level authorization for the disposable mutation campaign has been received, but exact executable/hash/API-budget authorization is still pending after executable freeze.
+7. R4-T3 source recovery is complete: A2 source was not found; exact parser-clean A1 was recovered and is the selected engineering base; exact A0 and R3-A1 were also found. No recovered consumed script may be rerun.
+8. **Immediate next action in the successor chat:** run/review the prepared zero-provider `FRD_AFQW_R4_T3_A1FeatureMap.ps1` scanner from commit `3ef935fe7bb85c97fa91f23652d92179892fee7d` against the exact recovered A1 source. This does not start or consume T3-A0.
+9. After Feature Map review, continue immediately to the smallest bounded T3 executable construction, then parser/hash/API-budget freeze. Only after exact package freeze does the remaining owner authorization gate for main R4-T3 execution apply.
+10. Main `FRD-DRIVE-AFQW-R4-T3-A0` has **NOT STARTED / NOT CONSUMED**. No fresh R4-T3 Google objects have been created or mutated yet.
+11. PDA-R4 A0/A1 must not be rerun; their existing residue remains untouched. Preserved human-run A2 remains unexecuted and locally absent by exact hash unless separately recovered later.
+12. After R4-T3 core PASS, continue to the later AFQW resilience stage before any terminal `PERMANENT_DRIVE_FOUNDATION_FITNESS` adjudication.
+13. After core + resilience qualification, this lane adjudicates only `PERMANENT_DRIVE_FOUNDATION_FITNESS` and hands the evidence boundary to **DMB Governance 3**. DMB-specific qualification, final DMB Gates A–E audit, and DMB Production decisions remain exclusively there.
+14. Standing interaction rule remains: review/answer returned results first and then continue to the next determinable step in the same response unless a true human gate, blocking ambiguity, or owner-only action requires stopping.
