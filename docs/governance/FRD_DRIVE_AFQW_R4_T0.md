@@ -2,7 +2,7 @@
 
 **Task ID:** `FRD-DRIVE-AFQW-R4-T0`  
 **Workflow:** `Atria ForgeLoop Qualification Workflow (AFQW) v1.0`  
-**State:** `CANDIDATE IMPLEMENTATION PERSISTED / NOT YET FROZEN / NOT AUTHORIZED`  
+**State:** `FROZEN / AUTHORIZED / MAIN NOT YET EXECUTED`  
 **Recorded:** 2026-09-28  
 **Canonical governance lane:** `FRD Ops Site — Governance`
 
@@ -16,17 +16,19 @@ Build and validate the deterministic local AFQW controller/worker/timer harness 
 
 The workflow controls whenever this task packet is silent. Any conflict returns to `FRD Ops Site — Governance`; the task may not reinterpret AFQW.
 
-## Frozen candidate identities
+## Frozen execution identities
 
-These identities are prepared for the T0 implementation and become executable only after an exact script freeze:
+The following identities are frozen for the authorized T0 execution:
 
 - task: `FRD-DRIVE-AFQW-R4-T0`;
-- main attempt candidate: `FRD-DRIVE-AFQW-R4-T0-A0`;
+- main attempt: `FRD-DRIVE-AFQW-R4-T0-A0`;
 - worker: `FRD-DRIVE-QUAL-ATRIA-WORKER`;
-- exact provider/model: `Atria-Dawn-Preview`;
+- exact provider/model binding metadata: `Atria-Dawn-Preview`;
 - credential reference: `FRD-DRIVE-QUAL-ATRIA-EXEC-01`;
 - worker PowerShell title: `FRD Ops Site — Governance | FRD Drive Automation | Atria ForgeLoop Worker`;
 - timer PowerShell title: `FRD Ops Site — Governance | FRD Drive Automation | Atria ForgeLoop Task Timer`.
+
+The provider/model and credential identities are metadata bindings only in T0. T0 has no provider-dispatch or credential-decryption authority.
 
 ## Credential precondition already established
 
@@ -84,22 +86,53 @@ The implementation must produce a bounded local harness containing, at minimum:
 7. **terminal result envelope** — conspicuous `AFQW RESULT | FRD-DRIVE-AFQW-R4-T0 | <phase>` output;
 8. **zero-provider self-tests** — deterministic tests for success, blocked/invalid-root rejection, duplicate/consumed task rejection, timer parsing, terminal receipt integrity, and no-secret output scanning.
 
-## Candidate implementation persisted in GitHub
+## Frozen implementation and accepted freeze evidence
 
-Immutable candidate source point containing the full T0 script set:
+Immutable source point containing the full T0 script set:
 
 - commit `d75a6803861aa1561682cf292e10fbd0a1304570`.
 
-Candidate files and expected UTF-8/LF SHA-256 identities:
+Frozen UTF-8/LF SHA-256 identities:
 
 - `scripts/afqw/t0/FRD_AFQW_R4_T0_Worker.ps1` — `BD7C6B55A1C3B6C629D154D7AAD25D4A171CB905A6D0682EA5809B85ABFD2C16`;
 - `scripts/afqw/t0/FRD_AFQW_R4_T0_TaskTimer.ps1` — `3F2F8193A1FBCB8ABA5590A40F8C7ECCBE6C84DB65C740107A945303034D45EC`;
 - `scripts/afqw/t0/FRD_AFQW_R4_T0_Launch.ps1` — `9A70505AEFCB038F13FC1E3FC21524127E0D1A159D7DB354972783C7AC65C17C`;
 - `scripts/afqw/t0/FRD_AFQW_R4_T0_Freeze.ps1` — `6D42E6649A4E2CE7F745CAB32F3E60D85AB570AD9CA39A9A6CE74DACA955996C`.
 
-These are **candidate identities**, not yet accepted local delivered-file identities. The operator machine must stage the exact commit-pinned bytes, run the PowerShell 7 parser/hash gate locally, and return the result before Governance freezes/authorizes `FRD-DRIVE-AFQW-R4-T0-A0`.
+Operator-returned freeze evidence on 2026-09-28:
 
-The freeze candidate verifies the Worker/TaskTimer/Launch parser gates, exact hashes, and absence of a forbidden network surface. The freeze script itself must also be independently parser-gated and SHA-256 matched before it is run.
+- `ATTEMPT_ID=FRD-DRIVE-AFQW-R4-T0-A0`;
+- `AFQW_T0_FREEZE_RESULT=PASS`;
+- Worker parser errors `0`, exact frozen SHA matched, network-surface scan `PASS`;
+- TaskTimer parser errors `0`, exact frozen SHA matched, network-surface scan `PASS`;
+- Launch parser errors `0`, exact frozen SHA matched, network-surface scan `PASS`;
+- Freeze script parser errors `0`;
+- `PROVIDER_CALL_PERFORMED=False`;
+- `DRIVE_API_CALL_PERFORMED=False`;
+- `DOCS_API_CALL_PERFORMED=False`;
+- `CREDENTIAL_DECRYPTION_PERFORMED=False`;
+- `MAIN_EXECUTION_PERFORMED=False`.
+
+The freeze result was returned from the previously issued conditional staging sequence, which invokes the Freeze script only after the local parser/hash gate has matched all four commit-pinned files, including the Freeze script itself. Governance therefore accepts the four delivered-file identities above as the frozen local execution set.
+
+## Execution authorization — `FRD-DRIVE-AFQW-R4-T0-A0`
+
+Governance authorizes exactly one launch of the frozen T0 main attempt using:
+
+`C:\AI-Orchestrator\scripts\FRD-Drive-Automation\AFQW\T0\FRD_AFQW_R4_T0_Launch.ps1`
+
+under PowerShell 7 with `-NoProfile -File`.
+
+Authorization constraints:
+
+- launch only the exact frozen Launch identity above;
+- Worker and TaskTimer must remain the exact frozen sibling files above;
+- no script modification is authorized between freeze and launch;
+- no provider, Drive API, Docs API, OAuth/browser, credential-decryption, credential-file mutation, or A0/A1-residue operation is authorized;
+- once the Worker durably writes `STARTED.json`, attempt `FRD-DRIVE-AFQW-R4-T0-A0` is consumed regardless of terminal result;
+- do not relaunch A0 after a start marker or final receipt exists;
+- terminal console output is informative; the durable `STARTED.json`, `FINAL.json`, `EVENTS.jsonl`, and `EVIDENCE_MANIFEST.json` surfaces control adjudication;
+- any failure or ambiguity after the durable start marker requires reconciliation and a fresh successor identity rather than replay.
 
 ## PowerShell freeze requirements
 
@@ -112,7 +145,7 @@ Before any T0 main execution:
 - execution must use PowerShell 7 `-NoProfile -File`;
 - no T0 artifact may contain an API key, OAuth refresh/access token, DPAPI plaintext, or raw private provider response.
 
-The canonical six-field operator block is mandatory for the eventual launch instruction.
+These requirements are now satisfied for the frozen A0 set above. The canonical six-field operator block remains mandatory for launch.
 
 ## T0 timer acceptance
 
@@ -162,4 +195,4 @@ Expected successor after T0 PASS: a provider-bearing PDA-R4 core Drive/Docs/CAS 
 
 ## Next governance action
 
-Stage the exact commit-pinned T0 script set on the operator machine, run the local parser/hash gate on all four files, then run the T0 freeze gate only if those delivered-file identities match the candidate values above. Do **not** run the T0 launcher/main attempt yet. Return the local gate/freeze result to Governance for final A0 authorization.
+Execute `FRD-DRIVE-AFQW-R4-T0-A0` exactly once through the frozen Launch script. Then return the Launcher result plus the durable T0 Worker/final-receipt evidence to Governance. Do not relaunch A0 if a start marker or terminal receipt exists.
