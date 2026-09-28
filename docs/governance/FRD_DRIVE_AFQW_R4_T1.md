@@ -3,7 +3,7 @@
 **Task ID:** `FRD-DRIVE-AFQW-R4-T1`  
 **Task name:** `Atria Dispatch Seal`  
 **Workflow:** `AFQW v1.1`  
-**Status:** `CANDIDATE PERSISTED / FREEZE REQUIRED / MAIN NOT YET AUTHORIZED`  
+**Status:** `FROZEN / AUTHORIZED / A0 NOT YET EXECUTED`  
 **Canonical governance lane:** `FRD Ops Site — Governance`  
 **Recorded:** 2026-09-28
 
@@ -51,7 +51,18 @@ Files:
 Stage/freeze wrapper creation point: `b7090219703dc85bf659d060b4424e3024d5e62b`.
 Stage/freeze wrapper SHA-256: `B23C001D6601537579D75629C36322EA53766456107F7A48C65896459ABF4BC8`.
 
-No main execution is authorized until the local freeze returns `AFQW_T1_FREEZE_RESULT=PASS`, parser error count `0` for every executable candidate, and surface scan `PASS`.
+## Accepted freeze gate
+The local Stage/Freeze gate returned `AFQW_T1_FREEZE_RESULT=PASS` with zero parser errors, zero provider/Drive/Docs calls, zero credential decryption, and no main execution.
+
+Frozen delivered identities:
+- Worker SHA-256 `8AB8E345940214FFF5E6E88B592C40442A0AC3D6CB78CCF42F7C0C3178B964D5`;
+- TaskTimer SHA-256 `F66EBE3BF7B4C102F72A431D745834BA3243502538D2E56E9FA40A19EBDBFDBD`;
+- Launch SHA-256 `589EDBCAE4D7CCF4121AAFF28699B9F82E60CF251E6594DCD090CF2D2D832974`;
+- Run wrapper SHA-256 `529DF8561D7E2B2A81036364882575CCAB164DDB2BAB885614C154FA5F529F56`.
+
+All four delivered files reported `SURFACE_SCAN=PASS` and `PARSER_ERROR_COUNT=0`.
+
+Governance therefore authorizes exactly one execution of `FRD-DRIVE-AFQW-R4-T1-A0` using these exact delivered identities. Any hash drift before launch voids this authorization. Once `STARTED.json` exists, A0 is consumed and SHALL NOT be relaunched.
 
 ## Storage boundary
 Private credential/control state remains under `C:\AI-Orchestrator\Private\WIOS\FRD-Drive-Qualification\`.
@@ -69,4 +80,4 @@ Private provider response material must not be copied into either shared root.
 - PASS requires exactly one provider call, exact model, completed response, exact marker, private response persistence, zero Google/Drive/Docs/browser activity, unchanged credential file, and untouched PDA-R4 A0/A1 residue.
 
 ## Governance return
-Return the freeze result to this lane. On Freeze PASS, this lane freezes the exact SHA-256 identities and may authorize one provider-bearing A0 execution. After terminal T1 evidence, Governance immediately proceeds to the next determinable AFQW stage; on PASS that successor is the actual PDA-R4 core Drive/Docs/CAS qualification task using disposable qualification objects.
+`FRD-DRIVE-AFQW-R4-T1-A0` is now authorized for one execution only. After terminal T1 evidence is returned, Governance adjudicates T1 and immediately proceeds to the next determinable AFQW stage. On PASS, that successor is the actual PDA-R4 core Drive/Docs/CAS qualification task using disposable qualification objects.
