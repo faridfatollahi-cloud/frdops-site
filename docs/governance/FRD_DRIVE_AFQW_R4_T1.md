@@ -3,7 +3,7 @@
 **Task ID:** `FRD-DRIVE-AFQW-R4-T1`  
 **Task name:** `Atria Dispatch Seal`  
 **Workflow:** `AFQW v1.1`  
-**Status:** `FROZEN / AUTHORIZED / A0 NOT YET EXECUTED`  
+**Status:** `PASS / CLOSED / A0 CONSUMED / NO REPLAY`  
 **Canonical governance lane:** `FRD Ops Site — Governance`  
 **Recorded:** 2026-09-28
 
@@ -12,9 +12,7 @@ R4-T1 is the first provider-bearing AFQW successor after R4-T0 PASS. It qualifie
 
 This task is Atria-only. It performs no Google Drive API call, no Google Docs API call, no browser/OAuth action, no Google credential action, no repository mutation, and no access to retained PDA-R4 A0/A1 Drive residue.
 
-A PASS establishes that the dedicated AFQW Atria credential reference can be resolved from the authoritative private DPAPI plane, one exact `Atria-Dawn-Preview` work unit can complete, provider-intent/no-replay semantics are durable, private provider response evidence remains private, and sanitized evidence/timing returns cleanly.
-
-## Candidate identity
+## Frozen identity
 - task attempt: `FRD-DRIVE-AFQW-R4-T1-A0`;
 - provider work unit: `FRD-DRIVE-AFQW-R4-T1-A0-ATRIA-W01`;
 - worker: `FRD-DRIVE-QUAL-ATRIA-WORKER`;
@@ -38,46 +36,63 @@ Reviewed WIOS references remain read-only:
 - `AUTONOMOUS_CAMPAIGN_A2_CONTEXT_AND_FINDINGS_CONTRACT_20260927.md`;
 - `docs/adr/0004-a3-provider-intent-and-account-identity.md`.
 
-## Candidate script set
+## Frozen delivered scripts
 Payload source point: `7f07056d16be2c13aa34108720bd7b868dc70a6b`.
-
-Files:
-- `scripts/afqw/t1/FRD_AFQW_R4_T1_Worker.ps1`;
-- `scripts/afqw/t1/FRD_AFQW_R4_T1_TaskTimer.ps1`;
-- `scripts/afqw/t1/FRD_AFQW_R4_T1_Launch.ps1`;
-- `scripts/afqw/t1/FRD_AFQW_R4_T1_Run.ps1`;
-- `scripts/afqw/t1/FRD_AFQW_R4_T1_Freeze.ps1`.
-
 Stage/freeze wrapper creation point: `b7090219703dc85bf659d060b4424e3024d5e62b`.
 Stage/freeze wrapper SHA-256: `B23C001D6601537579D75629C36322EA53766456107F7A48C65896459ABF4BC8`.
 
-## Accepted freeze gate
-The local Stage/Freeze gate returned `AFQW_T1_FREEZE_RESULT=PASS` with zero parser errors, zero provider/Drive/Docs calls, zero credential decryption, and no main execution.
-
-Frozen delivered identities:
+Accepted delivered identities:
 - Worker SHA-256 `8AB8E345940214FFF5E6E88B592C40442A0AC3D6CB78CCF42F7C0C3178B964D5`;
 - TaskTimer SHA-256 `F66EBE3BF7B4C102F72A431D745834BA3243502538D2E56E9FA40A19EBDBFDBD`;
 - Launch SHA-256 `589EDBCAE4D7CCF4121AAFF28699B9F82E60CF251E6594DCD090CF2D2D832974`;
 - Run wrapper SHA-256 `529DF8561D7E2B2A81036364882575CCAB164DDB2BAB885614C154FA5F529F56`.
 
-All four delivered files reported `SURFACE_SCAN=PASS` and `PARSER_ERROR_COUNT=0`.
+Freeze gate was PASS with zero parser errors and `SURFACE_SCAN=PASS` for all delivered executable candidates. Freeze performed zero provider/Drive/Docs calls and zero credential decryption.
 
-Governance therefore authorizes exactly one execution of `FRD-DRIVE-AFQW-R4-T1-A0` using these exact delivered identities. Any hash drift before launch voids this authorization. Once `STARTED.json` exists, A0 is consumed and SHALL NOT be relaunched.
+## Accepted execution evidence — PASS
+The single authorized execution of `FRD-DRIVE-AFQW-R4-T1-A0` returned:
+- launch exit code `0`;
+- durable START marker present;
+- durable FINAL receipt present;
+- terminal result `PASS`;
+- work unit `FRD-DRIVE-AFQW-R4-T1-A0-ATRIA-W01`;
+- worker `FRD-DRIVE-QUAL-ATRIA-WORKER`;
+- provider `atria`;
+- requested model `Atria-Dawn-Preview`;
+- observed model `Atria-Dawn-Preview`;
+- HTTP status `200`;
+- TASK ACTIVE `8211 ms` / `00:00:08`;
+- WORKER ACTIVE `7934 ms` / `00:00:07`;
+- provider intent count `1`;
+- provider call count `1`;
+- Drive API call count `0`;
+- Docs API call count `0`;
+- browser/OAuth interaction count `0`;
+- Atria credential decryption performed `True` at the authorized private dispatch boundary;
+- credential file changed `False`;
+- PDA-R4 A0/A1 residue touched `False`;
+- raw provider response shared `False`;
+- raw provider response persisted private `True`;
+- terminal error code empty.
+
+Durable evidence hashes:
+- provider response SHA-256 `D6F069C37567FF696953078F5BF0AB76066BEA2C56DCAB65DA9CDE323AD8CF36`;
+- output text SHA-256 `45ECF1F4A5737FCC7D98C2AF61EA764E7AFF1A394826122C933B2B023A7FED91`;
+- FINAL receipt SHA-256 `B8F8BBC0FACC1661EC1C135ED4BD8CDF06899BC0E49F3F8D8AF3C58617BC5AE6`;
+- sanitized shared provider-intent SHA-256 `29A9AB086004FF26109FA08712FCB8FE6278418974E380410DB2AAE74B0AD169`;
+- sanitized shared provider-result SHA-256 `539B961AD7B89E551ED0002877D7BD109622451A8C5A1C354A2A90A323BEA828`.
+
+## Adjudication
+`FRD-DRIVE-AFQW-R4-T1 = PASS / CLOSED`.
+
+The exact Atria dispatch boundary is qualified for subsequent AFQW work under its frozen authority envelope. This does not establish Google Drive foundation fitness by itself; it establishes the semantic worker/provider boundary required before the core Drive/Docs/CAS campaign.
+
+`FRD-DRIVE-AFQW-R4-T1-A0` and provider work unit `...ATRIA-W01` are consumed and SHALL NOT be replayed.
 
 ## Storage boundary
-Private credential/control state remains under `C:\AI-Orchestrator\Private\WIOS\FRD-Drive-Qualification\`.
+Private credential/control and raw provider state remain under `C:\AI-Orchestrator\Private\WIOS\FRD-Drive-Qualification\`.
 Sanitized task state remains under `C:\AI-Orchestrator\workspaces\FRD-Drive-Automation\Atria-Qualification\`.
 Sanitized governance evidence remains under `C:\AI-Orchestrator\Governance Files\FRD-Drive-Automation\Atria-Qualification\`.
-Private provider response material must not be copied into either shared root.
 
-## Timing and replay
-- TASK ACTIVE covers the full Worker attempt.
-- WORKER ACTIVE covers only the validated Atria provider lifecycle after durable provider intent.
-- once `STARTED.json` exists, T1-A0 is consumed and must not be relaunched;
-- once provider intent exists, provider work-unit W01 is consumed and must not be replayed;
-- pre-intent deterministic failure returns FAILED;
-- post-intent uncertainty returns UNKNOWN;
-- PASS requires exactly one provider call, exact model, completed response, exact marker, private response persistence, zero Google/Drive/Docs/browser activity, unchanged credential file, and untouched PDA-R4 A0/A1 residue.
-
-## Governance return
-`FRD-DRIVE-AFQW-R4-T1-A0` is now authorized for one execution only. After terminal T1 evidence is returned, Governance adjudicates T1 and immediately proceeds to the next determinable AFQW stage. On PASS, that successor is the actual PDA-R4 core Drive/Docs/CAS qualification task using disposable qualification objects.
+## Next stage
+Proceed to the actual PDA-R4 core Drive/Docs/CAS AFQW campaign using a fresh task/attempt identity and disposable qualification objects. Before provider-bearing Google mutation work is authorized, its controller must establish the exact existing R3 Google credential/decryption/refresh binding without exposing secret/token material and must freeze parser/hash identities and budgets. PDA-R4 A0/A1 residue remains outside mutation authority.
